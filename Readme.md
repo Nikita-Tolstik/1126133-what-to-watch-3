@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть» [![Build status][travis-image]][travis-url]
 
 * Студент: [Никита Толстик](https://up.htmlacademy.ru/react/3/user/1126133).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Тимоновский](https://up.htmlacademy.ru/react/3/user/768125).
 
 ---
 
