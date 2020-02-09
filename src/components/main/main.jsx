@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const renderCardMovie = (title) => {
 
@@ -16,7 +16,6 @@ const renderCardMovie = (title) => {
   );
 };
 
-// eslint-disable-next-line react/prop-types
 const Main = ({title, genre, year, titles}) => {
 
 
@@ -120,6 +119,7 @@ const Main = ({title, genre, year, titles}) => {
             {titles.map((it) => renderCardMovie(it))}
 
           </div>
+
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
@@ -141,6 +141,14 @@ const Main = ({title, genre, year, titles}) => {
       </div>
     </React.Fragment>
   );
+};
+
+Main.propTypes = {
+
+  title: PropTypes.string.isRequired,
+  genre: PropTypes.string.isRequired,
+  year: PropTypes.number.isRequired,
+  titles: PropTypes.array.isRequired
 };
 
 export default Main;
