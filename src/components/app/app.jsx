@@ -2,7 +2,9 @@ import React from 'react';
 import Main from '../main/main.jsx';
 import PropTypes from 'prop-types';
 
-const handleTitleClick = () => {};
+const handleTitleClick = (evt) => {
+  evt.preventDefault();
+};
 
 const App = ({title, genre, year, titles}) => {
 
