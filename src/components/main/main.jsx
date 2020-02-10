@@ -148,7 +148,9 @@ Main.propTypes = {
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
-  titles: PropTypes.array.isRequired
+  titles: PropTypes.arrayOf(
+      PropTypes.string.isRequired
+  ).isRequired
 };
 
 export default Main;
