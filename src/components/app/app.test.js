@@ -1,24 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import App from './app.jsx';
-
-const MockSettings = {
-  TITLE: `The Grand Budapest Hotel`,
-  GENRE: `Drama`,
-  YEAR: 2014
-};
-
-const mockTitles = [
-
-  `Fantastic Beasts: The Crimes of Grindelwald`,
-  `Bohemian Rhapsody`,
-  `Macbeth`,
-  `Aviator`,
-  `We need to talk about Kevin`,
-  `What We Do in the Shadows`,
-  `Revenant`,
-  `Johnny English`
-];
+import {mockTitles, MockSettings} from '../../const/mock-const.js';
 
 it(`Render App`, () => {
 
