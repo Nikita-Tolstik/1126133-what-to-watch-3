@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const renderCardMovie = (title) => {
+const renderCardMovie = (title, handleTitleClick) => {
 
   return (
 
@@ -10,13 +10,15 @@ const renderCardMovie = (title) => {
         <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt={title} width="280" height="175" />
       </div>
       <h3 className="small-movie-card__title">
-        <a className="small-movie-card__link" href="movie-page.html">{title}</a>
+        <a
+          onClick={handleTitleClick}
+          className="small-movie-card__link" href="movie-page.html">{title}</a>
       </h3>
     </article>
   );
 };
 
-const Main = ({title, genre, year, titles}) => {
+const Main = ({title, genre, year, titles, onTitleClick}) => {
 
 
   return (
@@ -116,7 +118,7 @@ const Main = ({title, genre, year, titles}) => {
 
           <div className="catalog__movies-list">
 
-            {titles.map((it) => renderCardMovie(it))}
+            {titles.map((it) => renderCardMovie(it, onTitleClick))}
 
           </div>
 
@@ -150,7 +152,8 @@ Main.propTypes = {
   year: PropTypes.number.isRequired,
   titles: PropTypes.arrayOf(
       PropTypes.string.isRequired
-  ).isRequired
+  ).isRequired,
+  onTitleClick: PropTypes.func.isRequired
 };
 
 export default Main;

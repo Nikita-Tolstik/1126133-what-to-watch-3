@@ -28,6 +28,7 @@ it(`Render Main`, () => {
       genre={MockSettings.GENRE}
       year={MockSettings.YEAR}
       titles={mockTitles}
+      onTitleClick={() => {}}
     />)
     .toJSON();
 
