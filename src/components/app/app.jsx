@@ -2,8 +2,11 @@ import React from 'react';
 import Main from '../main/main.jsx';
 import PropTypes from 'prop-types';
 
-const App = ({title, genre, year, titles}) => {
+const handleTitleClick = (evt) => {
+  evt.preventDefault();
+};
 
+const App = ({title, genre, year, titles}) => {
 
   return (
     <Main
@@ -11,6 +14,7 @@ const App = ({title, genre, year, titles}) => {
       genre={genre}
       year={year}
       titles={titles}
+      onTitleClick={handleTitleClick}
     />
   );
 };
