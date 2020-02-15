@@ -1,24 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, {shape} from 'prop-types';
+import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
 
-const renderCardMovie = (title, handleTitleClick) => {
 
-  return (
-
-    <article key={title + Math.random()} className="small-movie-card catalog__movies-card">
-      <div className="small-movie-card__image">
-        <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt={title} width="280" height="175" />
-      </div>
-      <h3 className="small-movie-card__title">
-        <a
-          onClick={handleTitleClick}
-          className="small-movie-card__link" href="movie-page.html">{title}</a>
-      </h3>
-    </article>
-  );
-};
-
-const Main = ({title, genre, year, titles, onTitleClick}) => {
+const Main = ({title, genre, year, films, onTitleClick}) => {
 
 
   return (
@@ -118,7 +103,14 @@ const Main = ({title, genre, year, titles, onTitleClick}) => {
 
           <div className="catalog__movies-list">
 
-            {titles.map((it) => renderCardMovie(it, onTitleClick))}
+            {films.map((it) => (
+              <SmallMovieCard
+
+                key={`${it.title}${it.img}`}
+                film={it}
+                onTitleClick={onTitleClick}
+              />
+            ))}
 
           </div>
 
@@ -146,14 +138,14 @@ const Main = ({title, genre, year, titles, onTitleClick}) => {
 };
 
 Main.propTypes = {
-
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
-  titles: PropTypes.arrayOf(
-      PropTypes.string.isRequired
-  ).isRequired,
-  onTitleClick: PropTypes.func.isRequired
+  onTitleClick: PropTypes.func.isRequired,
+  films: PropTypes.arrayOf(shape({
+    img: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default Main;
