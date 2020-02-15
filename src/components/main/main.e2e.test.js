@@ -2,7 +2,12 @@ import React from 'react';
 import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Main from './main.jsx';
-import {MockSettings} from '../../const/mock-const.js';
+
+const MockSettings = {
+  TITLE: `The Grand Budapest Hotel`,
+  GENRE: `Drama`,
+  YEAR: 2014
+};
 
 Enzyme.configure({
   adapter: new Adapter(),

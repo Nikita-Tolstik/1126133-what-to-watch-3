@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import App from './app.jsx';
 
-export const MockSettings = {
+const MockSettings = {
   TITLE: `The Grand Budapest Hotel`,
   GENRE: `Drama`,
   YEAR: 2014
