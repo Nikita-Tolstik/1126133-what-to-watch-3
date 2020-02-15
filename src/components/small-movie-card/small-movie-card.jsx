@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes, {shape} from 'prop-types';
 
-const SmallMovieCard = ({film, onTitleClick}) => {
+const SmallMovieCard = ({film, onTitleClick, onMouseCardFilm}) => {
 
   return (
 
-    <article className="small-movie-card catalog__movies-card">
+    <article
+
+      onMouseOver={() => onMouseCardFilm(film)}
+      className="small-movie-card catalog__movies-card">
+
       <div className="small-movie-card__image">
         <img src={film.img} alt={film.title} width="280" height="175" />
       </div>
@@ -23,7 +27,8 @@ SmallMovieCard.propTypes = {
     img: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }).isRequired,
-  onTitleClick: PropTypes.func.isRequired
+  onTitleClick: PropTypes.func.isRequired,
+  onMouseCardFilm: PropTypes.func.isRequired,
 };
 
 export default SmallMovieCard;
