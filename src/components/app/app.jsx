@@ -2,9 +2,6 @@ import React, {PureComponent} from 'react';
 import Main from '../main/main.jsx';
 import PropTypes, {shape} from 'prop-types';
 
-const handleTitleClick = (evt) => {
-  evt.preventDefault();
-};
 
 class App extends PureComponent {
   constructor(props) {
@@ -21,7 +18,9 @@ class App extends PureComponent {
         genre={genre}
         year={year}
         films={films}
-        onTitleClick={handleTitleClick}
+        onTitleClick={(evt) => {
+          evt.preventDefault();
+        }}
       />
     );
   }

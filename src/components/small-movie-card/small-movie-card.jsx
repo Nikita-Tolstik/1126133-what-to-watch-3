@@ -10,9 +10,9 @@ const SmallMovieCard = ({film, onTitleClick}) => {
         <img src={film.img} alt={film.title} width="280" height="175" />
       </div>
       <h3 className="small-movie-card__title">
-        <a
-          onClick={onTitleClick}
-          className="small-movie-card__link" href="movie-page.html">{film.title}</a>
+        <a onClick={onTitleClick} className="small-movie-card__link" href="movie-page.html">
+          {film.title}
+        </a>
       </h3>
     </article>
   );

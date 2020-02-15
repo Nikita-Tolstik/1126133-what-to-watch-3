@@ -2,23 +2,57 @@ import React from 'react';
 import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Main from './main.jsx';
-import {mockTitles, MockSettings} from '../../const/mock-const.js';
+import {MockSettings} from '../../const/mock-const.js';
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
 
-it(`Should movie title be pressed`, () => {
+const mock = [
+  {
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    title: `Fantastic Beasts: The Crimes of Grindelwald`,
+  },
+  {
+    img: `img/macbeth.jpg`,
+    title: `Macbeth`,
+  },
+  {
+    img: `img/aviator.jpg`,
+    title: `Aviator`,
+  },
+  {
+    img: `img/revenant.jpg`,
+    title: `Revenant`,
+  },
+  {
+    img: `img/johnny-english.jpg`,
+    title: `Johnny English`,
+  },
+  {
+    img: `img/snatch.jpg`,
+    title: `Snatch`,
+  },
+  {
+    img: `img/mindhunter.jpg`,
+    title: `Mindhunter`,
+  },
+  {
+    img: `img/war-of-the-worlds.jpg`,
+    title: `War of the worlds`,
+  },
+];
 
-  const handleTitleClick = jest.fn();
+it(`Should movie title be pressed - e2e`, () => {
+  const onTitleClick = jest.fn();
 
   const main = shallow(
       <Main
         title={MockSettings.TITLE}
         genre={MockSettings.GENRE}
         year={MockSettings.YEAR}
-        titles={mockTitles}
-        onTitleClick={handleTitleClick}
+        films={mock}
+        onTitleClick={onTitleClick}
       />
   );
 
@@ -26,6 +60,6 @@ it(`Should movie title be pressed`, () => {
 
   links.forEach((it) => it.props().onClick());
 
-  expect(handleTitleClick.mock.calls.length).toBe(links.length);
+  expect(onTitleClick.mock.calls.length).toBe(links.length);
 
 });
