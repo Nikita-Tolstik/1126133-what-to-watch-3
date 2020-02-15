@@ -1,7 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Main from './main.jsx';
-import {MockSettings} from '../../const/mock-const.js';
+
+export const MockSettings = {
+  TITLE: `The Grand Budapest Hotel`,
+  GENRE: `Drama`,
+  YEAR: 2014
+};
 
 const mock = [
   {
