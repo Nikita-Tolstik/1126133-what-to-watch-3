@@ -1,12 +1,11 @@
 import React, {PureComponent} from 'react';
 import Main from '../main/main.jsx';
-import PropTypes, {shape} from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
-
   }
 
   render() {
@@ -31,7 +30,7 @@ App.propTypes = {
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
-  films: PropTypes.arrayOf(shape({
+  films: PropTypes.arrayOf(PropTypes.shape({
     img: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   })).isRequired,
