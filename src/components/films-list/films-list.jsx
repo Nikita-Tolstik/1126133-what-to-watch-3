@@ -36,16 +36,21 @@ class FilmsList extends PureComponent {
     return (
       <div className="catalog__movies-list">
 
-        {this.props.films.map((it) => (
-          <SmallMovieCard
+        {this.props.films.map((it) => {
 
-            key={`${it.title}${it.img}`}
-            film={it}
-            onTitleClick={onTitleClick}
-            onMouseEnterFilm={this._handleMouseEnterFilm}
-            onMouseLeaveFilm={this._handleMouseLeaveFilm}
-          />
-        ))}
+          const movieCard = (
+            <SmallMovieCard
+
+              key={`${it.title}${it.img}`}
+              film={it}
+              onTitleClick={onTitleClick}
+              onMouseEnterFilm={this._handleMouseEnterFilm}
+              onMouseLeaveFilm={this._handleMouseLeaveFilm}
+            />);
+
+          return movieCard;
+        })
+        }
 
       </div>
     );
