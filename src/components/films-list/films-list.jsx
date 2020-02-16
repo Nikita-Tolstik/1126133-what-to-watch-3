@@ -49,8 +49,7 @@ class FilmsList extends PureComponent {
             />);
 
           return movieCard;
-        })
-        }
+        })}
 
       </div>
     );
