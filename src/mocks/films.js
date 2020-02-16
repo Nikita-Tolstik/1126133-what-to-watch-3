@@ -1,34 +1,17 @@
-export default [
-  {
-    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
-    title: `Fantastic Beasts: The Crimes of Grindelwald`,
-  },
-  {
-    img: `img/macbeth.jpg`,
-    title: `Macbeth`,
-  },
-  {
-    img: `img/aviator.jpg`,
-    title: `Aviator`,
-  },
-  {
-    img: `img/revenant.jpg`,
-    title: `Revenant`,
-  },
-  {
-    img: `img/johnny-english.jpg`,
-    title: `Johnny English`,
-  },
-  {
-    img: `img/snatch.jpg`,
-    title: `Snatch`,
-  },
-  {
-    img: `img/mindhunter.jpg`,
-    title: `Mindhunter`,
-  },
-  {
-    img: `img/war-of-the-worlds.jpg`,
-    title: `War of the worlds`,
-  },
-];
+import {getRandomNumber, getRatingNumber} from '../utils/utils.js';
+import {MOCKS, DESCRIPTION, DIRECTOR, STARRING, GENRES} from '../const.js';
+
+export const films = MOCKS.map((it) => {
+
+  return {
+    title: it.title,
+    img: it.img,
+    genre: GENRES[getRandomNumber(0, GENRES.length - 1)],
+    year: getRandomNumber(1970, 2020),
+    description: DESCRIPTION,
+    rating: getRatingNumber(1, 10),
+    quantityRatings: getRandomNumber(10, 300),
+    director: DIRECTOR,
+    starring: STARRING,
+  };
+});
