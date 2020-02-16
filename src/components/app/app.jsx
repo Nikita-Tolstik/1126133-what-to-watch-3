@@ -39,6 +39,7 @@ class App extends PureComponent {
           <Route exact path="/movie">
             <MoviePage
 
+              film={this.props.films[1]}
               films={this.props.films}
             />
           </Route>
