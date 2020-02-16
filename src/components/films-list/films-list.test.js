@@ -1,12 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Main from './main.jsx';
-
-const MockSettings = {
-  TITLE: `The Grand Budapest Hotel`,
-  GENRE: `Drama`,
-  YEAR: 2014
-};
+import FilmsList from './films-list.jsx';
 
 const mock = [
   {
@@ -43,17 +37,15 @@ const mock = [
   },
 ];
 
-it(`Render Main`, () => {
+it(`Render <FilmsList />`, () => {
 
-  const tree = renderer
-    .create(<Main
-      title={MockSettings.TITLE}
-      genre={MockSettings.GENRE}
-      year={MockSettings.YEAR}
-      films={mock}
-      onTitleClick={() => {}}
-    />)
-    .toJSON();
+  const tree = renderer.create(
+      <FilmsList
+
+        films={mock}
+        onTitleClick={() => {}}
+      />
+  ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

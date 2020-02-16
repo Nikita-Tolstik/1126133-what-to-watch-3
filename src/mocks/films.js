@@ -1,14 +1,4 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
-import Main from './main.jsx';
-
-const MockSettings = {
-  TITLE: `The Grand Budapest Hotel`,
-  GENRE: `Drama`,
-  YEAR: 2014
-};
-
-const mock = [
+export default [
   {
     img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
     title: `Fantastic Beasts: The Crimes of Grindelwald`,
@@ -42,18 +32,3 @@ const mock = [
     title: `War of the worlds`,
   },
 ];
-
-it(`Render Main`, () => {
-
-  const tree = renderer
-    .create(<Main
-      title={MockSettings.TITLE}
-      genre={MockSettings.GENRE}
-      year={MockSettings.YEAR}
-      films={mock}
-      onTitleClick={() => {}}
-    />)
-    .toJSON();
-
-  expect(tree).toMatchSnapshot();
-});
