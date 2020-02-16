@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
 
-const MoviePage = () => {
+const MoviePage = ({films}) => {
 
   return (
     <React.Fragment>
@@ -103,41 +105,22 @@ const MoviePage = () => {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__movies-list">
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-              </h3>
-            </article>
+            {films.slice(0, 4).map((it) => {
 
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Bohemian Rhapsody</a>
-              </h3>
-            </article>
+              const movieCard = (
+                <SmallMovieCard
 
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Macbeth</a>
-              </h3>
-            </article>
+                  key={`${it.title}${it.img}`}
+                  film={it}
+                  onTitleClick={(evt) => {
+                    evt.preventDefault();
+                  }}
+                  onMouseEnterFilm={() => {}}
+                  onMouseLeaveFilm={() => {}}
+                />);
 
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Aviator</a>
-              </h3>
-            </article>
+              return movieCard;
+            })}
           </div>
         </section>
 
@@ -159,5 +142,20 @@ const MoviePage = () => {
     </React.Fragment>
   );
 };
+
+MoviePage.propTypes = {
+  films: PropTypes.arrayOf(PropTypes.shape({
+    img: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    quantityRatings: PropTypes.number.isRequired,
+    director: PropTypes.string.isRequired,
+    starring: PropTypes.string.isRequired,
+  })).isRequired,
+};
+
 
 export default MoviePage;

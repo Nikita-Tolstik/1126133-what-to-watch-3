@@ -37,7 +37,10 @@ class App extends PureComponent {
           </Route>
 
           <Route exact path="/movie">
-            {<MoviePage />}
+            <MoviePage
+
+              films={this.props.films}
+            />
           </Route>
 
         </Switch>
@@ -53,6 +56,13 @@ App.propTypes = {
   films: PropTypes.arrayOf(PropTypes.shape({
     img: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    quantityRatings: PropTypes.number.isRequired,
+    director: PropTypes.string.isRequired,
+    starring: PropTypes.string.isRequired,
   })).isRequired,
 };
 

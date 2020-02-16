@@ -26,13 +26,20 @@ const SmallMovieCard = ({film, onTitleClick, onMouseEnterFilm, onMouseLeaveFilm}
 };
 
 SmallMovieCard.propTypes = {
-  film: PropTypes.shape({
-    img: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  }).isRequired,
   onTitleClick: PropTypes.func.isRequired,
   onMouseEnterFilm: PropTypes.func.isRequired,
   onMouseLeaveFilm: PropTypes.func.isRequired,
+  film: PropTypes.shape({
+    img: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    quantityRatings: PropTypes.number.isRequired,
+    director: PropTypes.string.isRequired,
+    starring: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default SmallMovieCard;
