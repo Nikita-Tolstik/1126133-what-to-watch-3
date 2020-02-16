@@ -1,5 +1,7 @@
 import React, {PureComponent} from 'react';
+import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from '../main/main.jsx';
+import MoviePage from '../movie-page/movie-page.jsx';
 import PropTypes from 'prop-types';
 
 
@@ -8,7 +10,7 @@ class App extends PureComponent {
     super(props);
   }
 
-  render() {
+  _renderAppScreen() {
     const {title, genre, year, films} = this.props;
 
     return (
@@ -23,8 +25,26 @@ class App extends PureComponent {
       />
     );
   }
-}
 
+  render() {
+
+    return (
+      <BrowserRouter>
+        <Switch>
+
+          <Route exact path="/">
+            {this._renderAppScreen()}
+          </Route>
+
+          <Route exact path="/movie">
+            {<MoviePage />}
+          </Route>
+
+        </Switch>
+      </BrowserRouter>
+    );
+  }
+}
 
 App.propTypes = {
   title: PropTypes.string.isRequired,
