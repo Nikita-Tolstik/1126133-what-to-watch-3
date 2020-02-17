@@ -8,23 +8,48 @@ import PropTypes from 'prop-types';
 class App extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      film: null,
+    };
+
+    this._handleCardFilmClick = this._handleCardFilmClick.bind(this);
+  }
+
+  _handleCardFilmClick(filmData) {
+    this.setState({
+      film: filmData,
+    });
   }
 
   _renderAppScreen() {
     const {title, genre, year, films} = this.props;
 
-    return (
-      <Main
-        title={title}
-        genre={genre}
-        year={year}
-        films={films}
-        onTitleClick={(evt) => {
-          evt.preventDefault();
-        }}
-      />
-    );
+    if (this.state.film === null) {
+
+      return (
+        <Main
+          title={title}
+          genre={genre}
+          year={year}
+          films={films}
+          onCardFilmClick={this._handleCardFilmClick}
+        />
+      );
+    }
+
+    if (this.state.film !== null) {
+
+      return (<MoviePage
+
+        film={this.state.film}
+        films={this.props.films}
+      />);
+    }
+
+    return null;
   }
+
 
   render() {
 
@@ -59,7 +84,7 @@ App.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.array.isRequired,
     rating: PropTypes.number.isRequired,
     quantityRatings: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
