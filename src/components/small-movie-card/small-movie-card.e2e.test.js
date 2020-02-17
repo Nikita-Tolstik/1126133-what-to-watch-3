@@ -39,3 +39,47 @@ it(`Move mouse over a card film, films information should enters the handler - e
 
   expect(onMouseFilmEnter.mock.calls[0][0]).toMatchObject(mock);
 });
+
+
+it(`Click on a cards title - e2eSmallMovieCard`, () => {
+  const onCardFilmClick = jest.fn();
+
+  const movieCard = shallow(
+      <SmallMovieCard
+
+        film={mock}
+        onCardFilmClick={onCardFilmClick}
+        onMouseFilmLeave={() => {}}
+        onMouseFilmEnter={() => {}}
+      />);
+
+  const article = movieCard.find(`article`);
+  const title = article.find(`a`);
+  const formSendPrevention = jest.fn();
+
+  title.simulate(`click`, {preventDefault: formSendPrevention});
+
+  expect(onCardFilmClick).toHaveBeenCalledTimes(1);
+});
+
+
+it(`Click on a cards image - e2eSmallMovieCard`, () => {
+  const onCardFilmClick = jest.fn();
+
+  const movieCard = shallow(
+      <SmallMovieCard
+
+        film={mock}
+        onCardFilmClick={onCardFilmClick}
+        onMouseFilmLeave={() => {}}
+        onMouseFilmEnter={() => {}}
+      />);
+
+  const article = movieCard.find(`article`);
+  const image = article.find(`div`);
+
+  image.simulate(`click`);
+
+
+  expect(onCardFilmClick).toHaveBeenCalledTimes(1);
+});
