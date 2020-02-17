@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
 
-
 class FilmsList extends PureComponent {
   constructor(props) {
     super(props);
@@ -12,18 +11,18 @@ class FilmsList extends PureComponent {
       title: null,
     });
 
-    this._handleMouseEnterFilm = this._handleMouseEnterFilm.bind(this);
-    this._handleMouseLeaveFilm = this._handleMouseLeaveFilm.bind(this);
+    this._handleMouseFilmEnter = this._handleMouseFilmEnter.bind(this);
+    this._handleMouseFilmLeave = this._handleMouseFilmLeave.bind(this);
   }
 
-  _handleMouseEnterFilm(film) {
+  _handleMouseFilmEnter(film) {
     this.setState({
       img: film.img,
       title: film.title,
     });
   }
 
-  _handleMouseLeaveFilm() {
+  _handleMouseFilmLeave() {
     this.setState({
       img: null,
       title: null,
@@ -31,7 +30,7 @@ class FilmsList extends PureComponent {
   }
 
   render() {
-    const {onTitleClick} = this.props;
+    const {onCardFilmClick} = this.props;
 
     return (
       <div className="catalog__movies-list">
@@ -43,9 +42,9 @@ class FilmsList extends PureComponent {
 
               key={`${it.title}${it.img}`}
               film={it}
-              onTitleClick={onTitleClick}
-              onMouseEnterFilm={this._handleMouseEnterFilm}
-              onMouseLeaveFilm={this._handleMouseLeaveFilm}
+              onCardFilmClick={onCardFilmClick}
+              onMouseFilmEnter={this._handleMouseFilmEnter}
+              onMouseFilmLeave={this._handleMouseFilmLeave}
             />);
 
           return movieCard;
@@ -57,13 +56,13 @@ class FilmsList extends PureComponent {
 }
 
 FilmsList.propTypes = {
-  onTitleClick: PropTypes.func.isRequired,
+  onCardFilmClick: PropTypes.func.isRequired,
   films: PropTypes.arrayOf(PropTypes.shape({
     img: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.array.isRequired,
     rating: PropTypes.number.isRequired,
     quantityRatings: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,

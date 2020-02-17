@@ -3,6 +3,18 @@ import PropTypes from 'prop-types';
 import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
 import {getRating} from '../../utils/utils.js';
 
+const getDescriptionMarkup = (texts) => {
+
+  const markupElements = texts.map((it) => {
+
+    const element = <p key={it}>{it}</p>;
+
+    return element;
+  });
+
+  return markupElements;
+};
+
 const MoviePage = ({film, films}) => {
 
   const ratingLavel = getRating(film.rating);
@@ -90,7 +102,7 @@ const MoviePage = ({film, films}) => {
               </div>
 
               <div className="movie-card__text">
-                <p>{film.description}</p>
+                {getDescriptionMarkup(film.description)}
 
                 <p className="movie-card__director"><strong>Director: {film.director}</strong></p>
 
@@ -113,11 +125,11 @@ const MoviePage = ({film, films}) => {
 
                   key={`${it.title}${it.img}`}
                   film={it}
-                  onTitleClick={(evt) => {
+                  onCardFilmClick={(evt) => {
                     evt.preventDefault();
                   }}
-                  onMouseEnterFilm={() => {}}
-                  onMouseLeaveFilm={() => {}}
+                  onMouseFilmEnter={() => {}}
+                  onMouseFilmLeave={() => {}}
                 />);
 
               return movieCard;
@@ -150,7 +162,7 @@ MoviePage.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.array.isRequired,
     rating: PropTypes.number.isRequired,
     quantityRatings: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
@@ -162,7 +174,7 @@ MoviePage.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.array.isRequired,
     rating: PropTypes.number.isRequired,
     quantityRatings: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
