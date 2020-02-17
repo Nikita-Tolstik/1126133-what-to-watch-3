@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import MoviePage from './movie-page.jsx';
 
-const Mock = {
+const mock = {
   img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
   title: `Fantastic Beasts: The Crimes of Grindelwald`,
   genre: `Action`,
@@ -62,12 +62,12 @@ const mocks = [
 ];
 
 
-it(`Render MoviePage`, () => {
+it(`Render <MoviePage />`, () => {
 
   const tree = renderer
     .create(<MoviePage
 
-      film={Mock}
+      film={mock}
       films={mocks}
     />)
     .toJSON();

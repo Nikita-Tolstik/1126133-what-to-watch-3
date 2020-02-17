@@ -13,51 +13,63 @@ Enzyme.configure({
   adapter: new Adapter(),
 });
 
-const mock = [
+const mocks = [
   {
     img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    title: `Fantastic Beasts: The Crimes of Grindelwald1`,
+    genre: `Action`,
+    year: 2222,
+    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+    rating: 5.7,
+    quantityRatings: 134,
+    director: `Wes Andreson`,
+    starring: `Bill Murray, Edward Norton, Jude Law`,
+  },
+  {
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    title: `Fantastic Beasts: The Crimes of Grindelwald2`,
+    genre: `Action`,
+    year: 2222,
+    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+    rating: 5.7,
+    quantityRatings: 134,
+    director: `Wes Andreson`,
+    starring: `Bill Murray, Edward Norton, Jude Law`,
+  },
+  {
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    title: `Fantastic Beasts: The Crimes of Grindelwald3`,
+    genre: `Action`,
+    year: 2222,
+    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+    rating: 5.7,
+    quantityRatings: 134,
+    director: `Wes Andreson`,
+    starring: `Bill Murray, Edward Norton, Jude Law`,
+  },
+  {
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg4`,
     title: `Fantastic Beasts: The Crimes of Grindelwald`,
-  },
-  {
-    img: `img/macbeth.jpg`,
-    title: `Macbeth`,
-  },
-  {
-    img: `img/aviator.jpg`,
-    title: `Aviator`,
-  },
-  {
-    img: `img/revenant.jpg`,
-    title: `Revenant`,
-  },
-  {
-    img: `img/johnny-english.jpg`,
-    title: `Johnny English`,
-  },
-  {
-    img: `img/snatch.jpg`,
-    title: `Snatch`,
-  },
-  {
-    img: `img/mindhunter.jpg`,
-    title: `Mindhunter`,
-  },
-  {
-    img: `img/war-of-the-worlds.jpg`,
-    title: `War of the worlds`,
-  },
+    genre: `Action`,
+    year: 2222,
+    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+    rating: 5.7,
+    quantityRatings: 134,
+    director: `Wes Andreson`,
+    starring: `Bill Murray, Edward Norton, Jude Law`,
+  }
 ];
 
 it(`Should movie title be pressed - e2e`, () => {
-  const onTitleClick = jest.fn();
+  const onCardFilmClick = jest.fn();
 
   const main = shallow(
       <Main
         title={MockSettings.TITLE}
         genre={MockSettings.GENRE}
         year={MockSettings.YEAR}
-        films={mock}
-        onTitleClick={onTitleClick}
+        films={mocks}
+        onCardFilmClick={onCardFilmClick}
       />
   );
 
@@ -65,6 +77,6 @@ it(`Should movie title be pressed - e2e`, () => {
 
   links.forEach((it) => it.props().onClick());
 
-  expect(onTitleClick.mock.calls.length).toBe(links.length);
+  expect(onCardFilmClick.mock.calls.length).toBe(links.length);
 
 });

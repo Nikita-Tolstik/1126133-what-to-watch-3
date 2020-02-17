@@ -8,42 +8,54 @@ const MockSettings = {
   YEAR: 2014
 };
 
-const mock = [
+const mocks = [
   {
     img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    title: `Fantastic Beasts: The Crimes of Grindelwald1`,
+    genre: `Action`,
+    year: 2222,
+    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+    rating: 5.7,
+    quantityRatings: 134,
+    director: `Wes Andreson`,
+    starring: `Bill Murray, Edward Norton, Jude Law`,
+  },
+  {
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    title: `Fantastic Beasts: The Crimes of Grindelwald2`,
+    genre: `Action`,
+    year: 2222,
+    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+    rating: 5.7,
+    quantityRatings: 134,
+    director: `Wes Andreson`,
+    starring: `Bill Murray, Edward Norton, Jude Law`,
+  },
+  {
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    title: `Fantastic Beasts: The Crimes of Grindelwald3`,
+    genre: `Action`,
+    year: 2222,
+    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+    rating: 5.7,
+    quantityRatings: 134,
+    director: `Wes Andreson`,
+    starring: `Bill Murray, Edward Norton, Jude Law`,
+  },
+  {
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg4`,
     title: `Fantastic Beasts: The Crimes of Grindelwald`,
-  },
-  {
-    img: `img/macbeth.jpg`,
-    title: `Macbeth`,
-  },
-  {
-    img: `img/aviator.jpg`,
-    title: `Aviator`,
-  },
-  {
-    img: `img/revenant.jpg`,
-    title: `Revenant`,
-  },
-  {
-    img: `img/johnny-english.jpg`,
-    title: `Johnny English`,
-  },
-  {
-    img: `img/snatch.jpg`,
-    title: `Snatch`,
-  },
-  {
-    img: `img/mindhunter.jpg`,
-    title: `Mindhunter`,
-  },
-  {
-    img: `img/war-of-the-worlds.jpg`,
-    title: `War of the worlds`,
-  },
+    genre: `Action`,
+    year: 2222,
+    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+    rating: 5.7,
+    quantityRatings: 134,
+    director: `Wes Andreson`,
+    starring: `Bill Murray, Edward Norton, Jude Law`,
+  }
 ];
 
-it(`Render App`, () => {
+it(`Render <App />`, () => {
 
   const tree = renderer
     .create(<App
@@ -51,7 +63,7 @@ it(`Render App`, () => {
       title={MockSettings.TITLE}
       genre={MockSettings.GENRE}
       year={MockSettings.YEAR}
-      films={mock}
+      films={mocks}
     />)
       .toJSON();
 
