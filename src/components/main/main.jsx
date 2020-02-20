@@ -9,7 +9,7 @@ class Main extends PureComponent {
   }
 
   render() {
-    const {title, genre, year, films, onTitleClick} = this.props;
+    const {title, genre, year, films, onCardFilmClick} = this.props;
 
     return (
 
@@ -108,8 +108,9 @@ class Main extends PureComponent {
 
             <React.Fragment>
               <FilmsList
-                onTitleClick={onTitleClick}
+
                 films={films}
+                onCardFilmClick={onCardFilmClick}
               />
             </React.Fragment>
 
@@ -141,10 +142,17 @@ Main.propTypes = {
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
-  onTitleClick: PropTypes.func.isRequired,
+  onCardFilmClick: PropTypes.func.isRequired,
   films: PropTypes.arrayOf(PropTypes.shape({
     img: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    description: PropTypes.array.isRequired,
+    rating: PropTypes.number.isRequired,
+    quantityRatings: PropTypes.number.isRequired,
+    director: PropTypes.string.isRequired,
+    starring: PropTypes.string.isRequired,
   })).isRequired,
 };
 

@@ -5,6 +5,13 @@ import SmallMovieCard from './small-movie-card.jsx';
 const mock = {
   img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
   title: `Fantastic Beasts: The Crimes of Grindelwald`,
+  genre: `Action`,
+  year: 2222,
+  description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+  rating: 5.7,
+  quantityRatings: 134,
+  director: `Wes Andreson`,
+  starring: `Bill Murray, Edward Norton, Jude Law`,
 };
 
 it(`Render <SmallMovieCard />`, () => {
@@ -13,9 +20,9 @@ it(`Render <SmallMovieCard />`, () => {
       <SmallMovieCard
 
         film={mock}
-        onTitleClick={() => {}}
-        onMouseEnterFilm={() => {}}
-        onMouseLeaveFilm={() => {}}
+        onCardFilmClick={() => {}}
+        onMouseFilmEnter={() => {}}
+        onMouseFilmLeave={() => {}}
       />
   ).toJSON();
 

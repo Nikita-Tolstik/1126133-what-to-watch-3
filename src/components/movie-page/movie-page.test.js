@@ -1,11 +1,17 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import App from './app.jsx';
+import MoviePage from './movie-page.jsx';
 
-const MockSettings = {
-  TITLE: `The Grand Budapest Hotel`,
-  GENRE: `Drama`,
-  YEAR: 2014
+const mock = {
+  img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+  title: `Fantastic Beasts: The Crimes of Grindelwald`,
+  genre: `Action`,
+  year: 2222,
+  description: [`Fantastic Beasts: The Crimes of Grindelwald`],
+  rating: 5.7,
+  quantityRatings: 134,
+  director: `Wes Andreson`,
+  starring: `Bill Murray, Edward Norton, Jude Law`,
 };
 
 const mocks = [
@@ -55,17 +61,16 @@ const mocks = [
   }
 ];
 
-it(`Render <App />`, () => {
+
+it(`Render <MoviePage />`, () => {
 
   const tree = renderer
-    .create(<App
+    .create(<MoviePage
 
-      title={MockSettings.TITLE}
-      genre={MockSettings.GENRE}
-      year={MockSettings.YEAR}
+      film={mock}
       films={mocks}
     />)
-      .toJSON();
+    .toJSON();
 
   expect(tree).toMatchSnapshot();
 });
