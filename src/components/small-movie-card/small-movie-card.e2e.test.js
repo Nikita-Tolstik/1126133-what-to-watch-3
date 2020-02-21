@@ -17,6 +17,7 @@ const mock = {
   quantityRatings: 134,
   director: `Wes Andreson`,
   starring: `Bill Murray, Edward Norton, Jude Law`,
+  videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
 };
 
 it(`Move mouse over a card film, films information should enters the handler - e2eSmallMovieCard`, () => {
@@ -25,6 +26,8 @@ it(`Move mouse over a card film, films information should enters the handler - e
   const movieCard = shallow(
       <SmallMovieCard
 
+        id={1}
+        isPlaying={true}
         film={mock}
         onCardFilmClick={() => {}}
         onMouseFilmLeave={() => {}}
@@ -47,6 +50,8 @@ it(`Click on a cards title - e2eSmallMovieCard`, () => {
   const movieCard = shallow(
       <SmallMovieCard
 
+        id={1}
+        isPlaying={true}
         film={mock}
         onCardFilmClick={onCardFilmClick}
         onMouseFilmLeave={() => {}}
@@ -69,6 +74,8 @@ it(`Click on a cards image - e2eSmallMovieCard`, () => {
   const movieCard = shallow(
       <SmallMovieCard
 
+        id={1}
+        isPlaying={true}
         film={mock}
         onCardFilmClick={onCardFilmClick}
         onMouseFilmLeave={() => {}}

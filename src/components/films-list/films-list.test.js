@@ -13,6 +13,7 @@ const mocks = [
     quantityRatings: 134,
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law`,
+    videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
   },
   {
     img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
@@ -24,6 +25,7 @@ const mocks = [
     quantityRatings: 134,
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law`,
+    videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
   },
   {
     img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
@@ -35,6 +37,7 @@ const mocks = [
     quantityRatings: 134,
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law`,
+    videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
   },
   {
     img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg4`,
@@ -46,6 +49,7 @@ const mocks = [
     quantityRatings: 134,
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law`,
+    videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
   }
 ];
 
@@ -56,7 +60,11 @@ it(`Render <FilmsList />`, () => {
 
         films={mocks}
         onCardFilmClick={() => {}}
-      />
+      />, {
+        createNodeMock: () => {
+          return {};
+        }
+      }
   ).toJSON();
 
   expect(tree).toMatchSnapshot();
