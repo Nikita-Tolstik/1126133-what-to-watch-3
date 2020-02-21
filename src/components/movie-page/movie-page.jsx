@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
 import {getRating} from '../../utils/utils.js';
 
 const getDescriptionMarkup = (texts) => {
@@ -121,16 +120,16 @@ const MoviePage = ({film, films}) => {
             {films.slice(0, 4).map((it) => {
 
               const movieCard = (
-                <SmallMovieCard
 
-                  key={`${it.title}${it.img}`}
-                  film={it}
-                  onCardFilmClick={(evt) => {
-                    evt.preventDefault();
-                  }}
-                  onMouseFilmEnter={() => {}}
-                  onMouseFilmLeave={() => {}}
-                />);
+                <article key={it.img} className="small-movie-card catalog__movies-card">
+                  <div className="small-movie-card__image">
+                    <img src={it.img} alt={it.title} width="280" height="175" />
+                  </div>
+                  <h3 className="small-movie-card__title">
+                    <a className="small-movie-card__link">{it.title}</a>
+                  </h3>
+                </article>
+              );
 
               return movieCard;
             })}
@@ -167,6 +166,7 @@ MoviePage.propTypes = {
     quantityRatings: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
     starring: PropTypes.string.isRequired,
+    videoPreview: PropTypes.string.isRequired,
   }).isRequired,
 
   films: PropTypes.arrayOf(PropTypes.shape({
@@ -179,6 +179,7 @@ MoviePage.propTypes = {
     quantityRatings: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
     starring: PropTypes.string.isRequired,
+    videoPreview: PropTypes.string.isRequired,
   })).isRequired,
 };
 
