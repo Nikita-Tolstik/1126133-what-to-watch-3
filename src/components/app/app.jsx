@@ -40,11 +40,12 @@ class App extends PureComponent {
 
     if (this.state.film !== null) {
 
-      return (<MoviePage
+      return (
+        <MoviePage
 
-        film={this.state.film}
-        films={this.props.films}
-      />);
+          film={this.state.film}
+          films={this.props.films}
+        />);
     }
 
     return null;
@@ -64,7 +65,7 @@ class App extends PureComponent {
           <Route exact path="/movie">
             <MoviePage
 
-              film={this.props.films[1]}
+              film={this.props.films[0]}
               films={this.props.films}
             />
           </Route>
@@ -89,6 +90,7 @@ App.propTypes = {
     quantityRatings: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
     starring: PropTypes.string.isRequired,
+    videoPreview: PropTypes.string.isRequired,
   })).isRequired,
 };
 

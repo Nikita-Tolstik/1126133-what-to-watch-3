@@ -153,6 +153,7 @@ Main.propTypes = {
     quantityRatings: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
     starring: PropTypes.string.isRequired,
+    videoPreview: PropTypes.string.isRequired,
   })).isRequired,
 };
 
