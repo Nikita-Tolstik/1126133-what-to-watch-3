@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import VideoPlayer from '../video-player/video-player.jsx';
 
-const SmallMovieCard = ({film, onCardFilmClick, onMouseFilmEnter, onMouseFilmLeave, isPlaying, id}) => {
+const SmallMovieCard = ({film, onCardFilmClick, onMouseFilmEnter, onMouseFilmLeave, isPlaying}) => {
 
   return (
 
     <article
-      onMouseEnter={() => onMouseFilmEnter(film, id)}
+      onMouseEnter={onMouseFilmEnter}
       onMouseLeave={onMouseFilmLeave}
       className="small-movie-card catalog__movies-card">
 
@@ -41,7 +41,6 @@ const SmallMovieCard = ({film, onCardFilmClick, onMouseFilmEnter, onMouseFilmLea
 
 
 SmallMovieCard.propTypes = {
-  id: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   onCardFilmClick: PropTypes.func.isRequired,
   onMouseFilmEnter: PropTypes.func.isRequired,

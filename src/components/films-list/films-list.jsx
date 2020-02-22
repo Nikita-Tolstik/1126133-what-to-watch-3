@@ -46,7 +46,7 @@ class FilmsList extends PureComponent {
               key={`${it.title}${it.img}`}
               film={it}
               onCardFilmClick={onCardFilmClick}
-              onMouseFilmEnter={this._handleMouseFilmEnter}
+              onMouseFilmEnter={() => this._handleMouseFilmEnter(it, i)}
               onMouseFilmLeave={this._handleMouseFilmLeave}
             />);
 
