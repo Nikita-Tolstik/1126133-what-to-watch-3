@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-const TIMER_TIME = 1000;
+const TIMER = 1000;
 
 class VideoPlayer extends PureComponent {
   constructor(props) {
@@ -11,15 +11,6 @@ class VideoPlayer extends PureComponent {
     this._timerId = ``;
   }
 
-  componentDidMount() {
-    const {img} = this.props;
-    const videoSrc = this.props.videoPreview;
-
-    const video = this._videoRef.current;
-    video.src = videoSrc;
-    video.poster = img;
-  }
-
   componentDidUpdate() {
     const video = this._videoRef.current;
 
@@ -27,7 +18,7 @@ class VideoPlayer extends PureComponent {
 
       this._timerId = setTimeout(() => {
         video.play();
-      }, TIMER_TIME);
+      }, TIMER);
 
     } else {
       video.load();
@@ -35,18 +26,12 @@ class VideoPlayer extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    const video = this._videoRef.current;
-
-    video.src = ``;
-    video.poster = ``;
-  }
-
   render() {
+    const {img, videoPreview} = this.props;
 
     return (
       <React.Fragment>
-        <video ref={this._videoRef} width="280" height="175" muted/>
+        <video ref={this._videoRef} src={videoPreview} poster={img} width="280" height="175" muted/>
       </React.Fragment>
     );
   }
