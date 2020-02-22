@@ -20,7 +20,6 @@ it(`Render <SmallMovieCard />`, () => {
   const tree = renderer.create(
       <SmallMovieCard
 
-        id={1}
         isPlaying={true}
         film={mock}
         onCardFilmClick={() => {}}

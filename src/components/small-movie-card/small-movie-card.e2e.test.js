@@ -21,12 +21,11 @@ const mock = {
 };
 
 it(`Move mouse over a card film, films information should enters the handler - e2eSmallMovieCard`, () => {
-  const onMouseFilmEnter = jest.fn((...args) => [...args]);
+  const onMouseFilmEnter = jest.fn();
 
   const movieCard = shallow(
       <SmallMovieCard
 
-        id={1}
         isPlaying={true}
         film={mock}
         onCardFilmClick={() => {}}
@@ -39,8 +38,6 @@ it(`Move mouse over a card film, films information should enters the handler - e
   article.simulate(`mouseenter`);
 
   expect(onMouseFilmEnter).toHaveBeenCalledTimes(1);
-
-  expect(onMouseFilmEnter.mock.calls[0][0]).toMatchObject(mock);
 });
 
 
@@ -50,7 +47,6 @@ it(`Click on a cards title - e2eSmallMovieCard`, () => {
   const movieCard = shallow(
       <SmallMovieCard
 
-        id={1}
         isPlaying={true}
         film={mock}
         onCardFilmClick={onCardFilmClick}
@@ -74,7 +70,6 @@ it(`Click on a cards image - e2eSmallMovieCard`, () => {
   const movieCard = shallow(
       <SmallMovieCard
 
-        id={1}
         isPlaying={true}
         film={mock}
         onCardFilmClick={onCardFilmClick}
