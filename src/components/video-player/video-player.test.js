@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import SmallMovieCard from './small-movie-card.jsx';
+import VideoPlayer from './video-player.jsx';
 
 const mock = {
   img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
@@ -15,16 +15,15 @@ const mock = {
   videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
 };
 
-it(`Render <SmallMovieCard />`, () => {
+
+it(`Render <VideoPlayer />`, () => {
 
   const tree = renderer.create(
-      <SmallMovieCard
+      <VideoPlayer
 
         isPlaying={true}
-        film={mock}
-        onCardFilmClick={() => {}}
-        onMouseFilmEnter={() => {}}
-        onMouseFilmLeave={() => {}}
+        img={mock.img}
+        videoPreview={mock.videoPreview}
       />, {
         createNodeMock: () => {
           return {};

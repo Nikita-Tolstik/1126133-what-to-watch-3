@@ -259,17 +259,14 @@ Array [
       >
         <article
           className="small-movie-card catalog__movies-card"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
         >
           <div
             className="small-movie-card__image"
-            onClick={[Function]}
           >
             <img
               alt="Fantastic Beasts: The Crimes of Grindelwald1"
               height="175"
-              src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
+              src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg1"
               width="280"
             />
           </div>
@@ -278,8 +275,6 @@ Array [
           >
             <a
               className="small-movie-card__link"
-              href="movie-page.html"
-              onClick={[Function]}
             >
               Fantastic Beasts: The Crimes of Grindelwald1
             </a>
@@ -287,17 +282,14 @@ Array [
         </article>
         <article
           className="small-movie-card catalog__movies-card"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
         >
           <div
             className="small-movie-card__image"
-            onClick={[Function]}
           >
             <img
               alt="Fantastic Beasts: The Crimes of Grindelwald2"
               height="175"
-              src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
+              src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg2"
               width="280"
             />
           </div>
@@ -306,8 +298,6 @@ Array [
           >
             <a
               className="small-movie-card__link"
-              href="movie-page.html"
-              onClick={[Function]}
             >
               Fantastic Beasts: The Crimes of Grindelwald2
             </a>
@@ -315,17 +305,14 @@ Array [
         </article>
         <article
           className="small-movie-card catalog__movies-card"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
         >
           <div
             className="small-movie-card__image"
-            onClick={[Function]}
           >
             <img
               alt="Fantastic Beasts: The Crimes of Grindelwald3"
               height="175"
-              src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
+              src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg3"
               width="280"
             />
           </div>
@@ -334,8 +321,6 @@ Array [
           >
             <a
               className="small-movie-card__link"
-              href="movie-page.html"
-              onClick={[Function]}
             >
               Fantastic Beasts: The Crimes of Grindelwald3
             </a>
@@ -343,12 +328,9 @@ Array [
         </article>
         <article
           className="small-movie-card catalog__movies-card"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
         >
           <div
             className="small-movie-card__image"
-            onClick={[Function]}
           >
             <img
               alt="Fantastic Beasts: The Crimes of Grindelwald"
@@ -362,8 +344,6 @@ Array [
           >
             <a
               className="small-movie-card__link"
-              href="movie-page.html"
-              onClick={[Function]}
             >
               Fantastic Beasts: The Crimes of Grindelwald
             </a>

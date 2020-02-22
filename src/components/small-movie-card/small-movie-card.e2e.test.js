@@ -17,14 +17,16 @@ const mock = {
   quantityRatings: 134,
   director: `Wes Andreson`,
   starring: `Bill Murray, Edward Norton, Jude Law`,
+  videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
 };
 
 it(`Move mouse over a card film, films information should enters the handler - e2eSmallMovieCard`, () => {
-  const onMouseFilmEnter = jest.fn((...args) => [...args]);
+  const onMouseFilmEnter = jest.fn();
 
   const movieCard = shallow(
       <SmallMovieCard
 
+        isPlaying={true}
         film={mock}
         onCardFilmClick={() => {}}
         onMouseFilmLeave={() => {}}
@@ -36,8 +38,6 @@ it(`Move mouse over a card film, films information should enters the handler - e
   article.simulate(`mouseenter`);
 
   expect(onMouseFilmEnter).toHaveBeenCalledTimes(1);
-
-  expect(onMouseFilmEnter.mock.calls[0][0]).toMatchObject(mock);
 });
 
 
@@ -47,6 +47,7 @@ it(`Click on a cards title - e2eSmallMovieCard`, () => {
   const movieCard = shallow(
       <SmallMovieCard
 
+        isPlaying={true}
         film={mock}
         onCardFilmClick={onCardFilmClick}
         onMouseFilmLeave={() => {}}
@@ -69,6 +70,7 @@ it(`Click on a cards image - e2eSmallMovieCard`, () => {
   const movieCard = shallow(
       <SmallMovieCard
 
+        isPlaying={true}
         film={mock}
         onCardFilmClick={onCardFilmClick}
         onMouseFilmLeave={() => {}}

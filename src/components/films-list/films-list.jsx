@@ -7,43 +7,46 @@ class FilmsList extends PureComponent {
     super(props);
 
     this.state = ({
-      img: null,
-      title: null,
+      activePlayerId: -1,
+      film: null,
     });
 
     this._handleMouseFilmEnter = this._handleMouseFilmEnter.bind(this);
     this._handleMouseFilmLeave = this._handleMouseFilmLeave.bind(this);
   }
 
-  _handleMouseFilmEnter(film) {
+  _handleMouseFilmEnter(filmData, id) {
     this.setState({
-      img: film.img,
-      title: film.title,
+      activePlayerId: this.state.activePlayerIds === id ? -1 : id,
+      film: filmData,
     });
   }
 
   _handleMouseFilmLeave() {
     this.setState({
-      img: null,
-      title: null,
+      activePlayerId: -1,
+      film: null,
     });
   }
 
   render() {
     const {onCardFilmClick} = this.props;
+    const {activePlayerId} = this.state;
 
     return (
       <div className="catalog__movies-list">
 
-        {this.props.films.map((it) => {
+        {this.props.films.map((it, i) => {
 
           const movieCard = (
             <SmallMovieCard
 
+              id={i}
+              isPlaying={activePlayerId === i}
               key={`${it.title}${it.img}`}
               film={it}
               onCardFilmClick={onCardFilmClick}
-              onMouseFilmEnter={this._handleMouseFilmEnter}
+              onMouseFilmEnter={() => this._handleMouseFilmEnter(it, i)}
               onMouseFilmLeave={this._handleMouseFilmLeave}
             />);
 
@@ -67,6 +70,7 @@ FilmsList.propTypes = {
     quantityRatings: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
     starring: PropTypes.string.isRequired,
+    videoPreview: PropTypes.string.isRequired,
   })).isRequired,
 };
 
