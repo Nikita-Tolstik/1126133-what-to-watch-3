@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {connect} from 'react-redux';
 import Main from '../main/main.jsx';
 import MoviePage from '../movie-page/movie-page.jsx';
 import PropTypes from 'prop-types';
@@ -62,13 +63,13 @@ class App extends PureComponent {
             {this._renderAppScreen()}
           </Route>
 
-          <Route exact path="/movie">
+          {/* <Route exact path="/movie">
             <MoviePage
 
               film={this.props.films[0]}
               films={this.props.films}
             />
-          </Route>
+          </Route> */}
 
         </Switch>
       </BrowserRouter>
@@ -80,18 +81,24 @@ App.propTypes = {
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
-  films: PropTypes.arrayOf(PropTypes.shape({
-    img: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    description: PropTypes.array.isRequired,
-    rating: PropTypes.number.isRequired,
-    quantityRatings: PropTypes.number.isRequired,
-    director: PropTypes.string.isRequired,
-    starring: PropTypes.string.isRequired,
-    videoPreview: PropTypes.string.isRequired,
-  })).isRequired,
+  films: PropTypes.arrayOf(
+      PropTypes.shape({
+        img: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        genre: PropTypes.string.isRequired,
+        year: PropTypes.number.isRequired,
+        description: PropTypes.array.isRequired,
+        rating: PropTypes.number.isRequired,
+        quantityRatings: PropTypes.number.isRequired,
+        director: PropTypes.string.isRequired,
+        starring: PropTypes.string.isRequired,
+        videoPreview: PropTypes.string.isRequired,
+      })).isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  films: state.filteredFilms,
+});
+
+export {App};
+export default connect(mapStateToProps)(App);
