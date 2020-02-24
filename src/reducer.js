@@ -1,4 +1,5 @@
 import {films} from './mocks/films.js';
+import {extend} from './utils/utils.js';
 
 const ALL_GENRES = `All genres`;
 
@@ -35,11 +36,21 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case Action.CHANGE_GENRE:
-      return ActionCreator.changeGenre();
+      // Попробовать реализовать блокировку выбора активного жанра
+      if (state.genre !== action.payload) {
+        return extend(state, {
+          genre: action.payload,
+        });
+      }
+      break;
 
     case Action.GET_FILTERED_FILMS:
-      return ActionCreator.getFilteredFilms();
+      return extend(state, {
+        filteredFilms: action.payload,
+      });
   }
 
   return state;
 };
+
+export {reducer};
