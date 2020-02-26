@@ -59,14 +59,19 @@ const mocks = [
   }
 ];
 
+const GENRE = `All genres`;
+
 it(`Render Main`, () => {
 
   const tree = renderer
     .create(<Main
+
+      activeGenre={GENRE}
       title={MockSettings.TITLE}
       genre={MockSettings.GENRE}
       year={MockSettings.YEAR}
       films={mocks}
+      onGenreClick={() => {}}
       onCardFilmClick={() => {}}
     />, {
       createNodeMock: () => {
