@@ -13,6 +13,7 @@ const Action = {
   GET_FILTERED_FILMS: `GET_FILTERED_FILMS`,
 };
 
+
 const ActionCreator = {
 
   changeGenre: (genre) => ({
@@ -20,9 +21,9 @@ const ActionCreator = {
     payload: genre,
   }),
 
-  getFilteredFilms: () => {
+  getFilteredFilms: (genre) => {
 
-    const filteredFilms = [];
+    const filteredFilms = filterFilms(genre);
 
     return {
       type: Action.GET_FILTERED_FILMS,
@@ -31,18 +32,29 @@ const ActionCreator = {
   },
 };
 
+
+const filterFilms = (genre) => {
+
+  const filteredFilms = ALL_GENRES === genre ? films : films.filter((it) => it.genre === genre);
+
+  return filteredFilms;
+};
+
+const getGenresList = () => {
+  const allGenres = films.map((it) => it.genre);
+  const uniqueGenres = Array.from(new Set(allGenres)).sort();
+
+  return [ALL_GENRES, ...uniqueGenres.slice(0, 10)];
+};
+
+
 const reducer = (state = initialState, action) => {
 
   switch (action.type) {
-
     case Action.CHANGE_GENRE:
-      // Попробовать реализовать блокировку выбора активного жанра
-      if (state.genre !== action.payload) {
-        return extend(state, {
-          genre: action.payload,
-        });
-      }
-      break;
+      return extend(state, {
+        genre: action.payload,
+      });
 
     case Action.GET_FILTERED_FILMS:
       return extend(state, {
@@ -53,4 +65,4 @@ const reducer = (state = initialState, action) => {
   return state;
 };
 
-export {reducer};
+export {reducer, ActionCreator, getGenresList};
