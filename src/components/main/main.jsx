@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
+import {genresList} from '../../reducer.js';
+
 
 const Main = ({title, genre, year, films, activeGenre, onCardFilmClick, onGenreClick}) => {
 
@@ -72,6 +74,7 @@ const Main = ({title, genre, year, films, activeGenre, onCardFilmClick, onGenreC
             <GenresList
 
               activeGenre={activeGenre}
+              genresList={genresList}
               onGenreClick={onGenreClick}
             />
           </React.Fragment>
