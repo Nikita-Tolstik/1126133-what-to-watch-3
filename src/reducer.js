@@ -8,7 +8,7 @@ const initialState = {
   filteredFilms: films,
 };
 
-const Action = {
+const ActionType = {
   CHANGE_GENRE: `CHANGE_GENRE`,
   GET_FILTERED_FILMS: `GET_FILTERED_FILMS`,
 };
@@ -17,7 +17,7 @@ const Action = {
 const ActionCreator = {
 
   changeGenre: (genre) => ({
-    type: Action.CHANGE_GENRE,
+    type: ActionType.CHANGE_GENRE,
     payload: genre,
   }),
 
@@ -26,7 +26,7 @@ const ActionCreator = {
     const filteredFilms = filterFilms(genre);
 
     return {
-      type: Action.GET_FILTERED_FILMS,
+      type: ActionType.GET_FILTERED_FILMS,
       payload: filteredFilms,
     };
   },
@@ -51,12 +51,12 @@ const getGenresList = () => {
 const reducer = (state = initialState, action) => {
 
   switch (action.type) {
-    case Action.CHANGE_GENRE:
+    case ActionType.CHANGE_GENRE:
       return extend(state, {
         genre: action.payload,
       });
 
-    case Action.GET_FILTERED_FILMS:
+    case ActionType.GET_FILTERED_FILMS:
       return extend(state, {
         filteredFilms: action.payload,
       });
@@ -65,4 +65,4 @@ const reducer = (state = initialState, action) => {
   return state;
 };
 
-export {reducer, ActionCreator, getGenresList};
+export {reducer, ActionCreator, ActionType, getGenresList};
