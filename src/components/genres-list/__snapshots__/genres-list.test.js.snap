@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render <GenresList /> 1`] = `
+<ul
+  className="catalog__genres-list"
+  onClick={[Function]}
+>
+  <li
+    className="catalog__genres-item catalog__genres-item--active"
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      All genres
+    </a>
+  </li>
+  <li
+    className="catalog__genres-item "
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      Action
+    </a>
+  </li>
+  <li
+    className="catalog__genres-item "
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      Animation
+    </a>
+  </li>
+  <li
+    className="catalog__genres-item "
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      Comedies
+    </a>
+  </li>
+  <li
+    className="catalog__genres-item "
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      Crime
+    </a>
+  </li>
+  <li
+    className="catalog__genres-item "
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      Documentary
+    </a>
+  </li>
+  <li
+    className="catalog__genres-item "
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      Dramas
+    </a>
+  </li>
+  <li
+    className="catalog__genres-item "
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      Fantasy
+    </a>
+  </li>
+  <li
+    className="catalog__genres-item "
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      Thrillers
+    </a>
+  </li>
+</ul>
+`;
