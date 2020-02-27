@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getGenresList} from '../../reducer.js';
 
 const TAG_REF = `A`;
 
-const GenresList = ({activeGenre, onGenreClick}) => {
-  const genres = getGenresList();
+const GenresList = ({activeGenre, genresList, onGenreClick}) => {
 
-  return (
+  const genresMarkup = (
 
     <ul
       onClick={(evt) => {
@@ -17,9 +15,10 @@ const GenresList = ({activeGenre, onGenreClick}) => {
         }
         onGenreClick(evt.target.textContent);
       }}
-      className="catalog__genres-list">
+      className="catalog__genres-list"
+    >
 
-      {genres.map((it) => (
+      {genresList.map((it) => (
 
         <li key={it} className={`catalog__genres-item ${it === activeGenre ? `catalog__genres-item--active` : ``}`}>
           <a href="#" className="catalog__genres-link">{it}</a>
@@ -27,12 +26,16 @@ const GenresList = ({activeGenre, onGenreClick}) => {
       ))}
     </ul>
   );
+
+  return genresMarkup;
 };
 
 
 GenresList.propTypes = {
   activeGenre: PropTypes.string.isRequired,
   onGenreClick: PropTypes.func.isRequired,
+  genresList: PropTypes.array.isRequired,
 };
 
 export default GenresList;
+
