@@ -2,7 +2,19 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import GenresList from './genres-list.jsx';
 
-const ALL_GENRES = `All genres`;
+
+const GENRES = [
+  `All genres`,
+  `Fantasy`,
+  `Thrillers`,
+  `Crime`,
+  `Documentary`,
+  `Dramas`,
+  `Action`,
+  `Animation`,
+  `Comedies`,
+];
+
 
 it(`Render <GenresList />`, () => {
 
@@ -10,7 +22,8 @@ it(`Render <GenresList />`, () => {
       <GenresList
 
         onGenreClick={() => {}}
-        activeGenre={ALL_GENRES}
+        activeGenre={GENRES[0]}
+        genresList={GENRES}
       />
   ).toJSON();
 

@@ -7,7 +7,17 @@ Enzyme.configure({
   adapter: new Adapter(),
 });
 
-const ALL_GENRES = `All genres`;
+const GENRES = [
+  `All genres`,
+  `Fantasy`,
+  `Thrillers`,
+  `Crime`,
+  `Documentary`,
+  `Dramas`,
+  `Action`,
+  `Animation`,
+  `Comedies`,
+];
 
 it(`Should be click on genres-list - e2e`, () => {
   const onGenreClick = jest.fn();
@@ -15,7 +25,8 @@ it(`Should be click on genres-list - e2e`, () => {
 
   const genresList = shallow(
       <GenresList
-        activeGenre={ALL_GENRES}
+        activeGenre={GENRES[0]}
+        genresList={GENRES}
         onGenreClick={onGenreClick}
       />
   );

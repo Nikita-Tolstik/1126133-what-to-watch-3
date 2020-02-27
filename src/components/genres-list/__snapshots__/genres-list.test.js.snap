@@ -22,7 +22,7 @@ exports[`Render <GenresList /> 1`] = `
       className="catalog__genres-link"
       href="#"
     >
-      Action
+      Fantasy
     </a>
   </li>
   <li
@@ -32,17 +32,7 @@ exports[`Render <GenresList /> 1`] = `
       className="catalog__genres-link"
       href="#"
     >
-      Animation
-    </a>
-  </li>
-  <li
-    className="catalog__genres-item "
-  >
-    <a
-      className="catalog__genres-link"
-      href="#"
-    >
-      Comedies
+      Thrillers
     </a>
   </li>
   <li
@@ -82,7 +72,7 @@ exports[`Render <GenresList /> 1`] = `
       className="catalog__genres-link"
       href="#"
     >
-      Fantasy
+      Action
     </a>
   </li>
   <li
@@ -92,7 +82,17 @@ exports[`Render <GenresList /> 1`] = `
       className="catalog__genres-link"
       href="#"
     >
-      Thrillers
+      Animation
+    </a>
+  </li>
+  <li
+    className="catalog__genres-item "
+  >
+    <a
+      className="catalog__genres-link"
+      href="#"
+    >
+      Comedies
     </a>
   </li>
 </ul>
