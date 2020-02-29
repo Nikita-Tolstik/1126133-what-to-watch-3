@@ -64,16 +64,19 @@ const mocks = [
   }
 ];
 
+const GENRE = `All genres`;
 
 it(`Should movie title be pressed - e2e`, () => {
   const onCardFilmClick = jest.fn();
 
   const main = shallow(
       <Main
+        activeGenre={GENRE}
         title={MockSettings.TITLE}
         genre={MockSettings.GENRE}
         year={MockSettings.YEAR}
         films={mocks}
+        onGenreClick={() => {}}
         onCardFilmClick={onCardFilmClick}
       />
   );

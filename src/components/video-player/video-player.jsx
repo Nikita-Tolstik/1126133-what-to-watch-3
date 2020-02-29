@@ -21,7 +21,11 @@ class VideoPlayer extends PureComponent {
       }, TIMER);
 
     } else {
-      video.load();
+
+      if (video.currentTime > 0) {
+        video.load();
+      }
+
       clearTimeout(this._timerId);
     }
   }
