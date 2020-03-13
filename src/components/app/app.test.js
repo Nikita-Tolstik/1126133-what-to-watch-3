@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {Provider} from 'react-redux';
 import configureStore from "redux-mock-store";
-import {App} from './app.jsx';
+import App from './app.jsx';
 
 const mockStore = configureStore([]);
 
@@ -68,6 +68,7 @@ const ALL_GENRES = `All genres`;
 it(`Render <App />`, () => {
   const store = mockStore({
     genre: ALL_GENRES,
+    initialFilms: mocks,
     filteredFilms: mocks,
   });
 
@@ -75,18 +76,13 @@ it(`Render <App />`, () => {
     .create(
         <Provider store={store}>
           <App
-            activeGenre={ALL_GENRES}
             title={MockSettings.TITLE}
             genre={MockSettings.GENRE}
             year={MockSettings.YEAR}
-            films={mocks}
-            onGenreClick={() => {}}
+            selectFilm={0}
+            onCardFilmClick={() => {}}
           />
-        </Provider>, {
-          createNodeMock: () => {
-            return {};
-          }
-        }
+        </Provider>
     ).toJSON();
 
   expect(tree).toMatchSnapshot();

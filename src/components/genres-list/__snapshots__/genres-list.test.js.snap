@@ -16,7 +16,7 @@ exports[`Render <GenresList /> 1`] = `
     </a>
   </li>
   <li
-    className="catalog__genres-item "
+    className="catalog__genres-item false"
   >
     <a
       className="catalog__genres-link"
@@ -26,7 +26,7 @@ exports[`Render <GenresList /> 1`] = `
     </a>
   </li>
   <li
-    className="catalog__genres-item "
+    className="catalog__genres-item false"
   >
     <a
       className="catalog__genres-link"
@@ -36,7 +36,7 @@ exports[`Render <GenresList /> 1`] = `
     </a>
   </li>
   <li
-    className="catalog__genres-item "
+    className="catalog__genres-item false"
   >
     <a
       className="catalog__genres-link"
@@ -46,7 +46,7 @@ exports[`Render <GenresList /> 1`] = `
     </a>
   </li>
   <li
-    className="catalog__genres-item "
+    className="catalog__genres-item false"
   >
     <a
       className="catalog__genres-link"
@@ -56,7 +56,7 @@ exports[`Render <GenresList /> 1`] = `
     </a>
   </li>
   <li
-    className="catalog__genres-item "
+    className="catalog__genres-item false"
   >
     <a
       className="catalog__genres-link"
@@ -66,7 +66,7 @@ exports[`Render <GenresList /> 1`] = `
     </a>
   </li>
   <li
-    className="catalog__genres-item "
+    className="catalog__genres-item false"
   >
     <a
       className="catalog__genres-link"
@@ -76,7 +76,7 @@ exports[`Render <GenresList /> 1`] = `
     </a>
   </li>
   <li
-    className="catalog__genres-item "
+    className="catalog__genres-item false"
   >
     <a
       className="catalog__genres-link"
@@ -86,7 +86,7 @@ exports[`Render <GenresList /> 1`] = `
     </a>
   </li>
   <li
-    className="catalog__genres-item "
+    className="catalog__genres-item false"
   >
     <a
       className="catalog__genres-link"

@@ -2,16 +2,15 @@ import React from 'react';
 import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Main from './main.jsx';
-
-const MockSettings = {
-  TITLE: `The Grand Budapest Hotel`,
-  GENRE: `Drama`,
-  YEAR: 2014
-};
+import {Provider} from 'react-redux';
+import configureStore from "redux-mock-store";
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
+
+const mockStore = configureStore([]);
+
 
 const mocks = [
   {
@@ -64,21 +63,36 @@ const mocks = [
   }
 ];
 
-const GENRE = `All genres`;
+const ALL_GENRES = `All genres`;
+
+const MockSettings = {
+  TITLE: `The Grand Budapest Hotel`,
+  GENRE: `Drama`,
+  YEAR: 2014
+};
+
 
 it(`Should movie title be pressed - e2e`, () => {
+  const store = mockStore({
+    genre: ALL_GENRES,
+    initialFilms: mocks,
+    filteredFilms: mocks,
+  });
+
   const onCardFilmClick = jest.fn();
 
   const main = shallow(
-      <Main
-        activeGenre={GENRE}
-        title={MockSettings.TITLE}
-        genre={MockSettings.GENRE}
-        year={MockSettings.YEAR}
-        films={mocks}
-        onGenreClick={() => {}}
-        onCardFilmClick={onCardFilmClick}
-      />
+      <Provider store={store}>
+        <Main
+          activeGenre={ALL_GENRES}
+          title={MockSettings.TITLE}
+          genre={MockSettings.GENRE}
+          year={MockSettings.YEAR}
+          initialFilms={mocks}
+          onGenreClick={() => {}}
+          onCardFilmClick={onCardFilmClick}
+        />
+      </Provider>
   );
 
   const links = main.find(`a.small-movie-card__link`);

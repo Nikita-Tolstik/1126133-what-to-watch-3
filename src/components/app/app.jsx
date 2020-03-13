@@ -1,56 +1,38 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-import {connect} from 'react-redux';
 import Main from '../main/main.jsx';
 import MoviePage from '../movie-page/movie-page.jsx';
-import {ActionCreator} from '../../reducer.js';
+import {NO_MOVIE} from '../../const.js';
+
+// для разработки
+import {films} from '../../mocks/films.js';
 
 
 class App extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      film: null,
-    };
-
-    this._handleCardFilmClick = this._handleCardFilmClick.bind(this);
-  }
-
-  _handleCardFilmClick(filmData) {
-    this.setState({
-      film: filmData,
-    });
-  }
 
   _renderAppScreen() {
-    const {title, genre, year, films, activeGenre, onGenreClick} = this.props;
+    const {title, genre, year, onCardFilmClick, selectFilm} = this.props;
 
-    if (this.state.film === null) {
-
+    if (selectFilm === NO_MOVIE) {
       return (
         <Main
 
           title={title}
           genre={genre}
           year={year}
-          activeGenre={activeGenre}
-          films={films}
-          onCardFilmClick={this._handleCardFilmClick}
-          onGenreClick={onGenreClick}
+          onCardFilmClick={onCardFilmClick}
         />
       );
     }
 
-    if (this.state.film !== null) {
-
+    if (selectFilm !== NO_MOVIE) {
       return (
         <MoviePage
 
-          film={this.state.film}
-          films={this.props.films}
-        />);
+          film={selectFilm}
+        />
+      );
     }
 
     return null;
@@ -70,8 +52,8 @@ class App extends PureComponent {
           <Route exact path="/movie">
             <MoviePage
 
-              film={this.props.films[0]}
-              films={this.props.films}
+              film={films[0]}
+              films={films}
             />
           </Route>
 
@@ -82,39 +64,25 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  activeGenre: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
-  onGenreClick: PropTypes.func.isRequired,
+  onCardFilmClick: PropTypes.func.isRequired,
 
-  films: PropTypes.arrayOf(
-      PropTypes.shape({
-        img: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        genre: PropTypes.string.isRequired,
-        year: PropTypes.number.isRequired,
-        description: PropTypes.array.isRequired,
-        rating: PropTypes.number.isRequired,
-        quantityRatings: PropTypes.number.isRequired,
-        director: PropTypes.string.isRequired,
-        starring: PropTypes.string.isRequired,
-        videoPreview: PropTypes.string.isRequired,
-      })).isRequired,
+  selectFilm: PropTypes.oneOfType([
+    PropTypes.shape({
+      img: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      genre: PropTypes.string.isRequired,
+      year: PropTypes.number.isRequired,
+      description: PropTypes.array.isRequired,
+      rating: PropTypes.number.isRequired,
+      quantityRatings: PropTypes.number.isRequired,
+      director: PropTypes.string.isRequired,
+      starring: PropTypes.string.isRequired,
+      videoPreview: PropTypes.string.isRequired,
+    }).isRequired, PropTypes.number.isRequired,
+  ]).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  films: state.filteredFilms,
-  activeGenre: state.genre,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onGenreClick(genre) {
-    dispatch(ActionCreator.changeGenre(genre));
-    dispatch(ActionCreator.getFilteredFilms(genre));
-  },
-});
-
-
-export {App};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

@@ -26,10 +26,13 @@ it(`Move mouse over a card film, films information should enters the handler - e
   const movieCard = shallow(
       <SmallMovieCard
 
-        isPlaying={true}
+        id={0}
+        activePlayerId={-1}
         film={mock}
         onCardFilmClick={() => {}}
         onMouseFilmLeave={() => {}}
+        onMouseIdEnter={() => {}}
+        onMouseIdLeave={() => {}}
         onMouseFilmEnter={onMouseFilmEnter}
       />);
 
@@ -47,11 +50,14 @@ it(`Click on a cards title - e2eSmallMovieCard`, () => {
   const movieCard = shallow(
       <SmallMovieCard
 
-        isPlaying={true}
+        id={0}
+        activePlayerId={-1}
         film={mock}
-        onCardFilmClick={onCardFilmClick}
-        onMouseFilmLeave={() => {}}
         onMouseFilmEnter={() => {}}
+        onMouseFilmLeave={() => {}}
+        onMouseIdEnter={() => {}}
+        onMouseIdLeave={() => {}}
+        onCardFilmClick={onCardFilmClick}
       />);
 
   const article = movieCard.find(`article`);
@@ -70,11 +76,14 @@ it(`Click on a cards image - e2eSmallMovieCard`, () => {
   const movieCard = shallow(
       <SmallMovieCard
 
-        isPlaying={true}
+        id={0}
+        activePlayerId={-1}
         film={mock}
-        onCardFilmClick={onCardFilmClick}
-        onMouseFilmLeave={() => {}}
         onMouseFilmEnter={() => {}}
+        onMouseFilmLeave={() => {}}
+        onMouseIdEnter={() => {}}
+        onMouseIdLeave={() => {}}
+        onCardFilmClick={onCardFilmClick}
       />);
 
   const article = movieCard.find(`article`);

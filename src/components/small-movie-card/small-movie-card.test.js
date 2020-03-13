@@ -20,11 +20,14 @@ it(`Render <SmallMovieCard />`, () => {
   const tree = renderer.create(
       <SmallMovieCard
 
-        isPlaying={true}
+        id={0}
+        activePlayerId={-1}
         film={mock}
         onCardFilmClick={() => {}}
         onMouseFilmEnter={() => {}}
         onMouseFilmLeave={() => {}}
+        onMouseIdEnter={() => {}}
+        onMouseIdLeave={() => {}}
       />, {
         createNodeMock: () => {
           return {};

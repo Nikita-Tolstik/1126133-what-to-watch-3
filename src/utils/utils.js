@@ -1,5 +1,7 @@
 import {MarkFilm} from '../const.js';
 
+const ALL_GENRES = `All genres`;
+
 export const getRandomNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max + 1 - min));
 };
@@ -33,4 +35,13 @@ export const getRating = (number) => {
 
 export const extend = (a, b) => {
   return Object.assign({}, a, b);
+};
+
+export const getGenres = (initialFilms) => {
+  const allGenres = initialFilms.map((it) => it.genre);
+  const uniqueGenres = new Set(allGenres);
+  const listGenres = Array.from(uniqueGenres).sort();
+  const genres = [ALL_GENRES, ...listGenres.slice(0, 10)];
+
+  return genres;
 };
