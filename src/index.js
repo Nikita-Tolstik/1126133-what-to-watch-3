@@ -4,6 +4,9 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import App from './components/app/app.jsx';
 import {reducer} from './reducer.js';
+import withSelectFilm from './hocs/with-select-film/with-select-film.js';
+
+const AppWrapped = withSelectFilm(App);
 
 const Settings = {
   TITLE: `The Grand Budapest Hotel`,
@@ -19,7 +22,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-      <App
+      <AppWrapped
         title={Settings.TITLE}
         genre={Settings.GENRE}
         year={Settings.YEAR}

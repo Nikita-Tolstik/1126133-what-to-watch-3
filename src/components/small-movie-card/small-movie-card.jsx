@@ -1,47 +1,69 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import VideoPlayer from '../video-player/video-player.jsx';
 
-const SmallMovieCard = ({film, onCardFilmClick, onMouseFilmEnter, onMouseFilmLeave, isPlaying}) => {
+class SmallMovieCard extends PureComponent {
 
-  return (
+  render() {
+    const {
+      film,
+      id,
+      activePlayerId,
+      onCardFilmClick,
+      onMouseFilmEnter,
+      onMouseFilmLeave,
+      onMouseIdEnter,
+      onMouseIdLeave
+    } = this.props;
 
-    <article
-      onMouseEnter={onMouseFilmEnter}
-      onMouseLeave={onMouseFilmLeave}
-      className="small-movie-card catalog__movies-card">
+    return (
 
-      <div onClick={() => {
-        onCardFilmClick(film);
-      }}
-      className="small-movie-card__image">
+      <article
+        onMouseEnter={() => {
+          onMouseFilmEnter(film);
+          onMouseIdEnter(id);
+        }}
+        onMouseLeave={() => {
+          onMouseFilmLeave();
+          onMouseIdLeave();
+        }}
+        className="small-movie-card catalog__movies-card">
 
-        <VideoPlayer
-
-          isPlaying={isPlaying}
-          img={film.img}
-          videoPreview={film.videoPreview}
-        />
-      </div>
-
-      <h3 className="small-movie-card__title">
-
-        <a onClick={(evt) => {
-          evt.preventDefault();
+        <div onClick={() => {
           onCardFilmClick(film);
         }}
-        className="small-movie-card__link" href="movie-page.html">
+        className="small-movie-card__image">
 
-          {film.title}
-        </a>
-      </h3>
-    </article>
-  );
-};
+          <VideoPlayer
+
+            isPlaying={activePlayerId === id}
+            img={film.img}
+            videoPreview={film.videoPreview}
+          />
+        </div>
+
+        <h3 className="small-movie-card__title">
+
+          <a onClick={(evt) => {
+            evt.preventDefault();
+            onCardFilmClick(film);
+          }}
+          className="small-movie-card__link" href="movie-page.html">
+
+            {film.title}
+          </a>
+        </h3>
+      </article>
+    );
+  }
+}
 
 
 SmallMovieCard.propTypes = {
-  isPlaying: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
+  activePlayerId: PropTypes.number.isRequired,
+  onMouseIdEnter: PropTypes.func.isRequired,
+  onMouseIdLeave: PropTypes.func.isRequired,
   onCardFilmClick: PropTypes.func.isRequired,
   onMouseFilmEnter: PropTypes.func.isRequired,
   onMouseFilmLeave: PropTypes.func.isRequired,

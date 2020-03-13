@@ -5,6 +5,7 @@ const ALL_GENRES = `All genres`;
 
 const initialState = {
   genre: ALL_GENRES,
+  initialFilms: films,
   filteredFilms: films,
 };
 
@@ -40,15 +41,6 @@ const filterFilms = (genre, initialFilms) => {
   return filteredFilms;
 };
 
-const getGenresList = (initialFilms) => {
-  const allGenres = initialFilms.map((it) => it.genre);
-  const uniqueGenres = new Set(allGenres);
-  const listGenres = Array.from(uniqueGenres).sort();
-
-  return [ALL_GENRES, ...listGenres.slice(0, 10)];
-};
-
-const genresList = getGenresList(films);
 
 const reducer = (state = initialState, action) => {
 
@@ -67,4 +59,4 @@ const reducer = (state = initialState, action) => {
   return state;
 };
 
-export {reducer, ActionCreator, ActionType, genresList};
+export {reducer, ActionCreator, ActionType};

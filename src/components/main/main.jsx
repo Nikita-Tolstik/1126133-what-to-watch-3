@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import FilmsList from '../films-list/films-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
-import {genresList} from '../../reducer.js';
+import {ActionCreator} from '../../reducer.js';
+import {getGenres} from '../../utils/utils.js';
 
+const Main = ({title, genre, year, initialFilms, onCardFilmClick, onGenreClick}) => {
 
-const Main = ({title, genre, year, films, activeGenre, onCardFilmClick, onGenreClick}) => {
-
+  const genres = getGenres(initialFilms);
 
   return (
 
@@ -73,8 +75,7 @@ const Main = ({title, genre, year, films, activeGenre, onCardFilmClick, onGenreC
           <React.Fragment>
             <GenresList
 
-              activeGenre={activeGenre}
-              genresList={genresList}
+              genres={genres}
               onGenreClick={onGenreClick}
             />
           </React.Fragment>
@@ -82,7 +83,6 @@ const Main = ({title, genre, year, films, activeGenre, onCardFilmClick, onGenreC
           <React.Fragment>
             <FilmsList
 
-              films={films}
               onCardFilmClick={onCardFilmClick}
             />
           </React.Fragment>
@@ -112,14 +112,13 @@ const Main = ({title, genre, year, films, activeGenre, onCardFilmClick, onGenreC
 
 
 Main.propTypes = {
-  activeGenre: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
   onCardFilmClick: PropTypes.func.isRequired,
   onGenreClick: PropTypes.func.isRequired,
 
-  films: PropTypes.arrayOf(PropTypes.shape({
+  initialFilms: PropTypes.arrayOf(PropTypes.shape({
     img: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
@@ -133,4 +132,18 @@ Main.propTypes = {
   })).isRequired,
 };
 
-export default Main;
+
+const mapStateToProps = (state) => ({
+  initialFilms: state.initialFilms,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGenreClick(genre) {
+    dispatch(ActionCreator.changeGenre(genre));
+    dispatch(ActionCreator.getFilteredFilms(genre));
+  },
+});
+
+export {Main};
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
