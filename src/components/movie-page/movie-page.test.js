@@ -73,7 +73,6 @@ it(`Render <MoviePage />`, () => {
     .create(<MoviePage
 
       film={mock}
-      films={mocks}
     />)
     .toJSON();
 

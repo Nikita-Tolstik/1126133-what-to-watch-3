@@ -1,12 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Main from './main.jsx';
+import {Main} from './main.jsx';
+import {Provider} from 'react-redux';
+import configureStore from "redux-mock-store";
 
-const MockSettings = {
-  TITLE: `The Grand Budapest Hotel`,
-  GENRE: `Drama`,
-  YEAR: 2014
-};
+const mockStore = configureStore([]);
+
 
 const mocks = [
   {
@@ -59,25 +58,41 @@ const mocks = [
   }
 ];
 
+const ALL_GENRES = `All genres`;
+
+const MockSettings = {
+  TITLE: `The Grand Budapest Hotel`,
+  GENRE: `Drama`,
+  YEAR: 2014
+};
+
+
 const GENRE = `All genres`;
 
 it(`Render Main`, () => {
+  const store = mockStore({
+    genre: ALL_GENRES,
+    initialFilms: mocks,
+    filteredFilms: mocks,
+  });
 
   const tree = renderer
-    .create(<Main
-
-      activeGenre={GENRE}
-      title={MockSettings.TITLE}
-      genre={MockSettings.GENRE}
-      year={MockSettings.YEAR}
-      films={mocks}
-      onGenreClick={() => {}}
-      onCardFilmClick={() => {}}
-    />, {
-      createNodeMock: () => {
-        return {};
-      }
-    }
+    .create(
+        <Provider store={store}>
+          <Main
+            activeGenre={GENRE}
+            title={MockSettings.TITLE}
+            genre={MockSettings.GENRE}
+            year={MockSettings.YEAR}
+            initialFilms={mocks}
+            onGenreClick={() => {}}
+            onCardFilmClick={() => {}}
+          />
+        </Provider>, {
+          createNodeMock: () => {
+            return {};
+          }
+        }
     ).toJSON();
 
   expect(tree).toMatchSnapshot();

@@ -1,13 +1,20 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import FilmsList from './films-list.jsx';
+import configureStore from "redux-mock-store";
+import {Provider} from 'react-redux';
+
+
+const mockStore = configureStore([]);
+
+const ALL_GENRES = `All genres`;
 
 const mocks = [
   {
     img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
     title: `Fantastic Beasts: The Crimes of Grindelwald1`,
     genre: `Action`,
-    year: 2222,
+    year: 22222,
     description: [`Fantastic Beasts: The Crimes of Grindelwald`],
     rating: 5.7,
     quantityRatings: 134,
@@ -54,13 +61,20 @@ const mocks = [
 ];
 
 it(`Render <FilmsList />`, () => {
+  const store = mockStore({
+    genre: ALL_GENRES,
+    initialFilms: mocks,
+    filteredFilms: mocks,
+  });
 
   const tree = renderer.create(
-      <FilmsList
+      <Provider store={store}>
+        <FilmsList
 
-        films={mocks}
-        onCardFilmClick={() => {}}
-      />, {
+          films={mocks}
+          onCardFilmClick={() => {}}
+        />
+      </Provider>, {
         createNodeMock: () => {
           return {};
         }
