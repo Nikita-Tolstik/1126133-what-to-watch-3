@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import FilmsList from '../films-list/films-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
-import {ActionCreator} from '../../reducer.js';
+import {ActionCreator} from '../../reducer/app/app.js';
 import {getGenres} from '../../utils/utils.js';
+import {getFilms, getFilteredFilms} from '../../reducer/data/selector.js';
 
 const Main = ({title, genre, year, initialFilms, onCardFilmClick, onGenreClick}) => {
 
@@ -134,13 +135,12 @@ Main.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  initialFilms: state.initialFilms,
+  initialFilms: getFilms(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onGenreClick(genre) {
     dispatch(ActionCreator.changeGenre(genre));
-    dispatch(ActionCreator.getFilteredFilms(genre));
   },
 });
 

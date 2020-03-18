@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {getGenre} from '../../reducer/app/selector.js';
 
 const TAG_REF = `A`;
 
@@ -42,7 +43,7 @@ GenresList.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  activeGenre: state.genre,
+  activeGenre: getGenre(state),
 });
 
 export {GenresList};

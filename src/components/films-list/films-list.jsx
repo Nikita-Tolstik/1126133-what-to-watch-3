@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
 import withHoverFilm from '../../hocs/with-hover-film/with-hover-film.js';
+import {getFilteredFilms} from '../../reducer/data/selector.js';
 
 const SmallMovieCardWrapped = withActivePlayer(withHoverFilm(SmallMovieCard));
 
@@ -51,7 +52,7 @@ FilmsList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  films: state.filteredFilms,
+  films: getFilteredFilms(state),
 });
 
 export {FilmsList};

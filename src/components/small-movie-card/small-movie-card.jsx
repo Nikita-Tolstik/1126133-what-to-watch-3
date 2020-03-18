@@ -37,8 +37,8 @@ class SmallMovieCard extends PureComponent {
           <VideoPlayer
 
             isPlaying={activePlayerId === id}
-            img={film.img}
-            videoPreview={film.videoPreview}
+            img={film.preview_image}
+            videoPreview={film.preview_video_link}
           />
         </div>
 
@@ -50,7 +50,7 @@ class SmallMovieCard extends PureComponent {
           }}
           className="small-movie-card__link" href="movie-page.html">
 
-            {film.title}
+            {film.name}
           </a>
         </h3>
       </article>
