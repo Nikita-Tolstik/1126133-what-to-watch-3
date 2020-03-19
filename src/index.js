@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
+import {composeWithDevTools} from "redux-devtools-extension";
 import App from './components/app/app.jsx';
-import {reducer} from './reducer.js';
+import reducer from './reducer/reducer.js';
 import withSelectFilm from './hocs/with-select-film/with-select-film.js';
+import {Operation as DataOperation} from './reducer/data/data.js';
+import {createAPI} from './api.js';
 
+const api = createAPI(() => {});
 const AppWrapped = withSelectFilm(App);
 
 const Settings = {
@@ -16,9 +21,12 @@ const Settings = {
 
 const store = createStore(
     reducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+    composeWithDevTools(
+        applyMiddleware(thunk.withExtraArgument(api))
+    )
 );
 
+store.dispatch(DataOperation.loadFilms());
 
 ReactDOM.render(
     <Provider store={store}>

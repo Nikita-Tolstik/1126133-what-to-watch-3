@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
 import withHoverFilm from '../../hocs/with-hover-film/with-hover-film.js';
+import {getFilteredFilms} from '../../reducer/data/selector.js';
 
 const SmallMovieCardWrapped = withActivePlayer(withHoverFilm(SmallMovieCard));
 
@@ -21,7 +22,7 @@ class FilmsList extends PureComponent {
             <SmallMovieCardWrapped
 
               id={i}
-              key={`${it.title}${it.img}`}
+              key={it.id}
               film={it}
               onCardFilmClick={onCardFilmClick}
             />
@@ -37,21 +38,28 @@ class FilmsList extends PureComponent {
 FilmsList.propTypes = {
   onCardFilmClick: PropTypes.func.isRequired,
   films: PropTypes.arrayOf(PropTypes.shape({
-    img: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    description: PropTypes.array.isRequired,
+    posterImage: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
-    quantityRatings: PropTypes.number.isRequired,
+    scoresCount: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
     starring: PropTypes.string.isRequired,
+    runTime: PropTypes.number.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    videoLink: PropTypes.string.isRequired,
     videoPreview: PropTypes.string.isRequired,
   })).isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  films: state.filteredFilms,
+  films: getFilteredFilms(state),
 });
 
 export {FilmsList};

@@ -1,26 +1,11 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
-import {GenresList} from './genres-list.jsx';
-import {Provider} from 'react-redux';
-import configureStore from "redux-mock-store";
-import NameSpace from '../../reducer/name-space.js';
+import MockAdapter from "axios-mock-adapter";
+import {createAPI} from "../../api.js";
+import {reducer, ActionType, Operation} from './data.js';
+import {parseFilm} from '../../adapter.js';
 
-const mockStore = configureStore([]);
+const api = createAPI(() => {});
 
-
-const GENRES = [
-  `All genres`,
-  `Fantasy`,
-  `Thrillers`,
-  `Crime`,
-  `Documentary`,
-  `Dramas`,
-  `Action`,
-  `Animation`,
-  `Comedies`,
-];
-
-const mocks = [
+const films = [
   {
     id: 1,
     title: `Fantastic Beasts: The Crimes of Grindelwald2`,
@@ -99,54 +84,63 @@ const mocks = [
   },
 ];
 
-const Genres = {
-  ALL: `All genres`,
-  FANTASY: `Fantasy`
-};
 
-it(`Render <GenresList - Active-genre is All genres/>`, () => {
-  const store = mockStore({
-    [NameSpace.DATA]: {
-      films: mocks,
-    },
-    [NameSpace.LOGIC]: {
-      genre: Genres.ALL,
-    },
+const mockServer = [{
+  'id': 1,
+  'name': `Fantastic Beasts: The Crimes of Grindelwald2`,
+  'poster_image': `Fantastic Beasts: The Crimes of Grindelwald2`,
+  'preview_image': `Fantastic Beasts: The Crimes of Grindelwald2`,
+  'background_image': `Fantastic Beasts: The Crimes of Grindelwald2`,
+  'background_color': `Fantastic Beasts: The Crimes of Grindelwald2`,
+  'description': `Fantastic Beasts: The Crimes of Grindelwald2`,
+  'rating': 3,
+  'scores_count': 6,
+  'director': `Fantastic Beasts: The Crimes of Grindelwald2`,
+  'starring': [`Bill Murray, Edward Norton, Jude Law`],
+  'run_time': 66,
+  'genre': `Fantastic Beasts: The Crimes of Grindelwald2`,
+  'released': 55,
+  'is_favorite': true,
+  'video_link': `Fantastic Beasts: The Crimes of Grindelwald2`,
+  'preview_video_link': `Fantastic Beasts: The Crimes of Grindelwald2`
+}];
+
+const parsedMock = parseFilm(mockServer[0]);
+
+it(`Reducer without additional parameters should return initial state`, () => {
+  expect(reducer(void 0, {})).toEqual({
+    films: [],
   });
-
-  const tree = renderer.create(
-      <Provider store={store}>
-        <GenresList
-
-          onGenreClick={() => {}}
-          activeGenre={Genres.ALL}
-          genres={GENRES}
-        />
-      </Provider>
-  ).toJSON();
-
-  expect(tree).toMatchSnapshot();
 });
 
-it(`Render <GenresList - Active-genre is Fantasy/>`, () => {
-  const store = mockStore({
-    [NameSpace.DATA]: {
-      films: mocks,
-    },
-    [NameSpace.LOGIC]: {
-      genre: Genres.FANTASY,
-    },
+it(`Reducer should update questions by load films`, () => {
+  expect(reducer({
+    films: [],
+  }, {
+    type: ActionType.LOAD_FILMS,
+    payload: films,
+  })).toEqual({
+    films,
   });
-  const tree = renderer.create(
-      <Provider store={store}>
-        <GenresList
+});
 
-          onGenreClick={() => {}}
-          activeGenre={Genres.FANTASY}
-          genres={GENRES}
-        />
-      </Provider>
-  ).toJSON();
+describe(`Operation work correctly`, () => {
+  it(`Should make a correct API call to /questions`, () => {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const filmsLoader = Operation.loadFilms();
 
-  expect(tree).toMatchSnapshot();
+    apiMock
+      .onGet(`/films`)
+      .reply(200, mockServer);
+
+    return filmsLoader(dispatch, () => {}, api)
+    .then(() => {
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenNthCalledWith(1, {
+        type: ActionType.LOAD_FILMS,
+        payload: [parsedMock],
+      });
+    });
+  });
 });
