@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 import NameSpace from '../name-space.js';
-import {getGenre} from '../app/selector.js';
+import {getGenre} from '../logic/selector.js';
 
 const ALL_GENRES = `All genres`;
 

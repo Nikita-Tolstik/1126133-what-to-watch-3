@@ -3,6 +3,7 @@ import renderer from 'react-test-renderer';
 import {GenresList} from './genres-list.jsx';
 import {Provider} from 'react-redux';
 import configureStore from "redux-mock-store";
+import NameSpace from '../../reducer/name-space.js';
 
 const mockStore = configureStore([]);
 
@@ -21,62 +22,96 @@ const GENRES = [
 
 const mocks = [
   {
-    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
-    title: `Fantastic Beasts: The Crimes of Grindelwald1`,
-    genre: `Action`,
-    year: 2222,
-    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
-    rating: 5.7,
-    quantityRatings: 134,
-    director: `Wes Andreson`,
-    starring: `Bill Murray, Edward Norton, Jude Law`,
-    videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
-  },
-  {
-    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    id: 1,
     title: `Fantastic Beasts: The Crimes of Grindelwald2`,
-    genre: `Action`,
-    year: 2222,
-    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
-    rating: 5.7,
-    quantityRatings: 134,
+    posterImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    previewImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    backgroundImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    backgroundColor: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    description: `Fantastic Beasts: The Crimes of Grindelwald`,
+    rating: 5,
+    scoresCount: 7,
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law`,
-    videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
+    runTime: 55,
+    genre: `Action`,
+    released: 44,
+    isFavorite: true,
+    videoLink: `https://upload.wikimedia.org/`,
+    videoPreview: `https://upload.wikimedia.org/`,
   },
   {
-    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
-    title: `Fantastic Beasts: The Crimes of Grindelwald3`,
-    genre: `Action`,
-    year: 2222,
-    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
-    rating: 5.7,
-    quantityRatings: 134,
+    id: 2,
+    title: `Fantastic Beasts: The Crimes of Grindelwald2`,
+    posterImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    previewImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    backgroundImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    backgroundColor: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    description: `Fantastic Beasts: The Crimes of Grindelwald`,
+    rating: 5,
+    scoresCount: 7,
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law`,
-    videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
+    runTime: 55,
+    genre: `Action`,
+    released: 44,
+    isFavorite: true,
+    videoLink: `https://upload.wikimedia.org/`,
+    videoPreview: `https://upload.wikimedia.org/`,
   },
   {
-    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg4`,
-    title: `Fantastic Beasts: The Crimes of Grindelwald`,
-    genre: `Action`,
-    year: 2222,
-    description: [`Fantastic Beasts: The Crimes of Grindelwald`],
-    rating: 5.7,
-    quantityRatings: 134,
+    id: 3,
+    title: `Fantastic Beasts: The Crimes of Grindelwald2`,
+    posterImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    previewImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    backgroundImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    backgroundColor: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    description: `Fantastic Beasts: The Crimes of Grindelwald`,
+    rating: 5,
+    scoresCount: 7,
     director: `Wes Andreson`,
     starring: `Bill Murray, Edward Norton, Jude Law`,
-    videoPreview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
-  }
+    runTime: 55,
+    genre: `Action`,
+    released: 44,
+    isFavorite: true,
+    videoLink: `https://upload.wikimedia.org/`,
+    videoPreview: `https://upload.wikimedia.org/`,
+  },
+  {
+    id: 4,
+    title: `Fantastic Beasts: The Crimes of Grindelwald2`,
+    posterImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    previewImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    backgroundImage: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    backgroundColor: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    description: `Fantastic Beasts: The Crimes of Grindelwald`,
+    rating: 5,
+    scoresCount: 7,
+    director: `Wes Andreson`,
+    starring: `Bill Murray, Edward Norton, Jude Law`,
+    runTime: 55,
+    genre: `Action`,
+    released: 44,
+    isFavorite: true,
+    videoLink: `https://upload.wikimedia.org/`,
+    videoPreview: `https://upload.wikimedia.org/`,
+  },
 ];
 
-const ALL_GENRES = `All genres`;
+const Genres = {
+  ALL: `All genres`,
+  FANTASY: `Fantasy`
+};
 
-it(`Render <GenresList />`, () => {
+it(`Render <GenresList - Active-genre is All genres/>`, () => {
   const store = mockStore({
-    genre: ALL_GENRES,
-    initialFilms: mocks,
-    filteredFilms: mocks,
+    [NameSpace.DATA]: {
+      films: mocks,
+    },
+    [NameSpace.LOGIC]: {
+      genre: Genres.ALL,
+    },
   });
 
   const tree = renderer.create(
@@ -84,7 +119,30 @@ it(`Render <GenresList />`, () => {
         <GenresList
 
           onGenreClick={() => {}}
-          activeGenre={ALL_GENRES}
+          activeGenre={Genres.ALL}
+          genres={GENRES}
+        />
+      </Provider>
+  ).toJSON();
+
+  expect(tree).toMatchSnapshot();
+});
+
+it(`Render <GenresList - Active-genre is Fantasy/>`, () => {
+  const store = mockStore({
+    [NameSpace.DATA]: {
+      films: mocks,
+    },
+    [NameSpace.LOGIC]: {
+      genre: Genres.FANTASY,
+    },
+  });
+  const tree = renderer.create(
+      <Provider store={store}>
+        <GenresList
+
+          onGenreClick={() => {}}
+          activeGenre={Genres.FANTASY}
           genres={GENRES}
         />
       </Provider>

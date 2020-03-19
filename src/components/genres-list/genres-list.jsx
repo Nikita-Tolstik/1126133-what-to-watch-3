@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {getGenre} from '../../reducer/app/selector.js';
+import {getGenre} from '../../reducer/logic/selector.js';
 
 const TAG_REF = `A`;
 

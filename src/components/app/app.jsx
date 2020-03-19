@@ -5,9 +5,6 @@ import Main from '../main/main.jsx';
 import MoviePage from '../movie-page/movie-page.jsx';
 import {NO_MOVIE} from '../../const.js';
 
-// для разработки
-import {films} from '../../mocks/films.js';
-
 
 class App extends PureComponent {
 
@@ -52,8 +49,8 @@ class App extends PureComponent {
           <Route exact path="/movie">
             <MoviePage
 
-              film={films[0]}
-              films={films}
+              // film={films[0]}
+              // films={films}
             />
           </Route>
 
@@ -71,17 +68,25 @@ App.propTypes = {
 
   selectFilm: PropTypes.oneOfType([
     PropTypes.shape({
-      img: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
-      genre: PropTypes.string.isRequired,
-      year: PropTypes.number.isRequired,
-      description: PropTypes.array.isRequired,
+      posterImage: PropTypes.string.isRequired,
+      previewImage: PropTypes.string.isRequired,
+      backgroundImage: PropTypes.string.isRequired,
+      backgroundColor: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
       rating: PropTypes.number.isRequired,
-      quantityRatings: PropTypes.number.isRequired,
+      scoresCount: PropTypes.number.isRequired,
       director: PropTypes.string.isRequired,
       starring: PropTypes.string.isRequired,
+      runTime: PropTypes.number.isRequired,
+      genre: PropTypes.string.isRequired,
+      released: PropTypes.number.isRequired,
+      isFavorite: PropTypes.bool.isRequired,
+      videoLink: PropTypes.string.isRequired,
       videoPreview: PropTypes.string.isRequired,
-    }).isRequired, PropTypes.number.isRequired,
+    }).isRequired,
+    PropTypes.number.isRequired,
   ]).isRequired,
 };
 

@@ -1,4 +1,5 @@
 import {extend} from '../../utils/utils.js';
+import {parseFilm} from '../../adapter.js';
 
 const initialState = {
   films: [],
@@ -10,15 +11,18 @@ const ActionType = {
 
 const ActionCreator = {
   loadFilms: (films) => {
+
+    const parsedFilms = films.map((film) => parseFilm(film));
+
     return {
       type: ActionType.LOAD_FILMS,
-      payload: films,
+      payload: parsedFilms,
     };
   }
 };
 
 const Operation = {
-  loadFilms: () => (dispatch, getState, api) => {
+  loadFilms: () => (dispatch, _getState, api) => {
     return api.get(`/films`)
     .then((response) => {
       dispatch(ActionCreator.loadFilms(response.data));

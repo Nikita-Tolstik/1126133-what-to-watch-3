@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import FilmsList from '../films-list/films-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
-import {ActionCreator} from '../../reducer/app/app.js';
+import {ActionCreator} from '../../reducer/logic/logic.js';
 import {getGenres} from '../../utils/utils.js';
-import {getFilms, getFilteredFilms} from '../../reducer/data/selector.js';
+import {getFilms} from '../../reducer/data/selector.js';
 
 const Main = ({title, genre, year, initialFilms, onCardFilmClick, onGenreClick}) => {
 
@@ -120,15 +120,22 @@ Main.propTypes = {
   onGenreClick: PropTypes.func.isRequired,
 
   initialFilms: PropTypes.arrayOf(PropTypes.shape({
-    img: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    description: PropTypes.array.isRequired,
+    posterImage: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
-    quantityRatings: PropTypes.number.isRequired,
+    scoresCount: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
     starring: PropTypes.string.isRequired,
+    runTime: PropTypes.number.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    videoLink: PropTypes.string.isRequired,
     videoPreview: PropTypes.string.isRequired,
   })).isRequired,
 };
