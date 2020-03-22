@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import FilmsList from '../films-list/films-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
+import UserBlock from '../user-block/user-block.jsx';
 import {ActionCreator} from '../../reducer/logic/logic.js';
 import {getGenres} from '../../utils/utils.js';
 import {getFilms} from '../../reducer/data/selector.js';
+
 
 const Main = ({title, genre, year, initialFilms, onCardFilmClick, onGenreClick}) => {
 
@@ -30,11 +32,8 @@ const Main = ({title, genre, year, initialFilms, onCardFilmClick, onGenreClick})
             </a>
           </div>
 
-          <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
-          </div>
+          <UserBlock
+          />
         </header>
 
         <div className="movie-card__wrap">

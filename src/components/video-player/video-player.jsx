@@ -12,7 +12,9 @@ class VideoPlayer extends PureComponent {
   }
 
   componentDidUpdate() {
+    const {videoPreview} = this.props;
     const video = this._videoRef.current;
+    video.src = videoPreview;
 
     if (this.props.isPlaying) {
 
@@ -31,11 +33,11 @@ class VideoPlayer extends PureComponent {
   }
 
   render() {
-    const {posterImage, videoPreview} = this.props;
+    const {posterImage} = this.props;
 
     return (
       <React.Fragment>
-        <video ref={this._videoRef} src={videoPreview} poster={posterImage} width="280" height="175" muted/>
+        <video ref={this._videoRef} poster={posterImage} width="280" height="175" muted/>
       </React.Fragment>
     );
   }
