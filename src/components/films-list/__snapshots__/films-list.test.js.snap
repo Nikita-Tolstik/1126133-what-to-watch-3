@@ -17,7 +17,6 @@ exports[`Render <FilmsList /> 1`] = `
         height="175"
         muted={true}
         poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-        src="https://upload.wikimedia.org/"
         width="280"
       />
     </div>
@@ -46,7 +45,6 @@ exports[`Render <FilmsList /> 1`] = `
         height="175"
         muted={true}
         poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-        src="https://upload.wikimedia.org/"
         width="280"
       />
     </div>
@@ -75,7 +73,6 @@ exports[`Render <FilmsList /> 1`] = `
         height="175"
         muted={true}
         poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-        src="https://upload.wikimedia.org/"
         width="280"
       />
     </div>
@@ -104,7 +101,6 @@ exports[`Render <FilmsList /> 1`] = `
         height="175"
         muted={true}
         poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-        src="https://upload.wikimedia.org/"
         width="280"
       />
     </div>

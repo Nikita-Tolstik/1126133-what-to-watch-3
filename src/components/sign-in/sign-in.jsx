@@ -2,8 +2,8 @@ import React, {PureComponent, createRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {getStatus} from '../../reducer/user/selectors.js';
+import {ActionCreator, Status} from '../../reducer/user/user.js';
 
-const BAD_REQUEST = 400;
 
 class SingIn extends PureComponent {
   constructor(props) {
@@ -27,12 +27,12 @@ class SingIn extends PureComponent {
   }
 
   render() {
-    const {responseStatus} = this.props;
+    const {responseStatus, onStatusReset} = this.props;
     let errorClass;
     let markUpError;
 
-    if (responseStatus === BAD_REQUEST) {
-      errorClass = responseStatus === BAD_REQUEST ? `sign-in__field--error` : ``;
+    if (responseStatus === Status.BAD_REQUEST) {
+      errorClass = `sign-in__field--error`;
 
       markUpError = (
         <div className="sign-in__message">
@@ -65,13 +65,15 @@ class SingIn extends PureComponent {
             {markUpError}
             <div className="sign-in__fields">
               <div className={`sign-in__field ${errorClass}`}>
-                <input className="sign-in__input" type="email" placeholder="Email address" required name="user-email" id="user-email"
+                <input
+                  onChange={() => onStatusReset(Status.RESET)}
+                  className="sign-in__input" type="email" placeholder="Email address" required name="user-email" id="user-email"
                   ref={this.emailRef}
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
               <div className="sign-in__field">
-                <input className="sign-in__input" type="password" placeholder="Password" required name="user-password" id="user-password"
+                <input className="sign-in__input" type="password" autoComplete="off" placeholder="Password" required name="user-password" id="user-password"
                   ref={this.passwordRef}
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
@@ -104,12 +106,19 @@ class SingIn extends PureComponent {
 SingIn.propTypes = {
   responseStatus: PropTypes.number.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onStatusReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   responseStatus: getStatus(state),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onStatusReset(status) {
+    dispatch(ActionCreator.putStatus(status));
+  }
+});
+
 
 export {SingIn};
-export default connect(mapStateToProps)(SingIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SingIn);

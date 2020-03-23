@@ -1,14 +1,11 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-const TIMER = 1000;
-
 class VideoPlayer extends PureComponent {
   constructor(props) {
     super(props);
 
     this._videoRef = React.createRef();
-    this._timerId = ``;
   }
 
   componentDidUpdate() {
@@ -17,18 +14,7 @@ class VideoPlayer extends PureComponent {
     video.src = videoPreview;
 
     if (this.props.isPlaying) {
-
-      this._timerId = setTimeout(() => {
-        video.play();
-      }, TIMER);
-
-    } else {
-
-      if (video.currentTime > 0) {
-        video.load();
-      }
-
-      clearTimeout(this._timerId);
+      video.play();
     }
   }
 

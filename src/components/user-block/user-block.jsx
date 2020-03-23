@@ -44,7 +44,8 @@ UserBlock.propTypes = {
   userInfo: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.oneOf([
     AuthorizationStatus.AUTH,
-    AuthorizationStatus.NO_AUTH
+    AuthorizationStatus.NO_AUTH,
+    AuthorizationStatus.PENDING,
   ]).isRequired,
 };
 

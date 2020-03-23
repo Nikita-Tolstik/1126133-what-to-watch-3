@@ -103,6 +103,16 @@ it(`Render Main`, () => {
     [NameSpace.LOGIC]: {
       genre: ALL_GENRES,
     },
+
+    [NameSpace.USER]: {
+      authorizationStatus: `NO_AUTH`,
+      userInfo: `no`,
+      responseStatus: 0,
+    },
+
+    [NameSpace.SCREEN_TYPE]: {
+      screenType: `WELCOME`,
+    }
   });
 
   const tree = renderer

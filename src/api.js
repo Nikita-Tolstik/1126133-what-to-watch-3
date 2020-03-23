@@ -5,7 +5,7 @@ const Error = {
   UNAUTHORIZED: 401,
 };
 
-export const createAPI = (onUnauthorized, onErrorStatus) => {
+export const createAPI = (onUnauthorized, onErrorStatus, onErrorScreenShow) => {
   const api = axios.create({
     baseURL: `https://htmlacademy-react-3.appspot.com/wtw`,
     timeout: 1000 * 5,
@@ -26,6 +26,9 @@ export const createAPI = (onUnauthorized, onErrorStatus) => {
         break;
       case Error.BAD_REQUEST:
         onErrorStatus(response.status);
+        break;
+      default:
+        onErrorScreenShow(`${response.status}. ${response.data.error}`);
         break;
     }
 

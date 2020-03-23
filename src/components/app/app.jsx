@@ -9,19 +9,16 @@ import {getScreenType} from '../../reducer/screen-type/selector.js';
 import {ScreenType, ActionCreator} from '../../reducer/screen-type/screen-type.js';
 import {Operation as UserOperation} from '../../reducer/user/user.js';
 
+import ErrorScreen from '../error-screen/error-screen.jsx';
 
 class App extends PureComponent {
 
   _renderAppScreen() {
-    const {title, genre, year, onCardFilmClick, onSwitchScreenMovie, onLogin, selectFilm, screenType} = this.props;
+    const {onCardFilmClick, onSwitchScreenMovie, onLogin, selectFilm, screenType} = this.props;
 
     if (screenType === ScreenType.WELCOME) {
       return (
         <Main
-
-          title={title}
-          genre={genre}
-          year={year}
           onCardFilmClick={(film) => {
             onCardFilmClick(film);
             onSwitchScreenMovie();
@@ -43,6 +40,13 @@ class App extends PureComponent {
         <MoviePage
 
           film={selectFilm}
+        />
+      );
+    }
+
+    if (screenType === ScreenType.ERROR) {
+      return (
+        <ErrorScreen
         />
       );
     }
@@ -75,6 +79,11 @@ class App extends PureComponent {
             />
           </Route>
 
+          <Route exact path="/error">
+            <ErrorScreen
+            />
+          </Route>
+
         </Switch>
       </BrowserRouter>
     );
@@ -82,12 +91,8 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  title: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  year: PropTypes.number.isRequired,
-
   screenType: PropTypes.oneOf(
-      [ScreenType.WELCOME, ScreenType.MOVIE, ScreenType.AUTH]
+      [ScreenType.WELCOME, ScreenType.MOVIE, ScreenType.AUTH, ScreenType.ERROR]
   ).isRequired,
 
   onLogin: PropTypes.func.isRequired,

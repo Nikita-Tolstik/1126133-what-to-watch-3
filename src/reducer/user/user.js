@@ -4,15 +4,21 @@ import {ActionCreator as ActionCreatorScreen, ScreenType} from '../screen-type/s
 const NO_USER_INFO = `no`;
 const AVATAR_URL = `avatar_url`;
 
+const Status = {
+  BAD_REQUEST: 400,
+  RESET: 0,
+};
+
 const AuthorizationStatus = {
   NO_AUTH: `NO_AUTH`,
   AUTH: `AUTH`,
+  PENDING: `PENDING`,
 };
 
 const initialState = {
-  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  authorizationStatus: AuthorizationStatus.PENDING,
   userInfo: NO_USER_INFO,
-  responseStatus: 0,
+  responseStatus: Status.RESET,
 };
 
 const ActionType = {
@@ -89,4 +95,4 @@ const reducer = (state = initialState, action) => {
 };
 
 
-export {ActionCreator, ActionType, AuthorizationStatus, Operation, reducer};
+export {ActionCreator, ActionType, AuthorizationStatus, Operation, Status, reducer};

@@ -47,16 +47,13 @@ Array [
       <div
         className="user-block"
       >
-        <div
-          className="user-block__avatar"
+        <a
+          className="user-block__link"
+          href=""
+          onClick={[Function]}
         >
-          <img
-            alt="User avatar"
-            height="63"
-            src="img/avatar.jpg"
-            width="63"
-          />
-        </div>
+          Sign in
+        </a>
       </div>
     </header>
     <div
@@ -191,7 +188,6 @@ Array [
               height="175"
               muted={true}
               poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-              src="https://upload.wikimedia.org/"
               width="280"
             />
           </div>
@@ -220,7 +216,6 @@ Array [
               height="175"
               muted={true}
               poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-              src="https://upload.wikimedia.org/"
               width="280"
             />
           </div>
@@ -249,7 +244,6 @@ Array [
               height="175"
               muted={true}
               poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-              src="https://upload.wikimedia.org/"
               width="280"
             />
           </div>
@@ -278,7 +272,6 @@ Array [
               height="175"
               muted={true}
               poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-              src="https://upload.wikimedia.org/"
               width="280"
             />
           </div>
