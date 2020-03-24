@@ -1,6 +1,4 @@
 import React, {PureComponent} from 'react';
-import {NO_MOVIE} from '../../const.js';
-
 
 const withSelectFilm = (Component) => {
   class WithSelectFilm extends PureComponent {
@@ -8,7 +6,7 @@ const withSelectFilm = (Component) => {
       super(props);
 
       this.state = {
-        film: NO_MOVIE,
+        film: {},
       };
 
       this._handleCardFilmClick = this._handleCardFilmClick.bind(this);

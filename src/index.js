@@ -9,7 +9,6 @@ import reducer from './reducer/reducer.js';
 import withSelectFilm from './hocs/with-select-film/with-select-film.js';
 import {Operation as DataOperation} from './reducer/data/data.js';
 import {Operation as UserOperation, ActionCreator, AuthorizationStatus} from './reducer/user/user.js';
-import {ActionCreator as ActionCreatorScreen, ScreenType} from './reducer/screen-type/screen-type.js';
 import {createAPI} from './api.js';
 
 const AppWrapped = withSelectFilm(App);
@@ -22,12 +21,7 @@ const onErrorStatus = (error) => {
   store.dispatch(ActionCreator.putStatus(error));
 };
 
-const onErrorScreenShow = (errorMessage) => {
-  store.dispatch(ActionCreator.putStatus(errorMessage));
-  store.dispatch(ActionCreatorScreen.changeScreen(ScreenType.ERROR));
-};
-
-const api = createAPI(onUnauthorized, onErrorStatus, onErrorScreenShow);
+const api = createAPI(onUnauthorized, onErrorStatus);
 
 const store = createStore(
     reducer,

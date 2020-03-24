@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {getRating} from '../../utils/utils.js';
 import UserBlock from '../user-block/user-block.jsx';
+import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
+import {AuthorizationStatus} from '../../reducer/user/user.js';
+import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
 
-
-const MoviePage = ({film}) => {
+const MoviePage = ({film, authorizationStatus, onSwitchScreenAddReview}) => {
 
   const ratingLavel = getRating(film.rating);
+  const isNoAuth = authorizationStatus !== AuthorizationStatus.AUTH;
 
   return (
     <React.Fragment>
@@ -51,7 +55,14 @@ const MoviePage = ({film}) => {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn movie-card__button">Add review</a>
+
+                <a
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    onSwitchScreenAddReview();
+                  }}
+                  href="add-review.html"
+                  className={`btn movie-card__button ${isNoAuth && `visually-hidden`}`}>Add review</a>
               </div>
             </div>
           </div>
@@ -165,6 +176,14 @@ const MoviePage = ({film}) => {
 };
 
 MoviePage.propTypes = {
+  onSwitchScreenAddReview: PropTypes.func.isRequired,
+
+  authorizationStatus: PropTypes.oneOf([
+    AuthorizationStatus.AUTH,
+    AuthorizationStatus.NO_AUTH,
+    AuthorizationStatus.PENDING,
+  ]).isRequired,
+
   film: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -186,4 +205,15 @@ MoviePage.propTypes = {
   }).isRequired,
 };
 
-export default MoviePage;
+const mapStateToProps = (state) => ({
+  authorizationStatus: getAuthorizationStatus(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSwitchScreenAddReview() {
+    dispatch(ActionCreator.changeScreen(ScreenType.ADD_REVIEW));
+  }
+});
+
+export {MoviePage};
+export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);

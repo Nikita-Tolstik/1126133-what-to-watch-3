@@ -1,5 +1,4 @@
 import React, {PureComponent} from 'react';
-import {NO_MOVIE} from '../../const.js';
 
 const withHoverFilm = (Component) => {
 
@@ -8,7 +7,7 @@ const withHoverFilm = (Component) => {
       super(props);
 
       this.state = ({
-        film: NO_MOVIE,
+        film: {},
       });
 
       this._handleMouseFilmEnter = this._handleMouseFilmEnter.bind(this);
@@ -23,7 +22,7 @@ const withHoverFilm = (Component) => {
 
     _handleMouseFilmLeave() {
       this.setState({
-        film: NO_MOVIE,
+        film: {},
       });
     }
 

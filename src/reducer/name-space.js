@@ -3,6 +3,7 @@ const NameSpace = {
   LOGIC: `LOGIC`,
   USER: `USER`,
   SCREEN_TYPE: `SCREEN_TYPE`,
+  COMMENT: `COMMENT`,
 };
 
 export default NameSpace;

@@ -2,14 +2,6 @@ import {MarkFilm} from '../const.js';
 
 const ALL_GENRES = `All genres`;
 
-export const getRandomNumber = (min, max) => {
-  return min + Math.floor(Math.random() * (max + 1 - min));
-};
-
-export const getRatingNumber = (min, max) => {
-  return getRandomNumber(min, max) + Number(Math.random().toFixed(1));
-};
-
 export const getRating = (number) => {
   let level;
   switch (true) {

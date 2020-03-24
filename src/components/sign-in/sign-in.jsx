@@ -2,7 +2,20 @@ import React, {PureComponent, createRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {getStatus} from '../../reducer/user/selectors.js';
-import {ActionCreator, Status} from '../../reducer/user/user.js';
+import {Operation as UserOperation, ActionCreator, Status, AuthorizationStatus} from '../../reducer/user/user.js';
+import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
+
+
+const StyleSettings = {
+  ANIMATION: `shake 0.6s`,
+  BORDER: `2px solid red`,
+  TIMER: 600,
+};
+
+const ButtonName = {
+  SING_IN: `Sign in`,
+  PROCESSING: `Sign in...`,
+};
 
 
 class SingIn extends PureComponent {
@@ -11,11 +24,13 @@ class SingIn extends PureComponent {
 
     this.emailRef = createRef();
     this.passwordRef = createRef();
+    this.signInBlockRef = createRef();
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
+    this._handleError = this._handleError.bind(this);
   }
 
-  handleSubmit(evt) {
+  _handleSubmit(evt) {
     const {onSubmit} = this.props;
 
     evt.preventDefault();
@@ -23,17 +38,28 @@ class SingIn extends PureComponent {
     onSubmit({
       email: this.emailRef.current.value,
       password: this.passwordRef.current.value,
-    });
+    }, this._handleError);
+  }
+
+  _handleError() {
+    this.signInBlockRef.current.style.animation = StyleSettings.ANIMATION;
+    this.emailRef.current.style.border = StyleSettings.BORDER;
+    this.passwordRef.current.style.border = StyleSettings.BORDER;
+
+    setTimeout(() => {
+      this.signInBlockRef.current.style.animation = ``;
+      this.emailRef.current.style.border = ``;
+      this.passwordRef.current.style.border = ``;
+    }, StyleSettings.TIMER);
   }
 
   render() {
-    const {responseStatus, onStatusReset} = this.props;
-    let errorClass;
+    const {responseStatus, onStatusReset, authorizationStatus} = this.props;
+    const buttonName = authorizationStatus === AuthorizationStatus.PENDING ? ButtonName.PROCESSING : ButtonName.SING_IN;
+    const isDisabled = authorizationStatus === AuthorizationStatus.PENDING;
     let markUpError;
 
     if (responseStatus === Status.BAD_REQUEST) {
-      errorClass = `sign-in__field--error`;
-
       markUpError = (
         <div className="sign-in__message">
           <p>Please enter a valid email address</p>
@@ -59,28 +85,28 @@ class SingIn extends PureComponent {
           <form
             action=""
             className="sign-in__form"
-            onSubmit={this.handleSubmit}
+            onSubmit={this._handleSubmit}
           >
 
             {markUpError}
-            <div className="sign-in__fields">
-              <div className={`sign-in__field ${errorClass}`}>
+            <div ref={this.signInBlockRef} className="sign-in__fields">
+              <div className="sign-in__field">
                 <input
                   onChange={() => onStatusReset(Status.RESET)}
                   className="sign-in__input" type="email" placeholder="Email address" required name="user-email" id="user-email"
-                  ref={this.emailRef}
+                  ref={this.emailRef} disabled={isDisabled}
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
               <div className="sign-in__field">
                 <input className="sign-in__input" type="password" autoComplete="off" placeholder="Password" required name="user-password" id="user-password"
-                  ref={this.passwordRef}
+                  ref={this.passwordRef} disabled={isDisabled}
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               </div>
             </div>
             <div className="sign-in__submit">
-              <button className="sign-in__btn" type="submit">Sign in</button>
+              <button className="sign-in__btn" type="submit" disabled={isDisabled}>{buttonName}</button>
             </div>
           </form>
         </div>
@@ -104,6 +130,7 @@ class SingIn extends PureComponent {
 }
 
 SingIn.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired,
   responseStatus: PropTypes.number.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onStatusReset: PropTypes.func.isRequired,
@@ -111,9 +138,14 @@ SingIn.propTypes = {
 
 const mapStateToProps = (state) => ({
   responseStatus: getStatus(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  onSubmit(authData, onError) {
+    dispatch(UserOperation.login(authData, onError));
+    dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.PENDING));
+  },
   onStatusReset(status) {
     dispatch(ActionCreator.putStatus(status));
   }
