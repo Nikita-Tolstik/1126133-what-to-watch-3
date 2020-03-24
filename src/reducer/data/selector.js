@@ -20,3 +20,7 @@ export const getFilteredFilms = createSelector(
     }
 );
 
+export const getPromoFilm = (state) => {
+  return state[NameSpace.DATA].promoFilm;
+};
+

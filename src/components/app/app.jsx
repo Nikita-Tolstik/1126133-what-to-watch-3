@@ -1,33 +1,52 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from '../main/main.jsx';
 import MoviePage from '../movie-page/movie-page.jsx';
-import {NO_MOVIE} from '../../const.js';
+import SignIn from '../sign-in/sign-in.jsx';
+import {getScreenType} from '../../reducer/screen-type/selector.js';
+import {ScreenType, ActionCreator} from '../../reducer/screen-type/screen-type.js';
+import {Operation as UserOperation} from '../../reducer/user/user.js';
 
+import ErrorScreen from '../error-screen/error-screen.jsx';
 
 class App extends PureComponent {
 
   _renderAppScreen() {
-    const {title, genre, year, onCardFilmClick, selectFilm} = this.props;
+    const {onCardFilmClick, onSwitchScreenMovie, onLogin, selectFilm, screenType} = this.props;
 
-    if (selectFilm === NO_MOVIE) {
+    if (screenType === ScreenType.WELCOME) {
       return (
         <Main
-
-          title={title}
-          genre={genre}
-          year={year}
-          onCardFilmClick={onCardFilmClick}
+          onCardFilmClick={(film) => {
+            onCardFilmClick(film);
+            onSwitchScreenMovie();
+          }}
         />
       );
     }
 
-    if (selectFilm !== NO_MOVIE) {
+    if (screenType === ScreenType.AUTH) {
+      return (
+        <SignIn
+          onSubmit={onLogin}
+        />
+      );
+    }
+
+    if (screenType === ScreenType.MOVIE) {
       return (
         <MoviePage
 
           film={selectFilm}
+        />
+      );
+    }
+
+    if (screenType === ScreenType.ERROR) {
+      return (
+        <ErrorScreen
         />
       );
     }
@@ -46,11 +65,22 @@ class App extends PureComponent {
             {this._renderAppScreen()}
           </Route>
 
-          <Route exact path="/movie">
+          {/* <Route exact path="/movie">
             <MoviePage
 
               // film={films[0]}
               // films={films}
+            />
+          </Route> */}
+
+          <Route exact path="/auth">
+            <SignIn
+              onSubmit={() => {}}
+            />
+          </Route>
+
+          <Route exact path="/error">
+            <ErrorScreen
             />
           </Route>
 
@@ -61,10 +91,13 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  title: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  year: PropTypes.number.isRequired,
+  screenType: PropTypes.oneOf(
+      [ScreenType.WELCOME, ScreenType.MOVIE, ScreenType.AUTH, ScreenType.ERROR]
+  ).isRequired,
+
+  onLogin: PropTypes.func.isRequired,
   onCardFilmClick: PropTypes.func.isRequired,
+  onSwitchScreenMovie: PropTypes.func.isRequired,
 
   selectFilm: PropTypes.oneOfType([
     PropTypes.shape({
@@ -90,4 +123,18 @@ App.propTypes = {
   ]).isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  screenType: getScreenType(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLogin(authData) {
+    dispatch(UserOperation.login(authData));
+  },
+  onSwitchScreenMovie() {
+    dispatch(ActionCreator.changeScreen(ScreenType.MOVIE));
+  }
+});
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);
