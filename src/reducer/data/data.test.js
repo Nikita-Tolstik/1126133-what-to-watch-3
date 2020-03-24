@@ -110,17 +110,20 @@ const parsedMock = parseFilm(mockServer[0]);
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
     films: [],
+    promoFilm: {},
   });
 });
 
 it(`Reducer should update questions by load films`, () => {
   expect(reducer({
     films: [],
+    promoFilm: {},
   }, {
     type: ActionType.LOAD_FILMS,
     payload: films,
   })).toEqual({
     films,
+    promoFilm: {},
   });
 });
 
