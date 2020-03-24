@@ -1,5 +1,3 @@
-export const NO_MOVIE = 0;
-
 export const MarkFilm = {
   BAD: `Bad`,
   NORMAL: `Normal`,

@@ -5,16 +5,35 @@ import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from '../main/main.jsx';
 import MoviePage from '../movie-page/movie-page.jsx';
 import SignIn from '../sign-in/sign-in.jsx';
+import AddReview from '../add-review/add-review.jsx';
 import {getScreenType} from '../../reducer/screen-type/selector.js';
 import {ScreenType, ActionCreator} from '../../reducer/screen-type/screen-type.js';
-import {Operation as UserOperation} from '../../reducer/user/user.js';
 
-import ErrorScreen from '../error-screen/error-screen.jsx';
+
+const promoMock = {
+  id: 1,
+  title: `Fantastic Beasts: The Crimes of Grindelwald2`,
+  posterImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/Aviator.jpg`,
+  previewImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/aviator.jpg`,
+  backgroundImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/Aviator.jpg`,
+  backgroundColor: `rgb(136, 98, 62)`,
+  description: `Fantastic Beasts: The Crimes of Grindelwald`,
+  rating: 5,
+  scoresCount: 7,
+  director: `Wes Andreson`,
+  starring: `Bill Murray, Edward Norton, Jude Law`,
+  runTime: 55,
+  genre: `Action`,
+  released: 44,
+  isFavorite: true,
+  videoLink: `https://upload.wikimedia.org/`,
+  videoPreview: `https://upload.wikimedia.org/`,
+};
 
 class App extends PureComponent {
 
   _renderAppScreen() {
-    const {onCardFilmClick, onSwitchScreenMovie, onLogin, selectFilm, screenType} = this.props;
+    const {onCardFilmClick, onSwitchScreenMovie, selectFilm, screenType} = this.props;
 
     if (screenType === ScreenType.WELCOME) {
       return (
@@ -30,7 +49,6 @@ class App extends PureComponent {
     if (screenType === ScreenType.AUTH) {
       return (
         <SignIn
-          onSubmit={onLogin}
         />
       );
     }
@@ -38,15 +56,15 @@ class App extends PureComponent {
     if (screenType === ScreenType.MOVIE) {
       return (
         <MoviePage
-
           film={selectFilm}
         />
       );
     }
 
-    if (screenType === ScreenType.ERROR) {
+    if (screenType === ScreenType.ADD_REVIEW) {
       return (
-        <ErrorScreen
+        <AddReview
+          film={selectFilm}
         />
       );
     }
@@ -65,13 +83,12 @@ class App extends PureComponent {
             {this._renderAppScreen()}
           </Route>
 
-          {/* <Route exact path="/movie">
+          <Route exact path="/movie">
             <MoviePage
 
-              // film={films[0]}
-              // films={films}
+              film={promoMock}
             />
-          </Route> */}
+          </Route>
 
           <Route exact path="/auth">
             <SignIn
@@ -79,8 +96,9 @@ class App extends PureComponent {
             />
           </Route>
 
-          <Route exact path="/error">
-            <ErrorScreen
+          <Route exact path="/review">
+            <AddReview
+              film={promoMock}
             />
           </Route>
 
@@ -92,10 +110,9 @@ class App extends PureComponent {
 
 App.propTypes = {
   screenType: PropTypes.oneOf(
-      [ScreenType.WELCOME, ScreenType.MOVIE, ScreenType.AUTH, ScreenType.ERROR]
+      [ScreenType.WELCOME, ScreenType.MOVIE, ScreenType.AUTH, ScreenType.ADD_REVIEW]
   ).isRequired,
 
-  onLogin: PropTypes.func.isRequired,
   onCardFilmClick: PropTypes.func.isRequired,
   onSwitchScreenMovie: PropTypes.func.isRequired,
 
@@ -118,8 +135,8 @@ App.propTypes = {
       isFavorite: PropTypes.bool.isRequired,
       videoLink: PropTypes.string.isRequired,
       videoPreview: PropTypes.string.isRequired,
-    }).isRequired,
-    PropTypes.number.isRequired,
+    }),
+    PropTypes.number.isRequired
   ]).isRequired,
 };
 
@@ -128,9 +145,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLogin(authData) {
-    dispatch(UserOperation.login(authData));
-  },
   onSwitchScreenMovie() {
     dispatch(ActionCreator.changeScreen(ScreenType.MOVIE));
   }

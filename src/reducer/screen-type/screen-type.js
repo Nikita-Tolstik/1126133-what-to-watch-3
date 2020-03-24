@@ -4,7 +4,7 @@ const ScreenType = {
   WELCOME: `WELCOME`,
   MOVIE: `MOVIE`,
   AUTH: `AUTH`,
-  ERROR: `ERROR`,
+  ADD_REVIEW: `ADD_REVIEW`,
 };
 
 const initialState = {

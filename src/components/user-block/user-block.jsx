@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {AuthorizationStatus} from '../../reducer/user/user.js';
-import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
+import {getAuthorizationStatus, getUserInfo} from '../../reducer/user/selectors.js';
 import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
-import {getUserInfo} from '../../reducer/user/selectors.js';
 
 const BASE_URL = `https://htmlacademy-react-3.appspot.com`;
 

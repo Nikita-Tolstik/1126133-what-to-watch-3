@@ -11,10 +11,12 @@ const withActivePlayer = (Component) => {
         activePlayerId: -1,
       });
 
-      this._timerId = ``;
-
       this._handleMouseFilmEnter = this._handleMouseFilmEnter.bind(this);
       this._handleMouseFilmLeave = this._handleMouseFilmLeave.bind(this);
+    }
+
+    componentWillUnmount() {
+      clearTimeout(this._timerId);
     }
 
     _handleMouseFilmEnter(id) {

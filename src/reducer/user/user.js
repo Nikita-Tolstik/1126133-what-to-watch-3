@@ -62,7 +62,7 @@ const Operation = {
     });
   },
 
-  login: (authData) => (dispatch, _getState, api) => {
+  login: (authData, onError) => (dispatch, _getState, api) => {
     return api.post(`/login`, {
       email: authData.email,
       password: authData.password,
@@ -71,6 +71,10 @@ const Operation = {
       dispatch(ActionCreatorScreen.changeScreen(ScreenType.WELCOME));
       dispatch(ActionCreator.saveUserInfo(response.data[AVATAR_URL]));
       dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
+    })
+    .catch(() => {
+      dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
+      onError();
     });
   }
 };
