@@ -1,5 +1,7 @@
 import React, {PureComponent} from 'react';
 
+const NO_MOVIES = -1;
+
 const withHoverFilm = (Component) => {
 
   class WithHoverFilm extends PureComponent {
@@ -7,7 +9,7 @@ const withHoverFilm = (Component) => {
       super(props);
 
       this.state = ({
-        film: {},
+        film: NO_MOVIES,
       });
 
       this._handleMouseFilmEnter = this._handleMouseFilmEnter.bind(this);
@@ -22,7 +24,7 @@ const withHoverFilm = (Component) => {
 
     _handleMouseFilmLeave() {
       this.setState({
-        film: {},
+        film: NO_MOVIES,
       });
     }
 

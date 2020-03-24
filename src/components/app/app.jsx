@@ -136,7 +136,7 @@ App.propTypes = {
       videoLink: PropTypes.string.isRequired,
       videoPreview: PropTypes.string.isRequired,
     }),
-    PropTypes.shape({}).isRequired
+    PropTypes.number.isRequired
   ]).isRequired,
 };
 
