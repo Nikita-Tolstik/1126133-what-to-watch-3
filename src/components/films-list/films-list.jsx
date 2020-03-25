@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
-import withHoverFilm from '../../hocs/with-hover-film/with-hover-film.js';
 import {getFilteredFilms} from '../../reducer/data/selector.js';
 
-const SmallMovieCardWrapped = withActivePlayer(withHoverFilm(SmallMovieCard));
+
+const SmallMovieCardWrapped = withActivePlayer(SmallMovieCard);
 
 class FilmsList extends PureComponent {
 
@@ -48,7 +48,7 @@ FilmsList.propTypes = {
     rating: PropTypes.number.isRequired,
     scoresCount: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
-    starring: PropTypes.string.isRequired,
+    stars: PropTypes.array.isRequired,
     runTime: PropTypes.number.isRequired,
     genre: PropTypes.string.isRequired,
     released: PropTypes.number.isRequired,

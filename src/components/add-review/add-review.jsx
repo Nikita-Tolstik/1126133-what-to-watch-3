@@ -175,7 +175,7 @@ AddReview.propTypes = {
       rating: PropTypes.number.isRequired,
       scoresCount: PropTypes.number.isRequired,
       director: PropTypes.string.isRequired,
-      starring: PropTypes.string.isRequired,
+      stars: PropTypes.array.isRequired,
       runTime: PropTypes.number.isRequired,
       genre: PropTypes.string.isRequired,
       released: PropTypes.number.isRequired,

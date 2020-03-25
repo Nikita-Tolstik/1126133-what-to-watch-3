@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 
 const TIMER = 1000;
+const NO_ACTIVE = -1;
 
 const withActivePlayer = (Component) => {
   class WithActivePlayer extends PureComponent {
@@ -8,7 +9,7 @@ const withActivePlayer = (Component) => {
       super(props);
 
       this.state = ({
-        activePlayerId: -1,
+        activePlayerId: NO_ACTIVE,
       });
 
       this._handleMouseFilmEnter = this._handleMouseFilmEnter.bind(this);
@@ -22,7 +23,7 @@ const withActivePlayer = (Component) => {
     _handleMouseFilmEnter(id) {
       this._timerId = setTimeout(() => {
         this.setState({
-          activePlayerId: this.state.activePlayerId === id ? -1 : id,
+          activePlayerId: this.state.activePlayerId === id ? NO_ACTIVE : id,
         });
       }, TIMER);
     }

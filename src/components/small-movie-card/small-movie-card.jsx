@@ -10,8 +10,6 @@ class SmallMovieCard extends PureComponent {
       id,
       activePlayerId,
       onCardFilmClick,
-      onMouseFilmEnter,
-      onMouseFilmLeave,
       onMouseIdEnter,
       onMouseIdLeave
     } = this.props;
@@ -20,11 +18,9 @@ class SmallMovieCard extends PureComponent {
 
       <article
         onMouseEnter={() => {
-          onMouseFilmEnter(film);
           onMouseIdEnter(id);
         }}
         onMouseLeave={() => {
-          onMouseFilmLeave();
           onMouseIdLeave();
         }}
         className="small-movie-card catalog__movies-card">
@@ -65,8 +61,7 @@ SmallMovieCard.propTypes = {
   onMouseIdEnter: PropTypes.func.isRequired,
   onMouseIdLeave: PropTypes.func.isRequired,
   onCardFilmClick: PropTypes.func.isRequired,
-  onMouseFilmEnter: PropTypes.func.isRequired,
-  onMouseFilmLeave: PropTypes.func.isRequired,
+
   film: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -78,7 +73,7 @@ SmallMovieCard.propTypes = {
     rating: PropTypes.number.isRequired,
     scoresCount: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
-    starring: PropTypes.string.isRequired,
+    stars: PropTypes.array.isRequired,
     runTime: PropTypes.number.isRequired,
     genre: PropTypes.string.isRequired,
     released: PropTypes.number.isRequired,

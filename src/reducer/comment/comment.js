@@ -1,5 +1,6 @@
 import {extend} from '../../utils/utils.js';
 import {ActionCreator as ActionCreatorScreen, ScreenType} from '../screen-type/screen-type.js';
+import {parseComment} from '../../adapter.js';
 
 const ReviewStatus = {
   OK: `OK`,
@@ -14,7 +15,7 @@ const initialState = {
 
 const ActionType = {
   CHANGE_STATUS: `CHANGE_STATUS`,
-  GET_COMMENTS: `GET_COMMENTS`,
+  SET_COMMENTS: `SET_COMMENTS`,
 };
 
 const ActionCreator = {
@@ -25,10 +26,12 @@ const ActionCreator = {
     };
   },
 
-  getComments: (comments) => {
+  setComments: (comments) => {
+    const parsedComment = comments.map((it) => parseComment(it));
+
     return {
-      type: ActionType.GET_COMMENTS,
-      payload: comments,
+      type: ActionType.SET_COMMENTS,
+      payload: parsedComment,
     };
   }
 };
@@ -41,12 +44,19 @@ const Operation = {
     })
     .then((response) => {
       dispatch(ActionCreator.changeStatus(ReviewStatus.OK));
-      dispatch(ActionCreator.getComments(response.data));
+      dispatch(ActionCreator.setComments(response.data));
       dispatch(ActionCreatorScreen.changeScreen(ScreenType.MOVIE));
     })
     .catch(() => {
       dispatch(ActionCreator.changeStatus(ReviewStatus.ERROR));
       onError();
+    });
+  },
+
+  getComments: (id) => (dispatch, _getState, api) => {
+    return api.get(`/comments/${id}`)
+    .then((response) => {
+      dispatch(ActionCreator.setComments(response.data));
     });
   }
 };
@@ -58,7 +68,7 @@ const reducer = (state = initialState, action) => {
         reviewStatus: action.payload,
       });
 
-    case ActionType.GET_COMMENTS:
+    case ActionType.SET_COMMENTS:
       return extend(state, {
         comments: action.payload,
       });

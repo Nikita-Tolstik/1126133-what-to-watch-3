@@ -8,6 +8,7 @@ import SignIn from '../sign-in/sign-in.jsx';
 import AddReview from '../add-review/add-review.jsx';
 import {getScreenType} from '../../reducer/screen-type/selector.js';
 import {ScreenType, ActionCreator} from '../../reducer/screen-type/screen-type.js';
+import {Operation as CommentOperation} from '../../reducer/comment/comment.js';
 
 
 const promoMock = {
@@ -33,7 +34,9 @@ const promoMock = {
 class App extends PureComponent {
 
   _renderAppScreen() {
-    const {onCardFilmClick, onSwitchScreenMovie, selectFilm, screenType} = this.props;
+    const {onElementClick, onCommentGet, onSwitchScreenMovie, activeValue, screenType} = this.props;
+    const selectFilm = activeValue;
+    const onCardFilmClick = onElementClick;
 
     if (screenType === ScreenType.WELCOME) {
       return (
@@ -41,6 +44,7 @@ class App extends PureComponent {
           onCardFilmClick={(film) => {
             onCardFilmClick(film);
             onSwitchScreenMovie();
+            onCommentGet(film.id);
           }}
         />
       );
@@ -56,6 +60,10 @@ class App extends PureComponent {
     if (screenType === ScreenType.MOVIE) {
       return (
         <MoviePage
+          onCardFilmClick={(film) => {
+            onCardFilmClick(film);
+            onCommentGet(film.id);
+          }}
           film={selectFilm}
         />
       );
@@ -113,10 +121,11 @@ App.propTypes = {
       [ScreenType.WELCOME, ScreenType.MOVIE, ScreenType.AUTH, ScreenType.ADD_REVIEW]
   ).isRequired,
 
-  onCardFilmClick: PropTypes.func.isRequired,
+  onCommentGet: PropTypes.func.isRequired,
+  onElementClick: PropTypes.func.isRequired,
   onSwitchScreenMovie: PropTypes.func.isRequired,
 
-  selectFilm: PropTypes.oneOfType([
+  activeValue: PropTypes.oneOfType([
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
@@ -128,7 +137,7 @@ App.propTypes = {
       rating: PropTypes.number.isRequired,
       scoresCount: PropTypes.number.isRequired,
       director: PropTypes.string.isRequired,
-      starring: PropTypes.string.isRequired,
+      stars: PropTypes.array.isRequired,
       runTime: PropTypes.number.isRequired,
       genre: PropTypes.string.isRequired,
       released: PropTypes.number.isRequired,
@@ -147,6 +156,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onSwitchScreenMovie() {
     dispatch(ActionCreator.changeScreen(ScreenType.MOVIE));
+  },
+  onCommentGet(id) {
+    dispatch(CommentOperation.getComments(id));
   }
 });
 
