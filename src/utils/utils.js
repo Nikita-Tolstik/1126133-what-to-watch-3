@@ -81,8 +81,8 @@ export const filterElement = (elements, type) => {
   return filteredElements;
 };
 
-export const getFilteredFilms = (films, genre) => {
-  const filteredFilms = films.filter((it) => it.genre === genre).slice(0, 4);
+export const getSimilarFilms = (films, currentFilm) => {
+  const filteredFilms = films.filter((it) => it.genre === currentFilm.genre && it.id !== currentFilm.id).slice(0, 4);
 
   return filteredFilms;
 };

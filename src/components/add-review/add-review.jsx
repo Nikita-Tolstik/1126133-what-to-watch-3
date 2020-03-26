@@ -101,10 +101,7 @@ class AddReview extends PureComponent {
               </ul>
             </nav>
 
-            <React.Fragment>
-              <UserBlock />
-            </React.Fragment>
-
+            <UserBlock />
           </header>
 
           <div className="movie-card__poster movie-card__poster--small">

@@ -29,13 +29,16 @@ const getMarkupReview = (comments) => {
   return markUpReview;
 };
 
-
 const ReviewsTab = ({comments}) => {
-  const commentsFirstColumn = filterElement(comments, TypeFilter.ODD);
-  const commentsSecondColumn = filterElement(comments, TypeFilter.EVEN);
+  const isComments = comments.length !== 0;
 
-  return (
-    <React.Fragment>
+  let markUp = <p style={{color: `#252525`}}>Sorry. At this moment no comments yet.</p>;
+
+  if (isComments) {
+    const commentsFirstColumn = filterElement(comments, TypeFilter.ODD);
+    const commentsSecondColumn = filterElement(comments, TypeFilter.EVEN);
+
+    markUp = (
       <div className="movie-card__reviews movie-card__row">
         <div className="movie-card__reviews-col">
           {getMarkupReview(commentsFirstColumn)}
@@ -45,8 +48,10 @@ const ReviewsTab = ({comments}) => {
           {getMarkupReview(commentsSecondColumn)}
         </div>
       </div>
-    </React.Fragment>
-  );
+    );
+  }
+
+  return markUp;
 };
 
 ReviewsTab.propTypes = {

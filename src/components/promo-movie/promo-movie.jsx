@@ -24,10 +24,7 @@ const PromoMovie = ({promoFilm}) => {
             </a>
           </div>
 
-          <React.Fragment>
-            <UserBlock
-            />
-          </React.Fragment>
+          <UserBlock />
         </header>
 
         <div className="movie-card__wrap">

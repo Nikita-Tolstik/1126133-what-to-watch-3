@@ -1,39 +1,30 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
 import {getFilteredFilms} from '../../reducer/data/selector.js';
 
-
 const SmallMovieCardWrapped = withActivePlayer(SmallMovieCard);
 
-class FilmsList extends PureComponent {
+const FilmsList = ({films, onCardFilmClick}) => {
+  return (
+    <div className="catalog__movies-list">
+      {films.map((it, i) => {
+        const movieCard = (
+          <SmallMovieCardWrapped
+            id={i}
+            key={it.id}
+            film={it}
+            onCardFilmClick={onCardFilmClick}
+          />
+        );
+        return movieCard;
+      })}
+    </div>
+  );
+};
 
-  render() {
-    const {films, onCardFilmClick} = this.props;
-
-    return (
-      <div className="catalog__movies-list">
-
-        {films.map((it, i) => {
-
-          const movieCard = (
-            <SmallMovieCardWrapped
-
-              id={i}
-              key={it.id}
-              film={it}
-              onCardFilmClick={onCardFilmClick}
-            />
-          );
-
-          return movieCard;
-        })}
-      </div>
-    );
-  }
-}
 
 FilmsList.propTypes = {
   onCardFilmClick: PropTypes.func.isRequired,

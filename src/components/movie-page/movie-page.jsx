@@ -9,15 +9,26 @@ import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
 import {AuthorizationStatus} from '../../reducer/user/user.js';
 import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
 import {getFilms} from '../../reducer/data/selector.js';
-import {getFilteredFilms} from '../../utils/utils.js';
-
-const NavigationListWrapped = withActiveValue(NavigationList, TabType.OVERVIEW);
+import {getSimilarFilms} from '../../utils/utils.js';
 
 
 const MoviePage = ({film, initialFilms, authorizationStatus, onCardFilmClick, onSwitchScreenAddReview}) => {
+  const NavigationListWrapped = withActiveValue(NavigationList, TabType.OVERVIEW);
+
   const isNoAuth = authorizationStatus !== AuthorizationStatus.AUTH;
-  const currentGenre = film.genre;
-  const filteredFilms = getFilteredFilms(initialFilms, currentGenre);
+  const similarFilms = getSimilarFilms(initialFilms, film);
+  const isSimilarFilms = similarFilms.length !== 0;
+
+  let filmListMarkup = <h3 className="catalog__title">There are no similar movies.</h3>;
+
+  if (isSimilarFilms) {
+    filmListMarkup = (
+      <FilmsList
+        films={similarFilms}
+        onCardFilmClick={onCardFilmClick}
+      />
+    );
+  }
 
   return (
     <React.Fragment>
@@ -82,12 +93,10 @@ const MoviePage = ({film, initialFilms, authorizationStatus, onCardFilmClick, on
             </div>
 
             <div className="movie-card__desc">
-              <React.Fragment>
-                <NavigationListWrapped
-                  film={film}
-                />
-              </React.Fragment>
 
+              <NavigationListWrapped
+                film={film}
+              />
             </div>
           </div>
         </div>
@@ -97,16 +106,8 @@ const MoviePage = ({film, initialFilms, authorizationStatus, onCardFilmClick, on
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <React.Fragment>
-            <FilmsList
-              films={filteredFilms}
-              onCardFilmClick={onCardFilmClick}
-            />
-          </React.Fragment>
-
-
+          {filmListMarkup}
         </section>
-
 
         <footer className="page-footer">
           <div className="logo">
@@ -191,4 +192,3 @@ const mapDispatchToProps = (dispatch) => ({
 
 export {MoviePage};
 export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);
-

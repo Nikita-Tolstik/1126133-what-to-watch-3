@@ -10,35 +10,27 @@ import {getFilms} from '../../reducer/data/selector.js';
 
 
 const Main = ({initialFilms, onCardFilmClick, onGenreClick}) => {
-
   const genres = getGenres(initialFilms);
 
   return (
 
     <React.Fragment>
-      <React.Fragment>
-        <PromoMovie
-        />
-      </React.Fragment>
+
+      <PromoMovie />
 
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <React.Fragment>
-            <GenresList
+          <GenresList
+            genres={genres}
+            onGenreClick={onGenreClick}
+          />
 
-              genres={genres}
-              onGenreClick={onGenreClick}
-            />
-          </React.Fragment>
-
-          <React.Fragment>
-            <FilmsList
-              films={initialFilms}
-              onCardFilmClick={onCardFilmClick}
-            />
-          </React.Fragment>
+          <FilmsList
+            films={initialFilms}
+            onCardFilmClick={onCardFilmClick}
+          />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
