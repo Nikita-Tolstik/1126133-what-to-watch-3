@@ -1,8 +1,6 @@
 
 export const parseFilm = (film) => {
 
-  const parsedStarring = film[`starring`].join(`, `);
-
   return {
     id: film[`id`],
     title: film[`name`],
@@ -14,12 +12,22 @@ export const parseFilm = (film) => {
     rating: film[`rating`],
     scoresCount: film[`scores_count`],
     director: film[`director`],
-    starring: parsedStarring,
+    stars: film[`starring`],
     runTime: film[`run_time`],
     genre: film[`genre`],
     released: film[`released`],
     isFavorite: film[`is_favorite`],
     videoLink: film[`video_link`],
     videoPreview: film[`preview_video_link`],
+  };
+};
+
+export const parseComment = (comment) => {
+  return {
+    id: comment[`id`],
+    userName: comment[`user`][`name`],
+    rating: comment[`rating`],
+    comment: comment[`comment`],
+    date: comment[`date`],
   };
 };

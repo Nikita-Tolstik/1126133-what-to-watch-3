@@ -101,10 +101,7 @@ class AddReview extends PureComponent {
               </ul>
             </nav>
 
-            <React.Fragment>
-              <UserBlock />
-            </React.Fragment>
-
+            <UserBlock />
           </header>
 
           <div className="movie-card__poster movie-card__poster--small">
@@ -175,7 +172,7 @@ AddReview.propTypes = {
       rating: PropTypes.number.isRequired,
       scoresCount: PropTypes.number.isRequired,
       director: PropTypes.string.isRequired,
-      starring: PropTypes.string.isRequired,
+      stars: PropTypes.array.isRequired,
       runTime: PropTypes.number.isRequired,
       genre: PropTypes.string.isRequired,
       released: PropTypes.number.isRequired,

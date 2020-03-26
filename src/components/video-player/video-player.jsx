@@ -21,11 +21,7 @@ class VideoPlayer extends PureComponent {
   render() {
     const {posterImage} = this.props;
 
-    return (
-      <React.Fragment>
-        <video ref={this._videoRef} poster={posterImage} width="280" height="175" muted/>
-      </React.Fragment>
-    );
+    return <video ref={this._videoRef} poster={posterImage} width="280" height="175" muted/>;
   }
 }
 

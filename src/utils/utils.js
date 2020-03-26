@@ -1,6 +1,18 @@
+import moment from 'moment';
 import {MarkFilm} from '../const.js';
 
 const ALL_GENRES = `All genres`;
+
+const TimeSettings = {
+  HOUR: `h`,
+  MINUTE: `m`,
+  MINUTE_IN_HOURS: 60,
+};
+
+export const TypeFilter = {
+  ODD: `ODD`,
+  EVEN: `EVEN`,
+};
 
 export const getRating = (number) => {
   let level;
@@ -36,4 +48,41 @@ export const getGenres = (initialFilms) => {
   const genres = [ALL_GENRES, ...listGenres.slice(0, 10)];
 
   return genres;
+};
+
+export const parseRunTime = (time) => {
+  let parsedTime;
+
+  if (time < TimeSettings.MINUTE_IN_HOURS) {
+    parsedTime = `${time}${TimeSettings.MINUTE}`;
+  } else {
+    parsedTime = `${Math.floor(time / TimeSettings.MINUTE_IN_HOURS)}${TimeSettings.HOUR} ${time % TimeSettings.MINUTE_IN_HOURS}${TimeSettings.MINUTE}`;
+  }
+
+  return parsedTime;
+};
+
+export const parseDate = (date) => {
+  return moment(date).format(`LL`);
+};
+
+export const filterElement = (elements, type) => {
+  let filteredElements;
+
+  switch (type) {
+    case TypeFilter.EVEN:
+      filteredElements = elements.filter((it, i) => ++i % 2 !== 1);
+      break;
+    case TypeFilter.ODD:
+      filteredElements = elements.filter((it, i) => ++i % 2 === 1);
+      break;
+  }
+
+  return filteredElements;
+};
+
+export const getSimilarFilms = (films, currentFilm) => {
+  const filteredFilms = films.filter((it) => it.genre === currentFilm.genre && it.id !== currentFilm.id).slice(0, 4);
+
+  return filteredFilms;
 };

@@ -12,6 +12,7 @@ Enzyme.configure({
 
 const mockStore = configureStore([]);
 
+
 const mocks = [
   {
     id: 1,
@@ -24,7 +25,7 @@ const mocks = [
     rating: 5,
     scoresCount: 7,
     director: `Wes Andreson`,
-    starring: `Bill Murray, Edward Norton, Jude Law`,
+    stars: [`Bill Murray`, `Edward Norton`, `Jude Law`],
     runTime: 55,
     genre: `Action`,
     released: 44,
@@ -43,7 +44,7 @@ const mocks = [
     rating: 5,
     scoresCount: 7,
     director: `Wes Andreson`,
-    starring: `Bill Murray, Edward Norton, Jude Law`,
+    stars: [`Bill Murray`, `Edward Norton`, `Jude Law`],
     runTime: 55,
     genre: `Action`,
     released: 44,
@@ -62,7 +63,7 @@ const mocks = [
     rating: 5,
     scoresCount: 7,
     director: `Wes Andreson`,
-    starring: `Bill Murray, Edward Norton, Jude Law`,
+    stars: [`Bill Murray`, `Edward Norton`, `Jude Law`],
     runTime: 55,
     genre: `Action`,
     released: 44,
@@ -81,7 +82,7 @@ const mocks = [
     rating: 5,
     scoresCount: 7,
     director: `Wes Andreson`,
-    starring: `Bill Murray, Edward Norton, Jude Law`,
+    stars: [`Bill Murray`, `Edward Norton`, `Jude Law`],
     runTime: 55,
     genre: `Action`,
     released: 44,

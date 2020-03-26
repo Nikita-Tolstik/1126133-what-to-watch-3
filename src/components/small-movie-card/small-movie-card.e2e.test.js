@@ -18,7 +18,7 @@ const mock = {
   rating: 5,
   scoresCount: 7,
   director: `Wes Andreson`,
-  starring: `Bill Murray, Edward Norton, Jude Law`,
+  stars: [`Bill Murray`, `Edward Norton`, `Jude Law`],
   runTime: 55,
   genre: `Action`,
   released: 44,
@@ -26,30 +26,6 @@ const mock = {
   videoLink: `https://upload.wikimedia.org/`,
   videoPreview: `https://upload.wikimedia.org/`,
 };
-
-it(`Move mouse over a card film, films information should enters the handler - e2eSmallMovieCard`, () => {
-  const onMouseFilmEnter = jest.fn();
-
-  const movieCard = shallow(
-      <SmallMovieCard
-
-        id={1}
-        activePlayerId={-1}
-        film={mock}
-        onCardFilmClick={() => {}}
-        onMouseFilmLeave={() => {}}
-        onMouseIdEnter={() => {}}
-        onMouseIdLeave={() => {}}
-        onMouseFilmEnter={onMouseFilmEnter}
-      />);
-
-  const article = movieCard.find(`article`);
-
-  article.simulate(`mouseenter`);
-
-  expect(onMouseFilmEnter).toHaveBeenCalledTimes(1);
-});
-
 
 it(`Click on a cards title - e2eSmallMovieCard`, () => {
   const onCardFilmClick = jest.fn();

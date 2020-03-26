@@ -1,16 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {getRating} from '../../utils/utils.js';
 import UserBlock from '../user-block/user-block.jsx';
+import NavigationList, {TabType} from '../navigation-list/navigation-list.jsx';
+import {FilmsList} from '../films-list/films-list.jsx';
+import withActiveValue from '../../hocs/with-active-value/with-active-value.js';
 import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
 import {AuthorizationStatus} from '../../reducer/user/user.js';
 import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
+import {getFilms} from '../../reducer/data/selector.js';
+import {getSimilarFilms} from '../../utils/utils.js';
 
-const MoviePage = ({film, authorizationStatus, onSwitchScreenAddReview}) => {
 
-  const ratingLavel = getRating(film.rating);
+const MoviePage = ({film, initialFilms, authorizationStatus, onCardFilmClick, onSwitchScreenAddReview}) => {
+  const NavigationListWrapped = withActiveValue(NavigationList, TabType.OVERVIEW);
+
   const isNoAuth = authorizationStatus !== AuthorizationStatus.AUTH;
+  const similarFilms = getSimilarFilms(initialFilms, film);
+  const isSimilarFilms = similarFilms.length !== 0;
+
+  let filmListMarkup = <h3 className="catalog__title">There are no similar movies.</h3>;
+
+  if (isSimilarFilms) {
+    filmListMarkup = (
+      <FilmsList
+        films={similarFilms}
+        onCardFilmClick={onCardFilmClick}
+      />
+    );
+  }
 
   return (
     <React.Fragment>
@@ -75,35 +93,10 @@ const MoviePage = ({film, authorizationStatus, onSwitchScreenAddReview}) => {
             </div>
 
             <div className="movie-card__desc">
-              <nav className="movie-nav movie-card__nav">
-                <ul className="movie-nav__list">
-                  <li className="movie-nav__item movie-nav__item--active">
-                    <a href="#" className="movie-nav__link">Overview</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Details</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
 
-              <div className="movie-rating">
-                <div className="movie-rating__score">{film.rating}</div>
-                <p className="movie-rating__meta">
-                  <span className="movie-rating__level">{ratingLavel}</span>
-                  <span className="movie-rating__count">{film.scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="movie-card__text">
-                {film.description}
-
-                <p className="movie-card__director"><strong>Director: {film.director}</strong></p>
-
-                <p className="movie-card__starring"><strong>Starring: {film.starring}</strong></p>
-              </div>
+              <NavigationListWrapped
+                film={film}
+              />
             </div>
           </div>
         </div>
@@ -113,49 +106,8 @@ const MoviePage = ({film, authorizationStatus, onSwitchScreenAddReview}) => {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__movies-list">
-
-
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Bohemian Rhapsody</a>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Macbeth</a>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Aviator</a>
-              </h3>
-            </article>
-
-
-          </div>
+          {filmListMarkup}
         </section>
-
 
         <footer className="page-footer">
           <div className="logo">
@@ -176,6 +128,8 @@ const MoviePage = ({film, authorizationStatus, onSwitchScreenAddReview}) => {
 };
 
 MoviePage.propTypes = {
+
+  onCardFilmClick: PropTypes.func.isRequired,
   onSwitchScreenAddReview: PropTypes.func.isRequired,
 
   authorizationStatus: PropTypes.oneOf([
@@ -195,7 +149,7 @@ MoviePage.propTypes = {
     rating: PropTypes.number.isRequired,
     scoresCount: PropTypes.number.isRequired,
     director: PropTypes.string.isRequired,
-    starring: PropTypes.string.isRequired,
+    stars: PropTypes.array.isRequired,
     runTime: PropTypes.number.isRequired,
     genre: PropTypes.string.isRequired,
     released: PropTypes.number.isRequired,
@@ -203,16 +157,37 @@ MoviePage.propTypes = {
     videoLink: PropTypes.string.isRequired,
     videoPreview: PropTypes.string.isRequired,
   }).isRequired,
+
+  initialFilms: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    posterImage: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    scoresCount: PropTypes.number.isRequired,
+    director: PropTypes.string.isRequired,
+    stars: PropTypes.array.isRequired,
+    runTime: PropTypes.number.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    videoLink: PropTypes.string.isRequired,
+    videoPreview: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: getAuthorizationStatus(state),
+  initialFilms: getFilms(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSwitchScreenAddReview() {
     dispatch(ActionCreator.changeScreen(ScreenType.ADD_REVIEW));
-  }
+  },
 });
 
 export {MoviePage};
