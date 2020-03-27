@@ -2,31 +2,55 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import SmallMovieCard from '../small-movie-card/small-movie-card.jsx';
+import ShowMoreButton from '../show-more-button/show-more-button.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
 import {getFilteredFilms} from '../../reducer/data/selector.js';
+import {getCountShownFilms} from '../../reducer/logic/selector.js';
+import {ActionCreator} from '../../reducer/logic/logic.js';
+
+const DEFAULT_COUNT_FILMS = 4;
 
 const SmallMovieCardWrapped = withActivePlayer(SmallMovieCard);
 
-const FilmsList = ({films, onCardFilmClick}) => {
+const FilmsList = ({films, countShownFilms, onCardFilmClick, onShowMoreButtonClick}) => {
+
+  const shownFilms = films.slice(0, countShownFilms);
+  const isShowMoreButton = films.length > countShownFilms;
+
   return (
-    <div className="catalog__movies-list">
-      {films.map((it, i) => {
-        const movieCard = (
-          <SmallMovieCardWrapped
-            id={i}
-            key={it.id}
-            film={it}
-            onCardFilmClick={onCardFilmClick}
-          />
-        );
-        return movieCard;
-      })}
-    </div>
+    <React.Fragment>
+      <div className="catalog__movies-list">
+        {shownFilms.map((it, i) => {
+          const movieCard = (
+            <SmallMovieCardWrapped
+              id={i}
+              key={it.id}
+              film={it}
+              onCardFilmClick={onCardFilmClick}
+            />
+          );
+          return movieCard;
+        })}
+      </div>
+
+      <ShowMoreButton
+        isShowMoreButton={isShowMoreButton}
+        onShowMoreButtonClick={() => onShowMoreButtonClick(countShownFilms)}
+      />
+    </React.Fragment>
   );
 };
 
+FilmsList.defaultProps = {
+  countShownFilms: DEFAULT_COUNT_FILMS,
+  onShowMoreButtonClick: () => {},
+};
 
 FilmsList.propTypes = {
+
+  countShownFilms: PropTypes.number.isRequired,
+  onShowMoreButtonClick: PropTypes.func.isRequired,
+
   onCardFilmClick: PropTypes.func.isRequired,
   films: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -51,7 +75,14 @@ FilmsList.propTypes = {
 
 const mapStateToProps = (state) => ({
   films: getFilteredFilms(state),
+  countShownFilms: getCountShownFilms(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onShowMoreButtonClick(prevCountFilms) {
+    dispatch(ActionCreator.increaseCount(prevCountFilms));
+  }
 });
 
 export {FilmsList};
-export default connect(mapStateToProps)(FilmsList);
+export default connect(mapStateToProps, mapDispatchToProps)(FilmsList);

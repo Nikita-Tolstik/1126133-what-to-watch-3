@@ -34,6 +34,7 @@ const promoMock = {
 class App extends PureComponent {
 
   _renderAppScreen() {
+
     const {onElementClick, onCommentGet, onSwitchScreenMovie, activeValue, screenType} = this.props;
     const selectFilm = activeValue;
     const onCardFilmClick = onElementClick;
