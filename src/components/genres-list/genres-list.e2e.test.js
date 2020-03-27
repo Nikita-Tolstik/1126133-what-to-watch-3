@@ -128,6 +128,7 @@ it(`Should be click on genres-list - e2e`, () => {
           activeGenre={Genres.ALL}
           genres={GENRES}
           onGenreClick={onGenreClick}
+          onCountShownFilmsReset={() => {}}
         />
       </Provider>
   );
@@ -163,6 +164,7 @@ it(`Should not be click on active-genre - e2e`, () => {
           activeGenre={Genres.ALL}
           genres={GENRES}
           onGenreClick={onGenreClick}
+          onCountShownFilmsReset={() => {}}
         />
       </Provider>
   );

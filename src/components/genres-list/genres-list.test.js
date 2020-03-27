@@ -121,6 +121,7 @@ it(`Render <GenresList - Active-genre is All genres/>`, () => {
           onGenreClick={() => {}}
           activeGenre={Genres.ALL}
           genres={GENRES}
+          onCountShownFilmsReset={() => {}}
         />
       </Provider>
   ).toJSON();
@@ -144,6 +145,7 @@ it(`Render <GenresList - Active-genre is Fantasy/>`, () => {
           onGenreClick={() => {}}
           activeGenre={Genres.FANTASY}
           genres={GENRES}
+          onCountShownFilmsReset={() => {}}
         />
       </Provider>
   ).toJSON();

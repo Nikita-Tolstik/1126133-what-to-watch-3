@@ -8,6 +8,8 @@ import {getFilteredFilms} from '../../reducer/data/selector.js';
 import {getCountShownFilms} from '../../reducer/logic/selector.js';
 import {ActionCreator} from '../../reducer/logic/logic.js';
 
+const DEFAULT_COUNT_FILMS = 4;
+
 const SmallMovieCardWrapped = withActivePlayer(SmallMovieCard);
 
 const FilmsList = ({films, countShownFilms, onCardFilmClick, onShowMoreButtonClick}) => {
@@ -39,6 +41,10 @@ const FilmsList = ({films, countShownFilms, onCardFilmClick, onShowMoreButtonCli
   );
 };
 
+FilmsList.defaultProps = {
+  countShownFilms: DEFAULT_COUNT_FILMS,
+  onShowMoreButtonClick: () => {},
+};
 
 FilmsList.propTypes = {
 
