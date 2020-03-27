@@ -8,9 +8,9 @@ const withActivePlayer = (Component) => {
     constructor(props) {
       super(props);
 
-      this.state = ({
+      this.state = {
         activePlayerId: NO_ACTIVE,
-      });
+      };
 
       this._handleMouseFilmEnter = this._handleMouseFilmEnter.bind(this);
       this._handleMouseFilmLeave = this._handleMouseFilmLeave.bind(this);
