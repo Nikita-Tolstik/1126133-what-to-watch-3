@@ -86,3 +86,17 @@ export const getSimilarFilms = (films, currentFilm) => {
 
   return filteredFilms;
 };
+
+export const getTimeElapsed = (currentTime, duration) => {
+  const time = duration - currentTime;
+
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+
+  return `${hours >= 1 ? `${hours}:` : ``}${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+};
+
+export const getProgress = (currentTime, duration) => {
+  return Math.round(100 - (1 - currentTime / duration) * 100);
+};

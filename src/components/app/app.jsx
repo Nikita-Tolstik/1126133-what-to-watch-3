@@ -10,24 +10,28 @@ import {getScreenType} from '../../reducer/screen-type/selector.js';
 import {ScreenType, ActionCreator} from '../../reducer/screen-type/screen-type.js';
 import {Operation as CommentOperation} from '../../reducer/comment/comment.js';
 
+import VideoScreen from '../video-screen/video-screen.jsx';
+import withVideoControls from '../../hocs/with-video-controls/with-video-controls.js';
+
+const VideoScreenWrapped = withVideoControls(VideoScreen);
 
 const promoMock = {
   id: 1,
   title: `Fantastic Beasts: The Crimes of Grindelwald2`,
-  posterImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/Aviator.jpg`,
-  previewImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/aviator.jpg`,
-  backgroundImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/Aviator.jpg`,
-  backgroundColor: `rgb(136, 98, 62)`,
+  posterImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/Fantastic_Beasts.jpg`,
+  previewImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+  backgroundImage: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/Fantastic_Beasts.jpg`,
+  backgroundColor: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
   description: `Fantastic Beasts: The Crimes of Grindelwald`,
   rating: 5,
   scoresCount: 7,
   director: `Wes Andreson`,
-  starring: `Bill Murray, Edward Norton, Jude Law`,
+  stars: [`Bill Murray`, `Edward Norton`, `Jude Law`],
   runTime: 55,
   genre: `Action`,
   released: 44,
   isFavorite: true,
-  videoLink: `https://upload.wikimedia.org/`,
+  videoLink: `http://media.xiph.org/mango/tears_of_steel_1080p.webm`,
   videoPreview: `https://upload.wikimedia.org/`,
 };
 
@@ -107,6 +111,13 @@ class App extends PureComponent {
 
           <Route exact path="/review">
             <AddReview
+              film={promoMock}
+            />
+          </Route>
+
+
+          <Route exact path="/video">
+            <VideoScreenWrapped
               film={promoMock}
             />
           </Route>
