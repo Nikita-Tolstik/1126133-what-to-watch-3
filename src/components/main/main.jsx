@@ -16,7 +16,9 @@ const Main = ({initialFilms, onCardFilmClick, onGenreClick}) => {
 
     <React.Fragment>
 
-      <PromoMovie />
+      <PromoMovie
+        onCardFilmClick={onCardFilmClick}
+      />
 
       <div className="page-content">
         <section className="catalog">

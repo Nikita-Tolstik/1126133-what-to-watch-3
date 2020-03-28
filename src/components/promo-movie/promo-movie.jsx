@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import UserBlock from '../user-block/user-block.jsx';
 import {getPromoFilm} from '../../reducer/data/selector.js';
+import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
 
-const PromoMovie = ({promoFilm}) => {
+
+const PromoMovie = ({promoFilm, onScreenVideoPlayerSwitch, onCardFilmClick}) => {
 
   return (
     <React.Fragment>
@@ -41,12 +43,18 @@ const PromoMovie = ({promoFilm}) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button
+                  onClick={() => {
+                    onCardFilmClick(promoFilm);
+                    onScreenVideoPlayerSwitch();
+                  }}
+                  className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
+
                 <button className="btn btn--list movie-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
@@ -63,6 +71,8 @@ const PromoMovie = ({promoFilm}) => {
 };
 
 PromoMovie.propTypes = {
+  onCardFilmClick: PropTypes.func.isRequired,
+  onScreenVideoPlayerSwitch: PropTypes.func.isRequired,
   promoFilm: PropTypes.oneOfType([
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -91,5 +101,11 @@ const mapStateToProps = (state) => ({
   promoFilm: getPromoFilm(state),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onScreenVideoPlayerSwitch() {
+    dispatch(ActionCreator.changeScreen(ScreenType.VIDEO_PLAYER));
+  }
+});
+
 export {PromoMovie};
-export default connect(mapStateToProps)(PromoMovie);
+export default connect(mapStateToProps, mapDispatchToProps)(PromoMovie);

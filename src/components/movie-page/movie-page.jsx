@@ -12,7 +12,7 @@ import {getFilms} from '../../reducer/data/selector.js';
 import {getSimilarFilms} from '../../utils/utils.js';
 
 
-const MoviePage = ({film, initialFilms, authorizationStatus, onCardFilmClick, onSwitchScreenAddReview}) => {
+const MoviePage = ({film, initialFilms, authorizationStatus, onCardFilmClick, onScreenAddReviewSwitch, onScreenVideoPlayerSwitch}) => {
   const NavigationListWrapped = withActiveValue(NavigationList, TabType.OVERVIEW);
 
   const isNoAuth = authorizationStatus !== AuthorizationStatus.AUTH;
@@ -61,12 +61,15 @@ const MoviePage = ({film, initialFilms, authorizationStatus, onCardFilmClick, on
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button
+                  onClick={onScreenVideoPlayerSwitch}
+                  className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref={`#play-s`}></use>
                   </svg>
                   <span>Play</span>
                 </button>
+
                 <button className="btn btn--list movie-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref={`#add`}></use>
@@ -77,7 +80,7 @@ const MoviePage = ({film, initialFilms, authorizationStatus, onCardFilmClick, on
                 <a
                   onClick={(evt) => {
                     evt.preventDefault();
-                    onSwitchScreenAddReview();
+                    onScreenAddReviewSwitch();
                   }}
                   href="add-review.html"
                   className={`btn movie-card__button ${isNoAuth && `visually-hidden`}`}>Add review</a>
@@ -130,7 +133,8 @@ const MoviePage = ({film, initialFilms, authorizationStatus, onCardFilmClick, on
 MoviePage.propTypes = {
 
   onCardFilmClick: PropTypes.func.isRequired,
-  onSwitchScreenAddReview: PropTypes.func.isRequired,
+  onScreenAddReviewSwitch: PropTypes.func.isRequired,
+  onScreenVideoPlayerSwitch: PropTypes.func.isRequired,
 
   authorizationStatus: PropTypes.oneOf([
     AuthorizationStatus.AUTH,
@@ -185,9 +189,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSwitchScreenAddReview() {
+  onScreenAddReviewSwitch() {
     dispatch(ActionCreator.changeScreen(ScreenType.ADD_REVIEW));
   },
+  onScreenVideoPlayerSwitch() {
+    dispatch(ActionCreator.changeScreen(ScreenType.VIDEO_PLAYER));
+  }
 });
 
 export {MoviePage};
