@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {getTimeElapsed, getProgress} from '../../utils/utils.js';
+import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
 
 
-const VideoScreen = ({film, children, currentTime, duration, isPlaying, isLoading, onFullScreenClick, onPlayButtonClick}) => {
+const VideoScreen = ({film, children, currentTime, duration, isPlaying, isLoading, onFullScreenClick, onPlayButtonClick, onScreenMovieSwitch}) => {
   const timeElapsed = getTimeElapsed(currentTime, duration);
   const progress = getProgress(currentTime, duration);
 
@@ -12,7 +14,9 @@ const VideoScreen = ({film, children, currentTime, duration, isPlaying, isLoadin
 
       {children}
 
-      <button type="button" className="player__exit">Exit</button>
+      <button
+        onClick={onScreenMovieSwitch}
+        type="button" className="player__exit">Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">
@@ -57,6 +61,7 @@ VideoScreen.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   onFullScreenClick: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
+  onScreenMovieSwitch: PropTypes.func.isRequired,
 
   film: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -84,4 +89,12 @@ VideoScreen.propTypes = {
   ]).isRequired,
 };
 
-export default React.memo(VideoScreen);
+
+const mapDispatchToProps = (dispatch) => ({
+  onScreenMovieSwitch() {
+    dispatch(ActionCreator.changeScreen(ScreenType.MOVIE));
+  }
+});
+
+export {VideoScreen};
+export default connect(null, mapDispatchToProps)(VideoScreen);

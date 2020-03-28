@@ -82,6 +82,15 @@ class App extends PureComponent {
       );
     }
 
+    if (screenType === ScreenType.VIDEO_PLAYER) {
+      return (
+        <VideoScreenWrapped
+          film={selectFilm}
+        />
+      );
+    }
+
+
     return null;
   }
 
@@ -130,7 +139,7 @@ class App extends PureComponent {
 
 App.propTypes = {
   screenType: PropTypes.oneOf(
-      [ScreenType.WELCOME, ScreenType.MOVIE, ScreenType.AUTH, ScreenType.ADD_REVIEW]
+      [ScreenType.WELCOME, ScreenType.MOVIE, ScreenType.AUTH, ScreenType.ADD_REVIEW, ScreenType.VIDEO_PLAYER]
   ).isRequired,
 
   onCommentGet: PropTypes.func.isRequired,

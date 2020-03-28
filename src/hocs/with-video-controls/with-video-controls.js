@@ -8,10 +8,10 @@ const withVideoControls = (Component) => {
 
       this.state = {
         duration: 0,
+        prevTime: 0,
         currentTime: 0,
         isLoading: true,
-        isPlaying: false,
-        isFullScreen: false,
+        isPlaying: true,
       };
 
       this.videoRef = createRef();
@@ -24,13 +24,13 @@ const withVideoControls = (Component) => {
       const {film} = this.props;
       video.src = film.videoLink;
 
-      video.oncanplaythrough = () =>{
+      video.oncanplaythrough = () => {
         this.setState({
           isLoading: false,
         });
       };
 
-      video.ondurationchange = () =>{
+      video.ondurationchange = () => {
         this.setState({
           duration: video.duration,
         });
@@ -49,9 +49,10 @@ const withVideoControls = (Component) => {
       };
 
       video.ontimeupdate = () => {
-        this.setState({
+        this.setState((prevState) => ({
+          prevTime: prevState.currentTime,
           currentTime: Math.floor(video.currentTime),
-        });
+        }));
       };
     }
 
@@ -59,14 +60,11 @@ const withVideoControls = (Component) => {
       const video = this.videoRef.current;
 
       if (this.state.isPlaying) {
-        video.play()
-        .then(() => {
-          this.setState({
-            isPlaying: true,
-          });
-        });
+        video.play();
       } else {
-        video.pause();
+        if (this.state.currentTime === this.state.prevTime) {
+          video.pause();
+        }
       }
     }
 
@@ -138,3 +136,4 @@ const withVideoControls = (Component) => {
 };
 
 export default withVideoControls;
+

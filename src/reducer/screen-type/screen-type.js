@@ -5,6 +5,7 @@ const ScreenType = {
   MOVIE: `MOVIE`,
   AUTH: `AUTH`,
   ADD_REVIEW: `ADD_REVIEW`,
+  VIDEO_PLAYER: `VIDEO_PLAYER`,
 };
 
 const initialState = {
