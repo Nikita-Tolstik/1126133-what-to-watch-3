@@ -1,19 +1,21 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {Switch, Route, Router} from "react-router-dom";
 import Main from '../main/main.jsx';
 import MoviePage from '../movie-page/movie-page.jsx';
 import SignIn from '../sign-in/sign-in.jsx';
 import AddReview from '../add-review/add-review.jsx';
-import {getScreenType} from '../../reducer/screen-type/selector.js';
-import {ScreenType, ActionCreator} from '../../reducer/screen-type/screen-type.js';
-import {Operation as CommentOperation} from '../../reducer/comment/comment.js';
-
 import VideoScreen from '../video-screen/video-screen.jsx';
-import withVideoControls from '../../hocs/with-video-controls/with-video-controls.js';
+import withVideoPlayer from '../../hocs/with-video-player/with-video-player.js';
+import {Operation as CommentOperation} from '../../reducer/comment/comment.js';
+import {AppRoute} from '../../const.js';
+import {ActionCreator as DataActionCreator} from '../../reducer/data/data.js';
+import history from '../../history.js';
+import {getCurrentFilm} from '../../reducer/data/selector.js';
 
-const VideoScreenWrapped = withVideoControls(VideoScreen);
+
+const VideoScreenWrapped = withVideoPlayer(VideoScreen);
 
 const promoMock = {
   id: 1,
@@ -39,78 +41,78 @@ class App extends PureComponent {
 
   _renderAppScreen() {
 
-    const {onElementClick, onCommentGet, onSwitchScreenMovie, activeValue, screenType} = this.props;
-    const selectFilm = activeValue;
-    const onCardFilmClick = onElementClick;
-
-    if (screenType === ScreenType.WELCOME) {
-      return (
-        <Main
-          onCardFilmClick={(film) => {
-            onCardFilmClick(film);
-            onSwitchScreenMovie();
-            onCommentGet(film.id);
-          }}
-        />
-      );
-    }
-
-    if (screenType === ScreenType.AUTH) {
+    if (`screenType === ScreenType.AUTH`) {
       return (
         <SignIn
         />
       );
     }
 
-    if (screenType === ScreenType.MOVIE) {
-      return (
-        <MoviePage
-          onCardFilmClick={(film) => {
-            onCardFilmClick(film);
-            onCommentGet(film.id);
-          }}
-          film={selectFilm}
-        />
-      );
-    }
-
-    if (screenType === ScreenType.ADD_REVIEW) {
+    if (`screenType === ScreenType.ADD_REVIEW`) {
       return (
         <AddReview
-          film={selectFilm}
+          film={``}
         />
       );
     }
-
-    if (screenType === ScreenType.VIDEO_PLAYER) {
-      return (
-        <VideoScreenWrapped
-          film={selectFilm}
-        />
-      );
-    }
-
 
     return null;
   }
 
 
   render() {
+    const {onMovieCardClick, currentFilm} = this.props;
 
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <Switch>
 
-          <Route exact path="/">
-            {this._renderAppScreen()}
-          </Route>
+          <Route
+            exact
+            path={AppRoute.ROOT}
+            render={() => {
+              return (
+                <Main
+                  onCardFilmClick={(film) => {
+                    onMovieCardClick(film.id);
+                  }}
+                />
+              );
+            }}
+          />
 
-          <Route exact path="/movie">
-            <MoviePage
 
-              film={promoMock}
-            />
-          </Route>
+          <Route
+            exact
+            path={`${AppRoute.FILMS}/:id`}
+            render={(props) => {
+              const {match} = props;
+              const currentId = Number(match.params.id);
+
+              return (
+                <MoviePage
+                  id={currentId}
+                  onCardFilmClick={(film) => {
+                    onMovieCardClick(film.id);
+                  }}
+                />
+              );
+            }}
+          />
+
+
+          <Route
+            exact
+            path={`${AppRoute.PLAYER}/:id`}
+            render={() => {
+              return (
+                <VideoScreenWrapped
+                  film={currentFilm}
+                />
+              );
+            }}
+          />
+
 
           <Route exact path="/auth">
             <SignIn
@@ -125,28 +127,16 @@ class App extends PureComponent {
           </Route>
 
 
-          <Route exact path="/video">
-            <VideoScreenWrapped
-              film={promoMock}
-            />
-          </Route>
-
         </Switch>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
 
 App.propTypes = {
-  screenType: PropTypes.oneOf(
-      [ScreenType.WELCOME, ScreenType.MOVIE, ScreenType.AUTH, ScreenType.ADD_REVIEW, ScreenType.VIDEO_PLAYER]
-  ).isRequired,
+  onMovieCardClick: PropTypes.func.isRequired,
 
-  onCommentGet: PropTypes.func.isRequired,
-  onElementClick: PropTypes.func.isRequired,
-  onSwitchScreenMovie: PropTypes.func.isRequired,
-
-  activeValue: PropTypes.oneOfType([
+  currentFilm: PropTypes.oneOfType([
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
@@ -171,14 +161,13 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  screenType: getScreenType(state),
+  currentFilm: getCurrentFilm(state),
 });
 
+
 const mapDispatchToProps = (dispatch) => ({
-  onSwitchScreenMovie() {
-    dispatch(ActionCreator.changeScreen(ScreenType.MOVIE));
-  },
-  onCommentGet(id) {
+  onMovieCardClick(id) {
+    dispatch(DataActionCreator.setCurrentId(id));
     dispatch(CommentOperation.getComments(id));
   }
 });

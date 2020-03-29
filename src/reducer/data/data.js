@@ -2,13 +2,15 @@ import {extend} from '../../utils/utils.js';
 import {parseFilm} from '../../adapter.js';
 
 const initialState = {
+  currentId: -1,
   films: [],
-  promoFilm: {},
+  promoFilm: -1,
 };
 
 const ActionType = {
   LOAD_FILMS: `LOAD_FILMS`,
   LOAD_PROMO_FILM: `LOAD_PROMO_FILM`,
+  SET_CURRENT_ID: `SET_CURRENT_ID`,
 };
 
 const ActionCreator = {
@@ -21,14 +23,15 @@ const ActionCreator = {
     };
   },
 
-  loadPromoFilm: (film) => {
-    const parsedFilm = parseFilm(film);
+  loadPromoFilm: (film) => ({
+    type: ActionType.LOAD_PROMO_FILM,
+    payload: parseFilm(film),
+  }),
 
-    return {
-      type: ActionType.LOAD_PROMO_FILM,
-      payload: parsedFilm,
-    };
-  }
+  setCurrentId: (id) => ({
+    type: ActionType.SET_CURRENT_ID,
+    payload: id,
+  })
 };
 
 const Operation = {
@@ -58,9 +61,16 @@ const reducer = (state = initialState, action) => {
       return extend(state, {
         promoFilm: action.payload,
       });
+
+    case ActionType.SET_CURRENT_ID:
+      return extend(state, {
+        currentId: action.payload,
+      });
   }
 
   return state;
 };
 
 export {reducer, ActionType, ActionCreator, Operation};
+
+

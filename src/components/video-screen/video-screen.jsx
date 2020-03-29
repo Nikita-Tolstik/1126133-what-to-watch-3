@@ -1,11 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import {getTimeElapsed, getProgress} from '../../utils/utils.js';
-import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
+import {AppRoute} from '../../const.js';
 
 
-const VideoScreen = ({film, children, currentTime, duration, isPlaying, isLoading, onFullScreenClick, onPlayButtonClick, onScreenMovieSwitch}) => {
+const VideoScreen = (props) => {
+  const {film,
+    children,
+    currentTime,
+    duration,
+    isPlaying,
+    isLoading,
+    onFullScreenClick,
+    onPlayButtonClick,
+  } = props;
+
   const timeElapsed = getTimeElapsed(currentTime, duration);
   const progress = getProgress(currentTime, duration);
 
@@ -14,9 +24,11 @@ const VideoScreen = ({film, children, currentTime, duration, isPlaying, isLoadin
 
       {children}
 
-      <button
-        onClick={onScreenMovieSwitch}
-        type="button" className="player__exit">Exit</button>
+      <Link
+        to={`${AppRoute.FILMS}/${film.id}`}
+        className="player__exit">
+          Exit
+      </Link>
 
       <div className="player__controls">
         <div className="player__controls-row">
@@ -61,7 +73,6 @@ VideoScreen.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   onFullScreenClick: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
-  onScreenMovieSwitch: PropTypes.func.isRequired,
 
   film: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -90,11 +101,4 @@ VideoScreen.propTypes = {
 };
 
 
-const mapDispatchToProps = (dispatch) => ({
-  onScreenMovieSwitch() {
-    dispatch(ActionCreator.changeScreen(ScreenType.MOVIE));
-  }
-});
-
-export {VideoScreen};
-export default connect(null, mapDispatchToProps)(VideoScreen);
+export default VideoScreen;

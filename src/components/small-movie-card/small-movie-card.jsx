@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import VideoPlayer from '../video-player/video-player.jsx';
+import {AppRoute} from '../../const.js';
 
 const SmallMovieCard = ({film, id, activePlayerId, onCardFilmClick, onMouseIdEnter, onMouseIdLeave}) => {
 
@@ -9,31 +11,33 @@ const SmallMovieCard = ({film, id, activePlayerId, onCardFilmClick, onMouseIdEnt
       onMouseEnter={() => {
         onMouseIdEnter(id);
       }}
-      onMouseLeave={() => {
-        onMouseIdLeave();
-      }}
+      onMouseLeave={onMouseIdLeave}
       className="small-movie-card catalog__movies-card">
 
-      <div onClick={() => {
-        onCardFilmClick(film);
-      }}
-      className="small-movie-card__image">
+      <Link to={`${AppRoute.FILMS}/${film.id}`}>
+        <div onClick={() => {
+          onCardFilmClick(film);
+        }}
+        className="small-movie-card__image">
 
-        <VideoPlayer
-          isPlaying={activePlayerId === id}
-          posterImage={film.previewImage}
-          videoPreview={film.videoPreview}
-        />
-      </div>
+          <VideoPlayer
+            isPlaying={activePlayerId === id}
+            posterImage={film.previewImage}
+            videoPreview={film.videoPreview}
+          />
+        </div>
+      </Link>
 
       <h3 className="small-movie-card__title">
 
-        <a
-          onClick={(evt) => {
-            evt.preventDefault();
+        <Link
+          to={`${AppRoute.FILMS}/${film.id}`}
+          onClick={() => {
             onCardFilmClick(film);
           }}
-          className="small-movie-card__link" href="movie-page.html">{film.title}</a>
+          className="small-movie-card__link">
+          {film.title}
+        </Link>
       </h3>
     </article>
   );

@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 
-const NO_ACTIVE_VALUE = -1;
+const NO_ACTIVE_VALUE = 0;
 
 const withActiveValue = (Component, initialState = NO_ACTIVE_VALUE) => {
   class WithActiveValue extends PureComponent {

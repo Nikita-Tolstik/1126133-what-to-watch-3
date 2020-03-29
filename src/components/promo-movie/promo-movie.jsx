@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const.js';
 import UserBlock from '../user-block/user-block.jsx';
 import {getPromoFilm} from '../../reducer/data/selector.js';
-import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
 
 
-const PromoMovie = ({promoFilm, onScreenVideoPlayerSwitch, onCardFilmClick}) => {
+const PromoMovie = ({promoFilm, onCardFilmClick}) => {
 
   return (
     <React.Fragment>
@@ -43,17 +44,17 @@ const PromoMovie = ({promoFilm, onScreenVideoPlayerSwitch, onCardFilmClick}) => 
               </p>
 
               <div className="movie-card__buttons">
-                <button
+                <Link
+                  to={`${AppRoute.PLAYER}/${promoFilm.id}`}
                   onClick={() => {
                     onCardFilmClick(promoFilm);
-                    onScreenVideoPlayerSwitch();
                   }}
                   className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
 
                 <button className="btn btn--list movie-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
@@ -72,7 +73,6 @@ const PromoMovie = ({promoFilm, onScreenVideoPlayerSwitch, onCardFilmClick}) => 
 
 PromoMovie.propTypes = {
   onCardFilmClick: PropTypes.func.isRequired,
-  onScreenVideoPlayerSwitch: PropTypes.func.isRequired,
   promoFilm: PropTypes.oneOfType([
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -93,7 +93,7 @@ PromoMovie.propTypes = {
       videoLink: PropTypes.string.isRequired,
       videoPreview: PropTypes.string.isRequired,
     }),
-    PropTypes.shape({}).isRequired
+    PropTypes.number.isRequired
   ]).isRequired,
 };
 
@@ -101,11 +101,5 @@ const mapStateToProps = (state) => ({
   promoFilm: getPromoFilm(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onScreenVideoPlayerSwitch() {
-    dispatch(ActionCreator.changeScreen(ScreenType.VIDEO_PLAYER));
-  }
-});
-
 export {PromoMovie};
-export default connect(mapStateToProps, mapDispatchToProps)(PromoMovie);
+export default connect(mapStateToProps)(PromoMovie);

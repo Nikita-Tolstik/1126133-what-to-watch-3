@@ -1,8 +1,8 @@
 import React, {PureComponent, createRef} from 'react';
 import PropTypes from 'prop-types';
 
-const withVideoControls = (Component) => {
-  class WithVideoControls extends PureComponent {
+const withVideoPlayer = (Component) => {
+  class WithVideoPlayer extends PureComponent {
     constructor(props) {
       super(props);
 
@@ -110,7 +110,7 @@ const withVideoControls = (Component) => {
     }
   }
 
-  WithVideoControls.propTypes = {
+  WithVideoPlayer.propTypes = {
     film: PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
@@ -132,8 +132,8 @@ const withVideoControls = (Component) => {
     }),
   };
 
-  return WithVideoControls;
+  return WithVideoPlayer;
 };
 
-export default withVideoControls;
+export default withVideoPlayer;
 
