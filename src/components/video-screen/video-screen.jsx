@@ -16,6 +16,7 @@ const VideoScreen = (props) => {
     onPlayButtonClick,
   } = props;
 
+
   const timeElapsed = getTimeElapsed(currentTime, duration);
   const progress = getProgress(currentTime, duration);
 
@@ -74,26 +75,28 @@ VideoScreen.propTypes = {
   onFullScreenClick: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
 
-  film: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    posterImage: PropTypes.string.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    backgroundImage: PropTypes.string.isRequired,
-    backgroundColor: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-    scoresCount: PropTypes.number.isRequired,
-    director: PropTypes.string.isRequired,
-    stars: PropTypes.array.isRequired,
-    runTime: PropTypes.number.isRequired,
-    genre: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    videoLink: PropTypes.string.isRequired,
-    videoPreview: PropTypes.string.isRequired,
-  }),
-
+  film: PropTypes.oneOfType([
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      posterImage: PropTypes.string.isRequired,
+      previewImage: PropTypes.string.isRequired,
+      backgroundImage: PropTypes.string.isRequired,
+      backgroundColor: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      rating: PropTypes.number.isRequired,
+      scoresCount: PropTypes.number.isRequired,
+      director: PropTypes.string.isRequired,
+      stars: PropTypes.array.isRequired,
+      runTime: PropTypes.number.isRequired,
+      genre: PropTypes.string.isRequired,
+      released: PropTypes.number.isRequired,
+      isFavorite: PropTypes.bool.isRequired,
+      videoLink: PropTypes.string.isRequired,
+      videoPreview: PropTypes.string.isRequired,
+    }),
+    PropTypes.number.isRequired
+  ]).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

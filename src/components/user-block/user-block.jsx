@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import {AuthorizationStatus} from '../../reducer/user/user.js';
 import {getAuthorizationStatus, getUserInfo} from '../../reducer/user/selectors.js';
-import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
+import {AppRoute} from '../../const.js';
 
 const BASE_URL = `https://htmlacademy-react-3.appspot.com`;
 
-const UserBlock = ({authorizationStatus, userInfo, onSignInClick}) => {
+const UserBlock = ({authorizationStatus, userInfo}) => {
   let markUp;
 
   switch (authorizationStatus) {
     case AuthorizationStatus.NO_AUTH:
       markUp = (
-        <a
-          onClick={(evt) => {
-            evt.preventDefault();
-            onSignInClick(ScreenType.AUTH);
-          }}
-          href="" className="user-block__link">Sign in</a>
+        <Link
+          to={AppRoute.LOGIN}
+          className="user-block__link">
+            Sign in
+        </Link>
       );
       break;
 
@@ -39,12 +39,12 @@ const UserBlock = ({authorizationStatus, userInfo, onSignInClick}) => {
 };
 
 UserBlock.propTypes = {
-  onSignInClick: PropTypes.func.isRequired,
   userInfo: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.oneOf([
     AuthorizationStatus.AUTH,
     AuthorizationStatus.NO_AUTH,
     AuthorizationStatus.PENDING,
+    AuthorizationStatus.INITIAL,
   ]).isRequired,
 };
 
@@ -53,11 +53,6 @@ const mapStateToProps = (state) => ({
   userInfo: getUserInfo(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onSignInClick(screenType) {
-    dispatch(ActionCreator.changeScreen(screenType));
-  },
-});
 
 export {UserBlock};
-export default connect(mapStateToProps, mapDispatchToProps)(UserBlock);
+export default connect(mapStateToProps)(UserBlock);

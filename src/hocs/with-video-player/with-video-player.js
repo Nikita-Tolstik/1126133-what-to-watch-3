@@ -11,7 +11,7 @@ const withVideoPlayer = (Component) => {
         prevTime: 0,
         currentTime: 0,
         isLoading: true,
-        isPlaying: true,
+        isPlaying: false,
       };
 
       this.videoRef = createRef();
@@ -21,12 +21,11 @@ const withVideoPlayer = (Component) => {
 
     componentDidMount() {
       const video = this.videoRef.current;
-      const {film} = this.props;
-      video.src = film.videoLink;
 
       video.oncanplaythrough = () => {
         this.setState({
           isLoading: false,
+          isPlaying: true,
         });
       };
 
@@ -92,7 +91,7 @@ const withVideoPlayer = (Component) => {
 
     render() {
       const {currentTime, duration, isPlaying, isLoading} = this.state;
-      const video = this.videoRef.current;
+      const {film} = this.props;
 
       return (
         <Component
@@ -104,32 +103,35 @@ const withVideoPlayer = (Component) => {
           onFullScreenClick={this.handleFullScreenClick}
           onPlayButtonClick={this.handlePlayButtonClick}
         >
-          <video className="player__video" ref={this.videoRef} poster="img/player-poster.jpg"></video>
+          <video className="player__video" ref={this.videoRef} src={film.videoLink} poster="/img/player-poster.jpg"></video>
         </Component>
       );
     }
   }
 
   WithVideoPlayer.propTypes = {
-    film: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      posterImage: PropTypes.string.isRequired,
-      previewImage: PropTypes.string.isRequired,
-      backgroundImage: PropTypes.string.isRequired,
-      backgroundColor: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-      scoresCount: PropTypes.number.isRequired,
-      director: PropTypes.string.isRequired,
-      stars: PropTypes.array.isRequired,
-      runTime: PropTypes.number.isRequired,
-      genre: PropTypes.string.isRequired,
-      released: PropTypes.number.isRequired,
-      isFavorite: PropTypes.bool.isRequired,
-      videoLink: PropTypes.string.isRequired,
-      videoPreview: PropTypes.string.isRequired,
-    }),
+    film: PropTypes.oneOfType([
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        posterImage: PropTypes.string.isRequired,
+        previewImage: PropTypes.string.isRequired,
+        backgroundImage: PropTypes.string.isRequired,
+        backgroundColor: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        rating: PropTypes.number.isRequired,
+        scoresCount: PropTypes.number.isRequired,
+        director: PropTypes.string.isRequired,
+        stars: PropTypes.array.isRequired,
+        runTime: PropTypes.number.isRequired,
+        genre: PropTypes.string.isRequired,
+        released: PropTypes.number.isRequired,
+        isFavorite: PropTypes.bool.isRequired,
+        videoLink: PropTypes.string.isRequired,
+        videoPreview: PropTypes.string.isRequired,
+      }),
+      PropTypes.number.isRequired
+    ]).isRequired,
   };
 
   return WithVideoPlayer;

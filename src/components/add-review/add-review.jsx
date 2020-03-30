@@ -1,10 +1,11 @@
 import React, {PureComponent, createRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import UserBlock from '../user-block/user-block.jsx';
-import {ActionCreator as ActionCreatorScreen, ScreenType} from '../../reducer/screen-type/screen-type.js';
 import {Operation as CommentOperation, ActionCreator as ActionCreatorComment, ReviewStatus} from '../../reducer/comment/comment.js';
 import {getReviewStatus} from '../../reducer/comment/selector.js';
+import {AppRoute} from '../../const.js';
 
 const MAX_RATING = 5;
 
@@ -34,7 +35,7 @@ class AddReview extends PureComponent {
     this.textBlockRef = createRef();
 
     this._handleSubmit = this._handleSubmit.bind(this);
-    this._handleError = this._handleError.bind(this);
+    this.handleErrorShow = this.handleErrorShow.bind(this);
   }
 
   _handleSubmit(evt) {
@@ -47,10 +48,10 @@ class AddReview extends PureComponent {
       id: film.id,
       rating: ratingToNumber,
       comment: this.commentRef.current.value,
-    }, this._handleError);
+    }, this.handleErrorShow);
   }
 
-  _handleError() {
+  handleErrorShow() {
     this.textBlockRef.current.style.animation = StyleSettings.ANIMATION;
     this.textBlockRef.current.style.border = StyleSettings.BORDER;
 
@@ -61,7 +62,7 @@ class AddReview extends PureComponent {
   }
 
   render() {
-    const {film, reviewStatus, onMovieScreenSwitch} = this.props;
+    const {film, reviewStatus} = this.props;
     const ratings = new Array(MAX_RATING).fill(``);
 
     const isDisabled = reviewStatus === ReviewStatus.PENDING;
@@ -88,12 +89,11 @@ class AddReview extends PureComponent {
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a
-                    onClick={(evt) => {
-                      evt.preventDefault();
-                      onMovieScreenSwitch();
-                    }}
-                    href="movie-page.html" className="breadcrumbs__link">{film.title}</a>
+                  <Link
+                    to={`${AppRoute.FILMS}/${film.id}`}
+                    href="movie-page.html" className="breadcrumbs__link">
+                    {film.title}
+                  </Link>
                 </li>
                 <li className="breadcrumbs__item">
                   <a className="breadcrumbs__link">Add review</a>
@@ -153,7 +153,6 @@ class AddReview extends PureComponent {
 
 
 AddReview.propTypes = {
-  onMovieScreenSwitch: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 
   reviewStatus: PropTypes.oneOf([
@@ -189,9 +188,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onMovieScreenSwitch() {
-    dispatch(ActionCreatorScreen.changeScreen(ScreenType.MOVIE));
-  },
   onSubmit(reviewData, onError) {
     dispatch(CommentOperation.postReview(reviewData, onError));
     dispatch(ActionCreatorComment.changeStatus(ReviewStatus.PENDING));

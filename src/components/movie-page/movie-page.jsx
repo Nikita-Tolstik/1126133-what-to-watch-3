@@ -8,36 +8,30 @@ import {FilmsList} from '../films-list/films-list.jsx';
 import withActiveValue from '../../hocs/with-active-value/with-active-value.js';
 import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
 import {AuthorizationStatus} from '../../reducer/user/user.js';
-import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
-import {getSimilarFilms} from '../../utils/utils.js';
-import {ActionCreator as DataActionCreator} from '../../reducer/data/data.js';
 import {getFilms, getCurrentFilm} from '../../reducer/data/selector.js';
+import {getSimilarFilms} from '../../utils/utils.js';
 import {AppRoute} from '../../const.js';
-// import history from '../../history.js';
+
+import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
 
 
 const MoviePage = (props) => {
   const {
-    id,
     currentFilm,
     initialFilms,
     authorizationStatus,
     onCardFilmClick,
     onScreenAddReviewSwitch,
-    onSetCurrentId,
   } = props;
-
-  const isFindFilm = initialFilms.find((it) => it.id === id);
-
-  if (!isFindFilm) {
-    onSetCurrentId(id);
-    return null;
-  }
 
   window.scrollTo({
     top: 0,
     behavior: `smooth`
   });
+
+  if (currentFilm === -1) {
+    return null;
+  }
 
   const NavigationListWrapped = withActiveValue(NavigationList, TabType.OVERVIEW);
   const isNoAuth = authorizationStatus !== AuthorizationStatus.AUTH;
@@ -87,7 +81,7 @@ const MoviePage = (props) => {
 
               <div className="movie-card__buttons">
                 <Link
-                  to={`${AppRoute.PLAYER}/${id}`}
+                  to={`${AppRoute.PLAYER}/${currentFilm.id}`}
                   className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref={`#play-s`}></use>
@@ -102,13 +96,12 @@ const MoviePage = (props) => {
                   <span>My list</span>
                 </button>
 
-                <a
-                  onClick={(evt) => {
-                    evt.preventDefault();
-                    onScreenAddReviewSwitch();
-                  }}
+                <Link
+                  to={`${AppRoute.FILMS}/${currentFilm.id}${AppRoute.REVIEW}`}
                   href="add-review.html"
-                  className={`btn movie-card__button ${isNoAuth && `visually-hidden`}`}>Add review</a>
+                  className={`btn movie-card__button ${isNoAuth && `visually-hidden`}`}>
+                    Add review
+                </Link>
               </div>
             </div>
           </div>
@@ -156,11 +149,7 @@ const MoviePage = (props) => {
 };
 
 MoviePage.propTypes = {
-  id: PropTypes.number.isRequired,
-  onSetCurrentId: PropTypes.func.isRequired,
-
   onScreenAddReviewSwitch: PropTypes.func.isRequired,
-
 
   onCardFilmClick: PropTypes.func.isRequired,
 
@@ -168,6 +157,7 @@ MoviePage.propTypes = {
     AuthorizationStatus.AUTH,
     AuthorizationStatus.NO_AUTH,
     AuthorizationStatus.PENDING,
+    AuthorizationStatus.INITIAL,
   ]).isRequired,
 
   currentFilm: PropTypes.oneOfType([
@@ -221,10 +211,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSetCurrentId(id) {
-    dispatch(DataActionCreator.setCurrentId(id));
-  },
-
 
   onScreenAddReviewSwitch() {
     dispatch(ActionCreator.changeScreen(ScreenType.ADD_REVIEW));

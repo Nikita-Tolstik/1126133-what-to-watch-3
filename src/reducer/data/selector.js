@@ -3,6 +3,7 @@ import NameSpace from '../name-space.js';
 import {getGenre} from '../logic/selector.js';
 
 const ALL_GENRES = `All genres`;
+const NO_CURRENT_FILM = -1;
 
 export const getCurrentId = (state) => {
   return state[NameSpace.DATA].currentId;
@@ -29,8 +30,8 @@ export const getCurrentFilm = createSelector(
 
     (films, id) => {
 
-      if (id === -1 || films.length === 0) {
-        return 0;
+      if (id === NO_CURRENT_FILM || films.length === 0) {
+        return NO_CURRENT_FILM;
       }
 
       return films.find((film) => film.id === id);

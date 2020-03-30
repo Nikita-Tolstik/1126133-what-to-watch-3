@@ -11,6 +11,10 @@ export const AppRoute = {
   LOGIN: `/login`,
   MY_LIST: `/mylist`,
   FILMS: `/films`,
-  ADD_REVIEW: `/review`,
+  REVIEW: `/review`,
   PLAYER: `/player`,
+};
+
+export const HistoryAction = {
+  POP: `POP`,
 };
