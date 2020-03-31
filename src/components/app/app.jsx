@@ -66,7 +66,7 @@ class App extends PureComponent {
             render={(props) => {
               const {match} = props;
               const currentId = Number(match.params.id);
-              // console.log(props);
+
               if (currentId !== id) {
                 this.handleFilmSet(currentId);
               }
@@ -106,7 +106,7 @@ class App extends PureComponent {
             exact
             path={`${AppRoute.FILMS}/:id${AppRoute.REVIEW}`}
             render={(props) => {
-              // console.log(props);
+
               const {match} = props;
               const currentId = Number(match.params.id);
 

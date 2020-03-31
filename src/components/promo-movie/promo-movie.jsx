@@ -5,9 +5,20 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.js';
 import UserBlock from '../user-block/user-block.jsx';
 import {getPromoFilm} from '../../reducer/data/selector.js';
+import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
+import {AuthorizationStatus} from '../../reducer/user/user.js';
+import {checkFavoriteFilm} from '../../reducer/data/selector.js';
+import {Operation as DataOperation} from '../../reducer/data/data.js';
+import history from '../../history.js';
 
+const StatusFavorite = {
+  ADD: 1,
+  DELETE: 0,
+};
 
-const PromoMovie = ({promoFilm, onCardFilmClick}) => {
+const PromoMovie = ({promoFilm, authorizationStatus, isFavorite, onFavoriteStatusUpdate, onCardFilmClick}) => {
+  const isAuth = authorizationStatus === AuthorizationStatus.AUTH;
+  const status = isFavorite ? StatusFavorite.DELETE : StatusFavorite.ADD;
 
   return (
     <React.Fragment>
@@ -56,12 +67,20 @@ const PromoMovie = ({promoFilm, onCardFilmClick}) => {
                   <span>Play</span>
                 </Link>
 
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
+                <button
+                  onClick={() => {
+                    return isAuth ? onFavoriteStatusUpdate(promoFilm.id, status) : history.push(AppRoute.LOGIN);
+                  }}
+                  className="btn btn--list movie-card__button" type="button">
+                  <svg
+                    viewBox={isFavorite ? `0 0 18 14` : `0 0 19 20`}
+                    width={isFavorite ? `18` : `19`}
+                    height={isFavorite ? `14` : `20`}>
+                    <use xlinkHref={isFavorite ? `#in-list` : `#add`}></use>
                   </svg>
                   <span>My list</span>
                 </button>
+
               </div>
             </div>
           </div>
@@ -72,7 +91,17 @@ const PromoMovie = ({promoFilm, onCardFilmClick}) => {
 };
 
 PromoMovie.propTypes = {
+  isFavorite: PropTypes.bool.isRequired,
   onCardFilmClick: PropTypes.func.isRequired,
+  onFavoriteStatusUpdate: PropTypes.func.isRequired,
+
+  authorizationStatus: PropTypes.oneOf([
+    AuthorizationStatus.AUTH,
+    AuthorizationStatus.NO_AUTH,
+    AuthorizationStatus.PENDING,
+    AuthorizationStatus.INITIAL,
+  ]).isRequired,
+
   promoFilm: PropTypes.oneOfType([
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -98,8 +127,16 @@ PromoMovie.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  isFavorite: checkFavoriteFilm(state),
   promoFilm: getPromoFilm(state),
+  authorizationStatus: getAuthorizationStatus(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onFavoriteStatusUpdate(id, status) {
+    dispatch(DataOperation.updateStatusFilm(id, status));
+  }
 });
 
 export {PromoMovie};
-export default connect(mapStateToProps)(PromoMovie);
+export default connect(mapStateToProps, mapDispatchToProps)(PromoMovie);

@@ -11,8 +11,7 @@ import {AuthorizationStatus} from '../../reducer/user/user.js';
 import {getFilms, getCurrentFilm} from '../../reducer/data/selector.js';
 import {getSimilarFilms} from '../../utils/utils.js';
 import {AppRoute} from '../../const.js';
-
-import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
+import history from '../../history.js';
 
 
 const MoviePage = (props) => {
@@ -21,7 +20,6 @@ const MoviePage = (props) => {
     initialFilms,
     authorizationStatus,
     onCardFilmClick,
-    onScreenAddReviewSwitch,
   } = props;
 
   window.scrollTo({
@@ -34,7 +32,7 @@ const MoviePage = (props) => {
   }
 
   const NavigationListWrapped = withActiveValue(NavigationList, TabType.OVERVIEW);
-  const isNoAuth = authorizationStatus !== AuthorizationStatus.AUTH;
+  const isAuth = authorizationStatus === AuthorizationStatus.AUTH;
   const similarFilms = getSimilarFilms(initialFilms, currentFilm);
   const isSimilarFilms = similarFilms.length !== 0;
 
@@ -89,7 +87,12 @@ const MoviePage = (props) => {
                   <span>Play</span>
                 </Link>
 
-                <button className="btn btn--list movie-card__button" type="button">
+                {/* Реализация логики кнопки MyList */}
+                <button
+                  onClick={() => {
+                    return isAuth ? console.log(1) : history.push(AppRoute.LOGIN);
+                  }}
+                  className="btn btn--list movie-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref={`#add`}></use>
                   </svg>
@@ -99,7 +102,7 @@ const MoviePage = (props) => {
                 <Link
                   to={`${AppRoute.FILMS}/${currentFilm.id}${AppRoute.REVIEW}`}
                   href="add-review.html"
-                  className={`btn movie-card__button ${isNoAuth && `visually-hidden`}`}>
+                  className={`btn movie-card__button ${isAuth ? `` : `visually-hidden`}`}>
                     Add review
                 </Link>
               </div>
@@ -149,8 +152,6 @@ const MoviePage = (props) => {
 };
 
 MoviePage.propTypes = {
-  onScreenAddReviewSwitch: PropTypes.func.isRequired,
-
   onCardFilmClick: PropTypes.func.isRequired,
 
   authorizationStatus: PropTypes.oneOf([
@@ -210,12 +211,6 @@ const mapStateToProps = (state) => ({
   authorizationStatus: getAuthorizationStatus(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-
-  onScreenAddReviewSwitch() {
-    dispatch(ActionCreator.changeScreen(ScreenType.ADD_REVIEW));
-  },
-});
 
 export {MoviePage};
-export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);
+export default connect(mapStateToProps)(MoviePage);

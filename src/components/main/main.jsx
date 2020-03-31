@@ -12,6 +12,7 @@ import {getFilms} from '../../reducer/data/selector.js';
 const Main = ({initialFilms, onCardFilmClick, onGenreClick}) => {
   const genres = getGenres(initialFilms);
 
+
   return (
 
     <React.Fragment>

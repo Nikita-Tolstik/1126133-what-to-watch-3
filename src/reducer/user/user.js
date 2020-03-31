@@ -1,5 +1,6 @@
 import {extend} from '../../utils/utils.js';
 import {AppRoute, HistoryAction} from '../../const.js';
+import {Operation as DataOperation} from '../data/data.js';
 import history from '../../history.js';
 
 const NO_USER_INFO = `NO_USER_INFO`;
@@ -57,8 +58,9 @@ const Operation = {
   checkAuth: () => (dispatch, _getState, api) => {
     return api.get(`/login`)
     .then((response) => {
-      dispatch(ActionCreator.saveUserInfo(response.data[AVATAR_URL]));
+      dispatch(DataOperation.loadFavoriteFilms());
       dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
+      dispatch(ActionCreator.saveUserInfo(response.data[AVATAR_URL]));
     })
     .catch((err) => {
       throw err;
@@ -71,12 +73,14 @@ const Operation = {
       password: authData.password,
     })
     .then((response) => {
+
       if (history.action === HistoryAction.POP) {
         history.push(AppRoute.ROOT);
       } else {
         history.goBack();
       }
 
+      dispatch(DataOperation.loadFavoriteFilms());
       dispatch(ActionCreator.saveUserInfo(response.data[AVATAR_URL]));
       dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
     })
