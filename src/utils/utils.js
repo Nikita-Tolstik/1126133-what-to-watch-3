@@ -106,3 +106,13 @@ export const parseDate = (date) => {
   return new Date(date).toLocaleString(`en-US`, Options);
 };
 
+export const debounce = (fn, time) => {
+  let timeout;
+
+  return function () {
+    const functionCall = () => fn(...arguments);
+
+    clearTimeout(timeout);
+    timeout = setTimeout(functionCall, time);
+  };
+};

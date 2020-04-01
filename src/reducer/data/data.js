@@ -1,6 +1,8 @@
 import {extend} from '../../utils/utils.js';
 import {parseFilm} from '../../adapter.js';
 import NameSpace from '../name-space.js';
+import history from '../../history.js';
+import {AppRoute} from '../../const.js';
 
 const initialState = {
   currentId: -1,
@@ -16,6 +18,8 @@ const ActionType = {
   SET_CURRENT_ID: `SET_CURRENT_ID`,
   UPDATE_STATUS_FILM: `UPDATE_STATUS_FILM`,
 };
+
+const UNAUTHORIZED = 401;
 
 const ActionCreator = {
   setFilms: (films) => {
@@ -37,22 +41,17 @@ const ActionCreator = {
   updateFavoriteFilms: (film, films) => {
     const parsedFilm = parseFilm(film);
     const isFavorite = parsedFilm.isFavorite;
-    let updateFilms;
-    // console.log(parsedFilm);
-    if (isFavorite) {
-      updateFilms = films.unshift(parsedFilm);
-    } else {
-      // console.log(films);
-      const index = films.findIndex((it) => it.id === parsedFilm.id);
-      console.log(index);
 
-      updateFilms = films.length === 0 ? [] : films.splice(index, 1);
+    if (isFavorite) {
+      films.unshift(parsedFilm);
+    } else {
+      const index = films.findIndex((it) => it.id === parsedFilm.id);
+      films.splice(index, 1);
     }
 
-    // console.log(updateFilms);
     return {
       type: ActionType.SET_FAVORITE_FILMS,
-      payload: updateFilms,
+      payload: films,
     };
   },
 
@@ -97,8 +96,14 @@ const Operation = {
   updateStatusFilm: (id, status) => (dispatch, _getState, api) => {
     return api.post(`/favorite/${id}/${status}`)
     .then((response) => {
-      // console.log(_getState()[NameSpace.DATA].favoriteFilms);
-      dispatch(ActionCreator.updateFavoriteFilms(response.data, _getState()[NameSpace.DATA].favoriteFilms));
+      const favoriteFilmsCopy = _getState()[NameSpace.DATA].favoriteFilms.slice();
+      dispatch(ActionCreator.updateFavoriteFilms(response.data, favoriteFilmsCopy));
+    })
+    .catch((err) => {
+      const {response} = err;
+      if (response.status === UNAUTHORIZED) {
+        history.push(AppRoute.LOGIN);
+      }
     });
   }
 };

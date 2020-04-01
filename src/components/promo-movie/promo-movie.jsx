@@ -7,7 +7,7 @@ import UserBlock from '../user-block/user-block.jsx';
 import {getPromoFilm} from '../../reducer/data/selector.js';
 import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
 import {AuthorizationStatus} from '../../reducer/user/user.js';
-import {checkFavoriteFilm} from '../../reducer/data/selector.js';
+import {getFavoriteFilms} from '../../reducer/data/selector.js';
 import {Operation as DataOperation} from '../../reducer/data/data.js';
 import history from '../../history.js';
 
@@ -16,8 +16,9 @@ const StatusFavorite = {
   DELETE: 0,
 };
 
-const PromoMovie = ({promoFilm, authorizationStatus, isFavorite, onFavoriteStatusUpdate, onCardFilmClick}) => {
+const PromoMovie = ({promoFilm, authorizationStatus, favoriteFilms, onFavoriteStatusUpdate, onCardFilmClick}) => {
   const isAuth = authorizationStatus === AuthorizationStatus.AUTH;
+  const isFavorite = favoriteFilms.find((film) => film.id === promoFilm.id);
   const status = isFavorite ? StatusFavorite.DELETE : StatusFavorite.ADD;
 
   return (
@@ -91,7 +92,6 @@ const PromoMovie = ({promoFilm, authorizationStatus, isFavorite, onFavoriteStatu
 };
 
 PromoMovie.propTypes = {
-  isFavorite: PropTypes.bool.isRequired,
   onCardFilmClick: PropTypes.func.isRequired,
   onFavoriteStatusUpdate: PropTypes.func.isRequired,
 
@@ -101,6 +101,26 @@ PromoMovie.propTypes = {
     AuthorizationStatus.PENDING,
     AuthorizationStatus.INITIAL,
   ]).isRequired,
+
+  favoriteFilms: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    posterImage: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    scoresCount: PropTypes.number.isRequired,
+    director: PropTypes.string.isRequired,
+    stars: PropTypes.array.isRequired,
+    runTime: PropTypes.number.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    videoLink: PropTypes.string.isRequired,
+    videoPreview: PropTypes.string.isRequired,
+  })).isRequired,
 
   promoFilm: PropTypes.oneOfType([
     PropTypes.shape({
@@ -127,7 +147,7 @@ PromoMovie.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isFavorite: checkFavoriteFilm(state),
+  favoriteFilms: getFavoriteFilms(state),
   promoFilm: getPromoFilm(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
