@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import {getStatus} from '../../reducer/user/selectors.js';
 import {Operation as UserOperation, ActionCreator, Status, AuthorizationStatus} from '../../reducer/user/user.js';
 import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
+import {AppRoute} from '../../const.js';
+import history from '../../history.js';
 
 
 const StyleSettings = {
@@ -28,6 +30,13 @@ class SingIn extends PureComponent {
 
     this._handleSubmit = this._handleSubmit.bind(this);
     this._handleError = this._handleError.bind(this);
+  }
+
+  componentDidUpdate() {
+    const {authorizationStatus} = this.props;
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      history.push(AppRoute.ROOT);
+    }
   }
 
   _handleSubmit(evt) {

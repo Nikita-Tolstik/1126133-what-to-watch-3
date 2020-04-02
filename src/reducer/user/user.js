@@ -73,9 +73,11 @@ const Operation = {
       password: authData.password,
     })
     .then((response) => {
-
-      if (history.action === HistoryAction.POP) {
+      console.log(_getState()[`USER`].authorizationStatus);
+      if (history.action === HistoryAction.POP && !history.location.state) {
         history.push(AppRoute.ROOT);
+      } else if (_getState()[`USER`].authorizationStatus === AuthorizationStatus.AUTH && history.location.state) {
+        history.push(AppRoute.MY_LIST);
       } else {
         history.goBack();
       }

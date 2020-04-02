@@ -7,15 +7,17 @@ import withActivePlayer from '../../hocs/with-active-player/with-active-player.j
 import {getFilteredFilms} from '../../reducer/data/selector.js';
 import {getCountShownFilms} from '../../reducer/logic/selector.js';
 import {ActionCreator} from '../../reducer/logic/logic.js';
+import {AppRoute} from '../../const.js';
+import history from '../../history.js';
 
 const DEFAULT_COUNT_FILMS = 4;
 
 const SmallMovieCardWrapped = withActivePlayer(SmallMovieCard);
 
 const FilmsList = ({films, countShownFilms, onCardFilmClick, onShowMoreButtonClick}) => {
-
-  const shownFilms = films.slice(0, countShownFilms);
-  const isShowMoreButton = films.length > countShownFilms;
+  const isPathMyList = history.location.pathname !== AppRoute.MY_LIST;
+  const shownFilms = isPathMyList ? films.slice(0, countShownFilms) : films;
+  const isShowMoreButton = films.length > countShownFilms && isPathMyList;
 
   return (
     <React.Fragment>

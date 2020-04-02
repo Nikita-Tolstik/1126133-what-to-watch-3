@@ -7,6 +7,8 @@ import MoviePage from '../movie-page/movie-page.jsx';
 import SignIn from '../sign-in/sign-in.jsx';
 import AddReview from '../add-review/add-review.jsx';
 import VideoScreen from '../video-screen/video-screen.jsx';
+import MyList from '../my-list/my-list.jsx';
+import PrivateRoute from '../private-route/private-route.jsx';
 import withVideoPlayer from '../../hocs/with-video-player/with-video-player.js';
 import {Operation as CommentOperation} from '../../reducer/comment/comment.js';
 import {ActionCreator as DataActionCreator} from '../../reducer/data/data.js';
@@ -102,7 +104,7 @@ class App extends PureComponent {
           />
 
 
-          <Route
+          <PrivateRoute
             exact
             path={`${AppRoute.FILMS}/:id${AppRoute.REVIEW}`}
             render={(props) => {
@@ -117,6 +119,21 @@ class App extends PureComponent {
               return (
                 <AddReview
                   film={currentFilm}
+                />
+              );
+            }}
+          />
+
+
+          <PrivateRoute
+            exact
+            path={AppRoute.MY_LIST}
+            render={() => {
+              return (
+                <MyList
+                  onCardFilmClick={(film) => {
+                    onMovieCardClick(film.id);
+                  }}
                 />
               );
             }}
