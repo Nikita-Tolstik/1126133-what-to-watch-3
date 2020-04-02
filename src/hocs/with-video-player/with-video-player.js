@@ -1,8 +1,8 @@
 import React, {PureComponent, createRef} from 'react';
 import PropTypes from 'prop-types';
 
-const withVideoControls = (Component) => {
-  class WithVideoControls extends PureComponent {
+const withVideoPlayer = (Component) => {
+  class WithVideoPlayer extends PureComponent {
     constructor(props) {
       super(props);
 
@@ -11,7 +11,7 @@ const withVideoControls = (Component) => {
         prevTime: 0,
         currentTime: 0,
         isLoading: true,
-        isPlaying: true,
+        isPlaying: false,
       };
 
       this.videoRef = createRef();
@@ -21,12 +21,11 @@ const withVideoControls = (Component) => {
 
     componentDidMount() {
       const video = this.videoRef.current;
-      const {film} = this.props;
-      video.src = film.videoLink;
 
       video.oncanplaythrough = () => {
         this.setState({
           isLoading: false,
+          isPlaying: true,
         });
       };
 
@@ -92,7 +91,7 @@ const withVideoControls = (Component) => {
 
     render() {
       const {currentTime, duration, isPlaying, isLoading} = this.state;
-      const video = this.videoRef.current;
+      const {film} = this.props;
 
       return (
         <Component
@@ -104,36 +103,39 @@ const withVideoControls = (Component) => {
           onFullScreenClick={this.handleFullScreenClick}
           onPlayButtonClick={this.handlePlayButtonClick}
         >
-          <video className="player__video" ref={this.videoRef} poster="img/player-poster.jpg"></video>
+          <video className="player__video" ref={this.videoRef} src={film.videoLink} muted poster="/img/player-poster.jpg"></video>
         </Component>
       );
     }
   }
 
-  WithVideoControls.propTypes = {
-    film: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      posterImage: PropTypes.string.isRequired,
-      previewImage: PropTypes.string.isRequired,
-      backgroundImage: PropTypes.string.isRequired,
-      backgroundColor: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-      scoresCount: PropTypes.number.isRequired,
-      director: PropTypes.string.isRequired,
-      stars: PropTypes.array.isRequired,
-      runTime: PropTypes.number.isRequired,
-      genre: PropTypes.string.isRequired,
-      released: PropTypes.number.isRequired,
-      isFavorite: PropTypes.bool.isRequired,
-      videoLink: PropTypes.string.isRequired,
-      videoPreview: PropTypes.string.isRequired,
-    }),
+  WithVideoPlayer.propTypes = {
+    film: PropTypes.oneOfType([
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        posterImage: PropTypes.string.isRequired,
+        previewImage: PropTypes.string.isRequired,
+        backgroundImage: PropTypes.string.isRequired,
+        backgroundColor: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        rating: PropTypes.number.isRequired,
+        scoresCount: PropTypes.number.isRequired,
+        director: PropTypes.string.isRequired,
+        stars: PropTypes.array.isRequired,
+        runTime: PropTypes.number.isRequired,
+        genre: PropTypes.string.isRequired,
+        released: PropTypes.number.isRequired,
+        isFavorite: PropTypes.bool.isRequired,
+        videoLink: PropTypes.string.isRequired,
+        videoPreview: PropTypes.string.isRequired,
+      }),
+      PropTypes.number.isRequired
+    ]).isRequired,
   };
 
-  return WithVideoControls;
+  return WithVideoPlayer;
 };
 
-export default withVideoControls;
+export default withVideoPlayer;
 

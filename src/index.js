@@ -6,12 +6,9 @@ import thunk from 'redux-thunk';
 import {composeWithDevTools} from "redux-devtools-extension";
 import App from './components/app/app.jsx';
 import reducer from './reducer/reducer.js';
-import withActiveValue from './hocs/with-active-value/with-active-value.js';
 import {Operation as DataOperation} from './reducer/data/data.js';
 import {Operation as UserOperation, ActionCreator, AuthorizationStatus} from './reducer/user/user.js';
 import {createAPI} from './api.js';
-
-const AppWrapped = withActiveValue(App);
 
 const onUnauthorized = () => {
   store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
@@ -30,13 +27,15 @@ const store = createStore(
     )
 );
 
+
+store.dispatch(UserOperation.checkAuth());
 store.dispatch(DataOperation.loadFilms());
 store.dispatch(DataOperation.loadPromoFilm());
-store.dispatch(UserOperation.checkAuth());
+
 
 ReactDOM.render(
     <Provider store={store}>
-      <AppWrapped
+      <App
       />
     </Provider>,
     document.querySelector(`#root`)

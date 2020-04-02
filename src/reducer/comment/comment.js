@@ -1,6 +1,7 @@
 import {extend} from '../../utils/utils.js';
-import {ActionCreator as ActionCreatorScreen, ScreenType} from '../screen-type/screen-type.js';
 import {parseComment} from '../../adapter.js';
+import history from '../../history.js';
+import {AppRoute} from '../../const.js';
 
 const ReviewStatus = {
   OK: `OK`,
@@ -43,9 +44,9 @@ const Operation = {
       comment: reviewData.comment,
     })
     .then((response) => {
+      history.push(`${AppRoute.FILMS}/${reviewData.id}`);
       dispatch(ActionCreator.changeStatus(ReviewStatus.OK));
       dispatch(ActionCreator.setComments(response.data));
-      dispatch(ActionCreatorScreen.changeScreen(ScreenType.MOVIE));
     })
     .catch(() => {
       dispatch(ActionCreator.changeStatus(ReviewStatus.ERROR));

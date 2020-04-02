@@ -1,12 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const.js';
 import UserBlock from '../user-block/user-block.jsx';
 import {getPromoFilm} from '../../reducer/data/selector.js';
-import {ActionCreator, ScreenType} from '../../reducer/screen-type/screen-type.js';
+import {getFavoriteFilms} from '../../reducer/data/selector.js';
+import {Operation as DataOperation} from '../../reducer/data/data.js';
+import {debounce} from 'debounce';
 
+const TIMER = 200;
 
-const PromoMovie = ({promoFilm, onScreenVideoPlayerSwitch, onCardFilmClick}) => {
+const StatusFavorite = {
+  ADD: 1,
+  DELETE: 0,
+};
+
+const PromoMovie = ({promoFilm, favoriteFilms, onFavoriteStatusUpdate, onCardFilmClick}) => {
+  const isFavorite = favoriteFilms.find((film) => film.id === promoFilm.id);
+  const status = isFavorite ? StatusFavorite.DELETE : StatusFavorite.ADD;
+
 
   return (
     <React.Fragment>
@@ -43,24 +56,30 @@ const PromoMovie = ({promoFilm, onScreenVideoPlayerSwitch, onCardFilmClick}) => 
               </p>
 
               <div className="movie-card__buttons">
-                <button
+                <Link
+                  to={`${AppRoute.PLAYER}/${promoFilm.id}`}
                   onClick={() => {
                     onCardFilmClick(promoFilm);
-                    onScreenVideoPlayerSwitch();
                   }}
                   className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
 
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
+                <button
+                  onClick={debounce(() => onFavoriteStatusUpdate(promoFilm.id, status), TIMER)}
+                  className="btn btn--list movie-card__button" type="button">
+                  <svg
+                    viewBox={isFavorite ? `0 0 18 14` : `0 0 19 20`}
+                    width={isFavorite ? `18` : `19`}
+                    height={isFavorite ? `14` : `20`}>
+                    <use xlinkHref={isFavorite ? `#in-list` : `#add`}></use>
                   </svg>
                   <span>My list</span>
                 </button>
+
               </div>
             </div>
           </div>
@@ -72,7 +91,28 @@ const PromoMovie = ({promoFilm, onScreenVideoPlayerSwitch, onCardFilmClick}) => 
 
 PromoMovie.propTypes = {
   onCardFilmClick: PropTypes.func.isRequired,
-  onScreenVideoPlayerSwitch: PropTypes.func.isRequired,
+  onFavoriteStatusUpdate: PropTypes.func.isRequired,
+
+  favoriteFilms: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    posterImage: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    scoresCount: PropTypes.number.isRequired,
+    director: PropTypes.string.isRequired,
+    stars: PropTypes.array.isRequired,
+    runTime: PropTypes.number.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    videoLink: PropTypes.string.isRequired,
+    videoPreview: PropTypes.string.isRequired,
+  })).isRequired,
+
   promoFilm: PropTypes.oneOfType([
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -93,17 +133,18 @@ PromoMovie.propTypes = {
       videoLink: PropTypes.string.isRequired,
       videoPreview: PropTypes.string.isRequired,
     }),
-    PropTypes.shape({}).isRequired
+    PropTypes.number.isRequired
   ]).isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  favoriteFilms: getFavoriteFilms(state),
   promoFilm: getPromoFilm(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onScreenVideoPlayerSwitch() {
-    dispatch(ActionCreator.changeScreen(ScreenType.VIDEO_PLAYER));
+  onFavoriteStatusUpdate(id, status) {
+    dispatch(DataOperation.updateStatusFilm(id, status));
   }
 });
 

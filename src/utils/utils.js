@@ -1,7 +1,12 @@
-import moment from 'moment';
 import {MarkFilm} from '../const.js';
 
 const ALL_GENRES = `All genres`;
+
+const Options = {
+  year: `numeric`,
+  month: `long`,
+  day: `numeric`,
+};
 
 const TimeSettings = {
   HOUR: `h`,
@@ -62,10 +67,6 @@ export const parseRunTime = (time) => {
   return parsedTime;
 };
 
-export const parseDate = (date) => {
-  return moment(date).format(`LL`);
-};
-
 export const filterElement = (elements, type) => {
   let filteredElements;
 
@@ -100,3 +101,8 @@ export const getTimeElapsed = (currentTime, duration) => {
 export const getProgress = (currentTime, duration) => {
   return Math.round(100 - (1 - currentTime / duration) * 100);
 };
+
+export const parseDate = (date) => {
+  return new Date(date).toLocaleString(`en-US`, Options);
+};
+
