@@ -11,8 +11,17 @@ import {AuthorizationStatus} from '../../reducer/user/user.js';
 import {getFilms, getCurrentFilm} from '../../reducer/data/selector.js';
 import {getSimilarFilms} from '../../utils/utils.js';
 import {AppRoute} from '../../const.js';
-import history from '../../history.js';
+import {debounce} from 'debounce';
+import {getFavoriteFilms} from '../../reducer/data/selector.js';
+import {Operation as DataOperation} from '../../reducer/data/data.js';
 
+
+const TIMER = 200;
+
+const StatusFavorite = {
+  ADD: 1,
+  DELETE: 0,
+};
 
 const MoviePage = (props) => {
   const {
@@ -20,7 +29,10 @@ const MoviePage = (props) => {
     initialFilms,
     authorizationStatus,
     onCardFilmClick,
+    favoriteFilms,
+    onFavoriteStatusUpdate,
   } = props;
+
 
   window.scrollTo({
     top: 0,
@@ -35,6 +47,8 @@ const MoviePage = (props) => {
   const isAuth = authorizationStatus === AuthorizationStatus.AUTH;
   const similarFilms = getSimilarFilms(initialFilms, currentFilm);
   const isSimilarFilms = similarFilms.length !== 0;
+  const isFavorite = favoriteFilms.find((film) => film.id === currentFilm.id);
+  const status = isFavorite ? StatusFavorite.DELETE : StatusFavorite.ADD;
 
   let filmListMarkup = <h3 className="catalog__title">There are no similar movies.</h3>;
 
@@ -87,14 +101,14 @@ const MoviePage = (props) => {
                   <span>Play</span>
                 </Link>
 
-                {/* Реализация логики кнопки MyList */}
                 <button
-                  onClick={() => {
-                    return isAuth ? console.log(1) : history.push(AppRoute.LOGIN);
-                  }}
+                  onClick={debounce(() => onFavoriteStatusUpdate(currentFilm.id, status), TIMER)}
                   className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref={`#add`}></use>
+                  <svg
+                    viewBox={isFavorite ? `0 0 18 14` : `0 0 19 20`}
+                    width={isFavorite ? `18` : `19`}
+                    height={isFavorite ? `14` : `20`}>
+                    <use xlinkHref={isFavorite ? `#in-list` : `#add`}></use>
                   </svg>
                   <span>My list</span>
                 </button>
@@ -153,6 +167,7 @@ const MoviePage = (props) => {
 
 MoviePage.propTypes = {
   onCardFilmClick: PropTypes.func.isRequired,
+  onFavoriteStatusUpdate: PropTypes.func.isRequired,
 
   authorizationStatus: PropTypes.oneOf([
     AuthorizationStatus.AUTH,
@@ -184,6 +199,26 @@ MoviePage.propTypes = {
     PropTypes.number.isRequired
   ]).isRequired,
 
+  favoriteFilms: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    posterImage: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    backgroundImage: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    scoresCount: PropTypes.number.isRequired,
+    director: PropTypes.string.isRequired,
+    stars: PropTypes.array.isRequired,
+    runTime: PropTypes.number.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    videoLink: PropTypes.string.isRequired,
+    videoPreview: PropTypes.string.isRequired,
+  })).isRequired,
+
   initialFilms: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -208,9 +243,15 @@ MoviePage.propTypes = {
 const mapStateToProps = (state) => ({
   currentFilm: getCurrentFilm(state),
   initialFilms: getFilms(state),
+  favoriteFilms: getFavoriteFilms(state),
   authorizationStatus: getAuthorizationStatus(state),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onFavoriteStatusUpdate(id, status) {
+    dispatch(DataOperation.updateStatusFilm(id, status));
+  }
+});
 
 export {MoviePage};
-export default connect(mapStateToProps)(MoviePage);
+export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);

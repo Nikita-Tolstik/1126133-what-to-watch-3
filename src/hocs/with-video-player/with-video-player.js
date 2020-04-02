@@ -103,7 +103,7 @@ const withVideoPlayer = (Component) => {
           onFullScreenClick={this.handleFullScreenClick}
           onPlayButtonClick={this.handlePlayButtonClick}
         >
-          <video className="player__video" ref={this.videoRef} src={film.videoLink} poster="/img/player-poster.jpg"></video>
+          <video className="player__video" ref={this.videoRef} src={film.videoLink} muted poster="/img/player-poster.jpg"></video>
         </Component>
       );
     }

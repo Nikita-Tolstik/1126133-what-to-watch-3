@@ -5,21 +5,21 @@ import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.js';
 import UserBlock from '../user-block/user-block.jsx';
 import {getPromoFilm} from '../../reducer/data/selector.js';
-import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
-import {AuthorizationStatus} from '../../reducer/user/user.js';
 import {getFavoriteFilms} from '../../reducer/data/selector.js';
 import {Operation as DataOperation} from '../../reducer/data/data.js';
-import history from '../../history.js';
+import {debounce} from 'debounce';
+
+const TIMER = 200;
 
 const StatusFavorite = {
   ADD: 1,
   DELETE: 0,
 };
 
-const PromoMovie = ({promoFilm, authorizationStatus, favoriteFilms, onFavoriteStatusUpdate, onCardFilmClick}) => {
-  const isAuth = authorizationStatus === AuthorizationStatus.AUTH;
+const PromoMovie = ({promoFilm, favoriteFilms, onFavoriteStatusUpdate, onCardFilmClick}) => {
   const isFavorite = favoriteFilms.find((film) => film.id === promoFilm.id);
   const status = isFavorite ? StatusFavorite.DELETE : StatusFavorite.ADD;
+
 
   return (
     <React.Fragment>
@@ -69,9 +69,7 @@ const PromoMovie = ({promoFilm, authorizationStatus, favoriteFilms, onFavoriteSt
                 </Link>
 
                 <button
-                  onClick={() => {
-                    return isAuth ? onFavoriteStatusUpdate(promoFilm.id, status) : history.push(AppRoute.LOGIN);
-                  }}
+                  onClick={debounce(() => onFavoriteStatusUpdate(promoFilm.id, status), TIMER)}
                   className="btn btn--list movie-card__button" type="button">
                   <svg
                     viewBox={isFavorite ? `0 0 18 14` : `0 0 19 20`}
@@ -94,13 +92,6 @@ const PromoMovie = ({promoFilm, authorizationStatus, favoriteFilms, onFavoriteSt
 PromoMovie.propTypes = {
   onCardFilmClick: PropTypes.func.isRequired,
   onFavoriteStatusUpdate: PropTypes.func.isRequired,
-
-  authorizationStatus: PropTypes.oneOf([
-    AuthorizationStatus.AUTH,
-    AuthorizationStatus.NO_AUTH,
-    AuthorizationStatus.PENDING,
-    AuthorizationStatus.INITIAL,
-  ]).isRequired,
 
   favoriteFilms: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -149,7 +140,6 @@ PromoMovie.propTypes = {
 const mapStateToProps = (state) => ({
   favoriteFilms: getFavoriteFilms(state),
   promoFilm: getPromoFilm(state),
-  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
