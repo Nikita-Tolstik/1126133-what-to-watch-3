@@ -3,6 +3,7 @@ import {parseFilm} from '../../adapter.js';
 import NameSpace from '../name-space.js';
 import history from '../../history.js';
 import {AppRoute} from '../../const.js';
+import {Error} from '../../const.js';
 
 const initialState = {
   currentId: -1,
@@ -19,7 +20,6 @@ const ActionType = {
   UPDATE_STATUS_FILM: `UPDATE_STATUS_FILM`,
 };
 
-const UNAUTHORIZED = 401;
 
 const ActionCreator = {
   setFilms: (films) => {
@@ -101,7 +101,7 @@ const Operation = {
     })
     .catch((err) => {
       const {response} = err;
-      if (response.status === UNAUTHORIZED) {
+      if (response.status === Error.UNAUTHORIZED) {
         history.push(AppRoute.LOGIN);
       }
     });

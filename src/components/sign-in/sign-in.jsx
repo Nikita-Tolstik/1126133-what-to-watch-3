@@ -1,11 +1,10 @@
 import React, {PureComponent, createRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import Logo from '../logo/logo.jsx';
 import {getStatus} from '../../reducer/user/selectors.js';
 import {Operation as UserOperation, ActionCreator, Status, AuthorizationStatus} from '../../reducer/user/user.js';
 import {getAuthorizationStatus} from '../../reducer/user/selectors.js';
-import {AppRoute} from '../../const.js';
-import history from '../../history.js';
 
 
 const StyleSettings = {
@@ -32,10 +31,18 @@ class SingIn extends PureComponent {
     this._handleError = this._handleError.bind(this);
   }
 
+  componentDidMount() {
+    const {responseStatus, onStatusReset} = this.props;
+    if (responseStatus === Status.BAD_REQUEST && this.emailRef.current.value.length === 0) {
+      onStatusReset(Status.RESET);
+    }
+  }
+
+
   componentDidUpdate() {
-    const {authorizationStatus} = this.props;
-    if (authorizationStatus === AuthorizationStatus.AUTH) {
-      history.push(AppRoute.ROOT);
+    const {responseStatus, onStatusReset} = this.props;
+    if (responseStatus === Status.BAD_REQUEST && this.emailRef.current.value.length === 0) {
+      onStatusReset(Status.RESET);
     }
   }
 
@@ -49,6 +56,7 @@ class SingIn extends PureComponent {
       password: this.passwordRef.current.value,
     }, this._handleError);
   }
+
 
   _handleError() {
     this.signInBlockRef.current.style.animation = StyleSettings.ANIMATION;
@@ -68,6 +76,7 @@ class SingIn extends PureComponent {
     const isDisabled = authorizationStatus === AuthorizationStatus.PENDING;
     let markUpError;
 
+
     if (responseStatus === Status.BAD_REQUEST) {
       markUpError = (
         <div className="sign-in__message">
@@ -79,13 +88,10 @@ class SingIn extends PureComponent {
     return (
       <div className="user-page">
         <header className="page-header user-page__head">
-          <div className="logo">
-            <a href="main.html" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+
+          <Logo
+            isHeader={true}
+          />
 
           <h1 className="page-title user-page__title">Sign in</h1>
         </header>
@@ -102,8 +108,8 @@ class SingIn extends PureComponent {
               <div className="sign-in__field">
                 <input
                   onChange={() => onStatusReset(Status.RESET)}
-                  className="sign-in__input" type="email" placeholder="Email address" required name="user-email" id="user-email"
                   ref={this.emailRef} disabled={isDisabled}
+                  className="sign-in__input" type="email" placeholder="Email address" required name="user-email" id="user-email"
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
@@ -121,13 +127,10 @@ class SingIn extends PureComponent {
         </div>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+
+          <Logo
+            isHeader={false}
+          />
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>

@@ -2,6 +2,8 @@ import {extend} from '../../utils/utils.js';
 import {parseComment} from '../../adapter.js';
 import history from '../../history.js';
 import {AppRoute} from '../../const.js';
+import {Error} from '../../const.js';
+
 
 const ReviewStatus = {
   OK: `OK`,
@@ -48,9 +50,13 @@ const Operation = {
       dispatch(ActionCreator.changeStatus(ReviewStatus.OK));
       dispatch(ActionCreator.setComments(response.data));
     })
-    .catch(() => {
-      dispatch(ActionCreator.changeStatus(ReviewStatus.ERROR));
-      onError();
+    .catch((err) => {
+      const {response} = err;
+
+      if (response.status !== Error.UNAUTHORIZED) {
+        dispatch(ActionCreator.changeStatus(ReviewStatus.ERROR));
+        onError();
+      }
     });
   },
 

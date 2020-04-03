@@ -10,14 +10,19 @@ import history from '../../history.js';
 
 const PrivateRoute = ({path, exact, render, authorizationStatus}) => {
 
+  if (authorizationStatus === AuthorizationStatus.INITIAL) {
+    return null;
+  }
+
   return (
     <Route
       path={path}
       exact={exact}
-      render={() => {
+      render={(props) => {
+
         return (
           authorizationStatus === AuthorizationStatus.AUTH
-            ? render()
+            ? render(props)
             : <Redirect
               to={{
                 pathname: AppRoute.LOGIN,

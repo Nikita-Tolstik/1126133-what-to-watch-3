@@ -16,6 +16,8 @@ import {getFilms, getCurrentFilm, getCurrentId} from '../../reducer/data/selecto
 import history from '../../history.js';
 import {AppRoute} from '../../const.js';
 
+import PageNotFound from '../page-not-found/page-not-found.jsx';
+
 
 const VideoScreenWrapped = withVideoPlayer(VideoScreen);
 
@@ -28,14 +30,19 @@ class App extends PureComponent {
   }
 
   handleFilmSet(currentId) {
-    const {
-      onSetCurrentId,
-      initialFilms,
-    } = this.props;
+    const {onSetCurrentId, initialFilms} = this.props;
 
-    const isFindFilm = initialFilms.find((it) => it.id === currentId);
+    if (initialFilms.length === 0) {
+      return;
+    }
+
+    const isFindFilm = initialFilms.find((it) => {
+      return it.id === currentId;
+    });
 
     if (!isFindFilm) {
+      history.push(AppRoute.ROOT);
+    } else {
       onSetCurrentId(currentId);
     }
   }
@@ -109,6 +116,7 @@ class App extends PureComponent {
             path={`${AppRoute.FILMS}/:id${AppRoute.REVIEW}`}
             render={(props) => {
 
+
               const {match} = props;
               const currentId = Number(match.params.id);
 
@@ -143,6 +151,15 @@ class App extends PureComponent {
           <Route exact path={AppRoute.LOGIN}>
             <SignIn />
           </Route>
+
+
+          <Route
+            render={() => (
+              <PageNotFound
+                errorMessage={`Page not found`}
+              />
+            )}
+          />
 
 
         </Switch>
