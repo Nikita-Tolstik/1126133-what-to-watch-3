@@ -32,6 +32,7 @@ const MoviePage = (props) => {
     onCardFilmClick,
     favoriteFilms,
     onFavoriteStatusUpdate,
+    children,
   } = props;
 
 
@@ -154,6 +155,8 @@ const MoviePage = (props) => {
             <p>© 2019 What to watch Ltd.</p>
           </div>
         </footer>
+
+        {children}
       </div>
     </React.Fragment>
   );
@@ -232,6 +235,11 @@ MoviePage.propTypes = {
     videoLink: PropTypes.string.isRequired,
     videoPreview: PropTypes.string.isRequired,
   })).isRequired,
+
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 const mapStateToProps = (state) => ({

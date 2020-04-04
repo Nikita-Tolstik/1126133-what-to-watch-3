@@ -6,7 +6,7 @@ import UserBlock from '../user-block/user-block.jsx';
 import Logo from '../logo/logo.jsx';
 import {getFavoriteFilms} from '../../reducer/data/selector.js';
 
-const MyList = ({favoriteFilms, onCardFilmClick}) => {
+const MyList = ({favoriteFilms, onCardFilmClick, children}) => {
 
   return (
     <div className="user-page">
@@ -40,6 +40,9 @@ const MyList = ({favoriteFilms, onCardFilmClick}) => {
           <p>© 2019 What to watch Ltd.</p>
         </div>
       </footer>
+
+      {children}
+
     </div>
   );
 };
@@ -47,7 +50,6 @@ const MyList = ({favoriteFilms, onCardFilmClick}) => {
 MyList.propTypes = {
 
   onCardFilmClick: PropTypes.func.isRequired,
-
   favoriteFilms: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -67,6 +69,11 @@ MyList.propTypes = {
     videoLink: PropTypes.string.isRequired,
     videoPreview: PropTypes.string.isRequired,
   })).isRequired,
+
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 const mapStateToProps = (state) => ({

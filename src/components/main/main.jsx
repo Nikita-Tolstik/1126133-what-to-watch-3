@@ -10,9 +10,8 @@ import {getGenres} from '../../utils/utils.js';
 import {getFilms} from '../../reducer/data/selector.js';
 
 
-const Main = ({initialFilms, onCardFilmClick, onGenreClick}) => {
+const Main = ({initialFilms, onCardFilmClick, onGenreClick, children}) => {
   const genres = getGenres(initialFilms);
-
 
   return (
 
@@ -47,6 +46,8 @@ const Main = ({initialFilms, onCardFilmClick, onGenreClick}) => {
             <p>© 2019 What to watch Ltd.</p>
           </div>
         </footer>
+
+        {children}
       </div>
     </React.Fragment>
   );
@@ -77,6 +78,11 @@ Main.propTypes = {
     videoLink: PropTypes.string.isRequired,
     videoPreview: PropTypes.string.isRequired,
   })).isRequired,
+
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 

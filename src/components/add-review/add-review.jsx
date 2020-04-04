@@ -63,7 +63,7 @@ class AddReview extends PureComponent {
   }
 
   render() {
-    const {film, reviewStatus} = this.props;
+    const {film, reviewStatus, children} = this.props;
     const ratings = new Array(MAX_RATING).fill(``);
 
     const isDisabled = reviewStatus === ReviewStatus.PENDING;
@@ -144,6 +144,8 @@ class AddReview extends PureComponent {
           </form>
         </div>
 
+        {children}
+
       </section>
     );
   }
@@ -178,6 +180,11 @@ AddReview.propTypes = {
       videoPreview: PropTypes.string.isRequired,
     }),
     PropTypes.number.isRequired
+  ]).isRequired,
+
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
   ]).isRequired,
 };
 

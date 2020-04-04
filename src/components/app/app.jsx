@@ -9,14 +9,13 @@ import AddReview from '../add-review/add-review.jsx';
 import VideoScreen from '../video-screen/video-screen.jsx';
 import MyList from '../my-list/my-list.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
+import ErrorMessage from '../error-message/error-message.jsx';
 import withVideoPlayer from '../../hocs/with-video-player/with-video-player.js';
 import {Operation as CommentOperation} from '../../reducer/comment/comment.js';
 import {ActionCreator as DataActionCreator} from '../../reducer/data/data.js';
 import {getFilms, getCurrentFilm, getCurrentId} from '../../reducer/data/selector.js';
 import history from '../../history.js';
 import {AppRoute} from '../../const.js';
-
-import PageNotFound from '../page-not-found/page-not-found.jsx';
 
 
 const VideoScreenWrapped = withVideoPlayer(VideoScreen);
@@ -63,7 +62,9 @@ class App extends PureComponent {
                   onCardFilmClick={(film) => {
                     onMovieCardClick(film.id);
                   }}
-                />
+                >
+                  <ErrorMessage />
+                </Main>
               );
             }}
           />
@@ -85,7 +86,9 @@ class App extends PureComponent {
                   onCardFilmClick={(film) => {
                     onMovieCardClick(film.id);
                   }}
-                />
+                >
+                  <ErrorMessage />
+                </MoviePage>
               );
             }}
           />
@@ -127,7 +130,9 @@ class App extends PureComponent {
               return (
                 <AddReview
                   film={currentFilm}
-                />
+                >
+                  <ErrorMessage />
+                </AddReview>
               );
             }}
           />
@@ -142,7 +147,9 @@ class App extends PureComponent {
                   onCardFilmClick={(film) => {
                     onMovieCardClick(film.id);
                   }}
-                />
+                >
+                  <ErrorMessage />
+                </MyList>
               );
             }}
           />
@@ -151,15 +158,6 @@ class App extends PureComponent {
           <Route exact path={AppRoute.LOGIN}>
             <SignIn />
           </Route>
-
-
-          <Route
-            render={() => (
-              <PageNotFound
-                errorMessage={`Page not found`}
-              />
-            )}
-          />
 
 
         </Switch>
@@ -172,6 +170,7 @@ App.propTypes = {
 
   id: PropTypes.number.isRequired,
   onSetCurrentId: PropTypes.func.isRequired,
+  onMovieCardClick: PropTypes.func.isRequired,
   initialFilms: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -192,8 +191,6 @@ App.propTypes = {
     videoPreview: PropTypes.string.isRequired,
   })).isRequired,
 
-
-  onMovieCardClick: PropTypes.func.isRequired,
   currentFilm: PropTypes.oneOfType([
     PropTypes.shape({
       id: PropTypes.number.isRequired,

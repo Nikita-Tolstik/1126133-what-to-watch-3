@@ -10,6 +10,7 @@ const initialState = {
   favoriteFilms: [],
   films: [],
   promoFilm: -1,
+  isError: false,
 };
 
 const ActionType = {
@@ -18,6 +19,7 @@ const ActionType = {
   SET_FAVORITE_FILMS: `SET_FAVORITE_FILMS`,
   SET_CURRENT_ID: `SET_CURRENT_ID`,
   UPDATE_STATUS_FILM: `UPDATE_STATUS_FILM`,
+  SET_ERROR: `SET_ERROR`,
 };
 
 
@@ -68,7 +70,12 @@ const ActionCreator = {
   updateStatusFilm: () => ({
     type: ActionType.UPDATE_STATUS_FILM,
     payload: null,
-  })
+  }),
+
+  setError: () => ({
+    type: ActionType.SET_ERROR,
+    payload: true,
+  }),
 };
 
 const Operation = {
@@ -128,6 +135,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_FAVORITE_FILMS:
       return extend(state, {
         favoriteFilms: action.payload,
+      });
+
+    case ActionType.SET_ERROR:
+      return extend(state, {
+        isError: action.payload,
       });
   }
 
