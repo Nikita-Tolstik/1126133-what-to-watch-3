@@ -3,12 +3,16 @@ import {parseFilm} from '../../adapter.js';
 import NameSpace from '../name-space.js';
 import history from '../../history.js';
 import {AppRoute} from '../../const.js';
+import {Error} from '../../const.js';
+
+const NO_CURRENT_FILM = -1;
 
 const initialState = {
-  currentId: -1,
+  currentId: NO_CURRENT_FILM,
   favoriteFilms: [],
   films: [],
-  promoFilm: -1,
+  promoFilm: NO_CURRENT_FILM,
+  isError: false,
 };
 
 const ActionType = {
@@ -17,9 +21,9 @@ const ActionType = {
   SET_FAVORITE_FILMS: `SET_FAVORITE_FILMS`,
   SET_CURRENT_ID: `SET_CURRENT_ID`,
   UPDATE_STATUS_FILM: `UPDATE_STATUS_FILM`,
+  SET_ERROR: `SET_ERROR`,
 };
 
-const UNAUTHORIZED = 401;
 
 const ActionCreator = {
   setFilms: (films) => {
@@ -68,8 +72,14 @@ const ActionCreator = {
   updateStatusFilm: () => ({
     type: ActionType.UPDATE_STATUS_FILM,
     payload: null,
-  })
+  }),
+
+  setError: () => ({
+    type: ActionType.SET_ERROR,
+    payload: true,
+  }),
 };
+
 
 const Operation = {
   loadFilms: () => (dispatch, _getState, api) => {
@@ -101,7 +111,7 @@ const Operation = {
     })
     .catch((err) => {
       const {response} = err;
-      if (response.status === UNAUTHORIZED) {
+      if (response.status === Error.UNAUTHORIZED) {
         history.push(AppRoute.LOGIN);
       }
     });
@@ -128,6 +138,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_FAVORITE_FILMS:
       return extend(state, {
         favoriteFilms: action.payload,
+      });
+
+    case ActionType.SET_ERROR:
+      return extend(state, {
+        isError: action.payload,
       });
   }
 

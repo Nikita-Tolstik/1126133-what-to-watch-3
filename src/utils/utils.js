@@ -1,3 +1,4 @@
+import React from 'react';
 import {MarkFilm} from '../const.js';
 
 const ALL_GENRES = `All genres`;
@@ -106,3 +107,18 @@ export const parseDate = (date) => {
   return new Date(date).toLocaleString(`en-US`, Options);
 };
 
+export const getMarkupStars = (stars) => {
+  const lastIndex = stars.length - 1;
+
+  const markup = stars.map((it, i) => {
+    return (
+      <React.Fragment key={it}>
+        {`${it}${lastIndex !== i && `,`}`}<br />
+      </React.Fragment>
+    );
+  });
+
+  return markup;
+};
+
+export const noop = () => {};

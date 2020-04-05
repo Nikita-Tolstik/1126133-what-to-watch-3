@@ -1,8 +1,11 @@
 import {extend} from '../../utils/utils.js';
-import {AppRoute, HistoryAction} from '../../const.js';
+import {AppRoute} from '../../const.js';
 import {Operation as DataOperation} from '../data/data.js';
 import history from '../../history.js';
+import {Error} from '../../const.js';
 
+
+const HISTORY_ACTION_POP = `POP`;
 const NO_USER_INFO = `NO_USER_INFO`;
 const AVATAR_URL = `avatar_url`;
 
@@ -61,6 +64,10 @@ const Operation = {
       dispatch(DataOperation.loadFavoriteFilms());
       dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
       dispatch(ActionCreator.saveUserInfo(response.data[AVATAR_URL]));
+
+      if (history.action !== HISTORY_ACTION_POP || history.location.pathname === AppRoute.LOGIN) {
+        history.push(AppRoute.ROOT);
+      }
     })
     .catch((err) => {
       throw err;
@@ -73,20 +80,25 @@ const Operation = {
       password: authData.password,
     })
     .then((response) => {
-
-      if (history.action === HistoryAction.POP) {
-        history.push(AppRoute.ROOT);
-      } else {
-        history.goBack();
-      }
-
       dispatch(DataOperation.loadFavoriteFilms());
       dispatch(ActionCreator.saveUserInfo(response.data[AVATAR_URL]));
       dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
+
+      if (history.action === HISTORY_ACTION_POP && !history.location.state) {
+        history.push(AppRoute.ROOT);
+      } else if (history.location.state) {
+        history.push(history.location.state.from);
+      } else {
+        history.goBack();
+      }
     })
-    .catch(() => {
-      dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
-      onError();
+    .catch((err) => {
+      const {response} = err;
+
+      if (response.status === Error.BAD_REQUEST) {
+        dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
+        onError();
+      }
     });
   }
 };

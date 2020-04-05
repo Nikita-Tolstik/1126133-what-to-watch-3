@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import UserBlock from '../user-block/user-block.jsx';
+import Logo from '../logo/logo.jsx';
 import {Operation as CommentOperation, ActionCreator as ActionCreatorComment, ReviewStatus} from '../../reducer/comment/comment.js';
 import {getReviewStatus} from '../../reducer/comment/selector.js';
 import {AppRoute} from '../../const.js';
@@ -62,7 +63,7 @@ class AddReview extends PureComponent {
   }
 
   render() {
-    const {film, reviewStatus} = this.props;
+    const {film, reviewStatus, children} = this.props;
     const ratings = new Array(MAX_RATING).fill(``);
 
     const isDisabled = reviewStatus === ReviewStatus.PENDING;
@@ -78,13 +79,10 @@ class AddReview extends PureComponent {
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header">
-            <div className="logo">
-              <a href="main.html" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </a>
-            </div>
+
+            <Logo
+              isHeader={true}
+            />
 
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
@@ -146,6 +144,8 @@ class AddReview extends PureComponent {
           </form>
         </div>
 
+        {children}
+
       </section>
     );
   }
@@ -180,6 +180,11 @@ AddReview.propTypes = {
       videoPreview: PropTypes.string.isRequired,
     }),
     PropTypes.number.isRequired
+  ]).isRequired,
+
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
   ]).isRequired,
 };
 

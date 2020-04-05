@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import ErrorMessage from '../error-message/error-message.jsx';
 import {getTimeElapsed, getProgress} from '../../utils/utils.js';
 import {AppRoute} from '../../const.js';
 
 
 const VideoScreen = (props) => {
-  const {film,
+  const {
+    film,
     children,
     currentTime,
     duration,
@@ -63,6 +65,9 @@ const VideoScreen = (props) => {
           </button>
         </div>
       </div>
+
+      <ErrorMessage />
+
     </div>
   );
 };

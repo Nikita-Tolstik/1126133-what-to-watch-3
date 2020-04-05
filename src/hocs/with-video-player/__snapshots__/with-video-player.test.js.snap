@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withVideoPlayer 1`] = `
+<div>
+  <video
+    className="player__video"
+    muted={true}
+    poster="/img/player-poster.jpg"
+    src="https://upload.wikimedia.org/"
+  />
+</div>
+`;

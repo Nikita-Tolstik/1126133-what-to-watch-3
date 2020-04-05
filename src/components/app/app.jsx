@@ -7,6 +7,9 @@ import MoviePage from '../movie-page/movie-page.jsx';
 import SignIn from '../sign-in/sign-in.jsx';
 import AddReview from '../add-review/add-review.jsx';
 import VideoScreen from '../video-screen/video-screen.jsx';
+import MyList from '../my-list/my-list.jsx';
+import PrivateRoute from '../private-route/private-route.jsx';
+import ErrorMessage from '../error-message/error-message.jsx';
 import withVideoPlayer from '../../hocs/with-video-player/with-video-player.js';
 import {Operation as CommentOperation} from '../../reducer/comment/comment.js';
 import {ActionCreator as DataActionCreator} from '../../reducer/data/data.js';
@@ -26,14 +29,19 @@ class App extends PureComponent {
   }
 
   handleFilmSet(currentId) {
-    const {
-      onSetCurrentId,
-      initialFilms,
-    } = this.props;
+    const {onSetCurrentId, initialFilms} = this.props;
 
-    const isFindFilm = initialFilms.find((it) => it.id === currentId);
+    if (initialFilms.length === 0) {
+      return;
+    }
+
+    const isFindFilm = initialFilms.find((it) => {
+      return it.id === currentId;
+    });
 
     if (!isFindFilm) {
+      history.push(AppRoute.ROOT);
+    } else {
       onSetCurrentId(currentId);
     }
   }
@@ -54,7 +62,9 @@ class App extends PureComponent {
                   onCardFilmClick={(film) => {
                     onMovieCardClick(film.id);
                   }}
-                />
+                >
+                  <ErrorMessage />
+                </Main>
               );
             }}
           />
@@ -76,7 +86,9 @@ class App extends PureComponent {
                   onCardFilmClick={(film) => {
                     onMovieCardClick(film.id);
                   }}
-                />
+                >
+                  <ErrorMessage />
+                </MoviePage>
               );
             }}
           />
@@ -102,11 +114,10 @@ class App extends PureComponent {
           />
 
 
-          <Route
+          <PrivateRoute
             exact
             path={`${AppRoute.FILMS}/:id${AppRoute.REVIEW}`}
             render={(props) => {
-
               const {match} = props;
               const currentId = Number(match.params.id);
 
@@ -117,14 +128,35 @@ class App extends PureComponent {
               return (
                 <AddReview
                   film={currentFilm}
-                />
+                >
+                  <ErrorMessage />
+                </AddReview>
+              );
+            }}
+          />
+
+
+          <PrivateRoute
+            exact
+            path={AppRoute.MY_LIST}
+            render={() => {
+              return (
+                <MyList
+                  onCardFilmClick={(film) => {
+                    onMovieCardClick(film.id);
+                  }}
+                >
+                  <ErrorMessage />
+                </MyList>
               );
             }}
           />
 
 
           <Route exact path={AppRoute.LOGIN}>
-            <SignIn />
+            <SignIn>
+              <ErrorMessage />
+            </SignIn>
           </Route>
 
 
@@ -138,6 +170,7 @@ App.propTypes = {
 
   id: PropTypes.number.isRequired,
   onSetCurrentId: PropTypes.func.isRequired,
+  onMovieCardClick: PropTypes.func.isRequired,
   initialFilms: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -158,8 +191,6 @@ App.propTypes = {
     videoPreview: PropTypes.string.isRequired,
   })).isRequired,
 
-
-  onMovieCardClick: PropTypes.func.isRequired,
   currentFilm: PropTypes.oneOfType([
     PropTypes.shape({
       id: PropTypes.number.isRequired,
