@@ -30,7 +30,7 @@ const withActivePlayer = (Component) => {
 
     _handleMouseFilmLeave() {
       this.setState({
-        activePlayerId: -1,
+        activePlayerId: NO_ACTIVE,
       });
 
       clearTimeout(this._timerId);
