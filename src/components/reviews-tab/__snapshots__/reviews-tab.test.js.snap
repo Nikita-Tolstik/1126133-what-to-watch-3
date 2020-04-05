@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render ReviewsTab - with comments 1`] = `
+<div
+  className="movie-card__reviews movie-card__row"
+>
+  <div
+    className="movie-card__reviews-col"
+  >
+    <div
+      className="review"
+    >
+      <blockquote
+        className="review__quote"
+      >
+        <p
+          className="review__text"
+        >
+          Unfortunately we don't have a reliable way.
+        </p>
+        <footer
+          className="review__details"
+        >
+          <cite
+            className="review__author"
+          >
+            Sophie
+          </cite>
+          <time
+            className="review__date"
+            dateTime="2016-12-24"
+          >
+            March 8, 2020
+          </time>
+        </footer>
+      </blockquote>
+      <div
+        className="review__rating"
+      >
+        3
+      </div>
+    </div>
+    <div
+      className="review"
+    >
+      <blockquote
+        className="review__quote"
+      >
+        <p
+          className="review__text"
+        >
+          Unfortunately we don't have a reliable way.
+        </p>
+        <footer
+          className="review__details"
+        >
+          <cite
+            className="review__author"
+          >
+            Sophie
+          </cite>
+          <time
+            className="review__date"
+            dateTime="2016-12-24"
+          >
+            March 8, 2020
+          </time>
+        </footer>
+      </blockquote>
+      <div
+        className="review__rating"
+      >
+        3
+      </div>
+    </div>
+  </div>
+  <div
+    className="movie-card__reviews-col"
+  >
+    <div
+      className="review"
+    >
+      <blockquote
+        className="review__quote"
+      >
+        <p
+          className="review__text"
+        >
+          Unfortunately we don't have a reliable way.
+        </p>
+        <footer
+          className="review__details"
+        >
+          <cite
+            className="review__author"
+          >
+            Sophie
+          </cite>
+          <time
+            className="review__date"
+            dateTime="2016-12-24"
+          >
+            March 8, 2020
+          </time>
+        </footer>
+      </blockquote>
+      <div
+        className="review__rating"
+      >
+        3
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Render ReviewsTab - without comments 1`] = `
+<p
+  style={
+    Object {
+      "color": "#252525",
+    }
+  }
+>
+  Sorry. At this moment no comments yet.
+</p>
+`;

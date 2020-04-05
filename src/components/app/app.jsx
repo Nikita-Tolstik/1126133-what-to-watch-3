@@ -156,7 +156,9 @@ class App extends PureComponent {
 
 
           <Route exact path={AppRoute.LOGIN}>
-            <SignIn />
+            <SignIn>
+              <ErrorMessage />
+            </SignIn>
           </Route>
 
 

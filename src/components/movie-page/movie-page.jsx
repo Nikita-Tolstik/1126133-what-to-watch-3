@@ -16,7 +16,7 @@ import {debounce} from 'debounce';
 import {getFavoriteFilms} from '../../reducer/data/selector.js';
 import {Operation as DataOperation} from '../../reducer/data/data.js';
 
-
+const NO_CURRENT_FILM = -1;
 const TIMER = 200;
 
 const StatusFavorite = {
@@ -35,13 +35,7 @@ const MoviePage = (props) => {
     children,
   } = props;
 
-
-  window.scrollTo({
-    top: 0,
-    behavior: `smooth`
-  });
-
-  if (currentFilm === -1) {
+  if (currentFilm === NO_CURRENT_FILM) {
     return null;
   }
 

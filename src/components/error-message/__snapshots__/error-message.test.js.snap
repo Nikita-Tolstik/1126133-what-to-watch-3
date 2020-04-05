@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render ErrorMessage - with error 1`] = `
+<div
+  className="error"
+>
+  <p
+    className="error__message"
+  >
+    Internal Server Error. Please, refresh page.
+  </p>
+  <button
+    className="error__button"
+    href="#"
+    onClick={[Function]}
+  >
+    Refresh page
+  </button>
+</div>
+`;
+
+exports[`Render ErrorMessage - without error 1`] = `null`;

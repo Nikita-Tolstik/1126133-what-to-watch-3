@@ -1,20 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {parseRunTime} from '../../utils/utils.js';
+import {parseRunTime, getMarkupStars} from '../../utils/utils.js';
 
-const getMarkupStars = (stars) => {
-  const lastIndex = stars.length - 1;
-
-  const markup = stars.map((it, i) => {
-    return (
-      <React.Fragment key={it}>
-        {`${it}${lastIndex !== i && `,`}`}<br />
-      </React.Fragment>
-    );
-  });
-
-  return markup;
-};
 
 const DetailsTab = ({film}) => {
   const runTime = parseRunTime(film.runTime);

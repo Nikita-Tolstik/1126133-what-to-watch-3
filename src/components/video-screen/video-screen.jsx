@@ -7,7 +7,8 @@ import {AppRoute} from '../../const.js';
 
 
 const VideoScreen = (props) => {
-  const {film,
+  const {
+    film,
     children,
     currentTime,
     duration,

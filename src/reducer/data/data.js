@@ -5,11 +5,13 @@ import history from '../../history.js';
 import {AppRoute} from '../../const.js';
 import {Error} from '../../const.js';
 
+const NO_CURRENT_FILM = -1;
+
 const initialState = {
-  currentId: -1,
+  currentId: NO_CURRENT_FILM,
   favoriteFilms: [],
   films: [],
-  promoFilm: -1,
+  promoFilm: NO_CURRENT_FILM,
   isError: false,
 };
 

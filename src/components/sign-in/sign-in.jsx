@@ -33,7 +33,7 @@ class SingIn extends PureComponent {
 
   componentDidMount() {
     const {responseStatus, onStatusReset} = this.props;
-    if (responseStatus === Status.BAD_REQUEST && this.emailRef.current.value.length === 0) {
+    if (responseStatus === Status.BAD_REQUEST) {
       onStatusReset(Status.RESET);
     }
   }
@@ -71,7 +71,7 @@ class SingIn extends PureComponent {
   }
 
   render() {
-    const {responseStatus, onStatusReset, authorizationStatus} = this.props;
+    const {responseStatus, onStatusReset, authorizationStatus, children} = this.props;
     const buttonName = authorizationStatus === AuthorizationStatus.PENDING ? ButtonName.PROCESSING : ButtonName.SING_IN;
     const isDisabled = authorizationStatus === AuthorizationStatus.PENDING;
     let markUpError;
@@ -136,6 +136,8 @@ class SingIn extends PureComponent {
             <p>© 2019 What to watch Ltd.</p>
           </div>
         </footer>
+
+        {children}
       </div>
     );
   }
@@ -146,6 +148,10 @@ SingIn.propTypes = {
   responseStatus: PropTypes.number.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onStatusReset: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 const mapStateToProps = (state) => ({
