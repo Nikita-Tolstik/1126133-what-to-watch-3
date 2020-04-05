@@ -37,6 +37,7 @@ Logo.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   onGenreReset(genre) {
     dispatch(ActionCreator.changeGenre(genre));
+    dispatch(ActionCreator.resetCount());
   },
 });
 
