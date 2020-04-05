@@ -12,15 +12,15 @@ const withActivePlayer = (Component) => {
         activePlayerId: NO_ACTIVE,
       };
 
-      this._handleMouseFilmEnter = this._handleMouseFilmEnter.bind(this);
-      this._handleMouseFilmLeave = this._handleMouseFilmLeave.bind(this);
+      this.handleMouseFilmEnter = this.handleMouseFilmEnter.bind(this);
+      this.handleMouseFilmLeave = this.handleMouseFilmLeave.bind(this);
     }
 
     componentWillUnmount() {
       clearTimeout(this._timerId);
     }
 
-    _handleMouseFilmEnter(id) {
+    handleMouseFilmEnter(id) {
       this._timerId = setTimeout(() => {
         this.setState({
           activePlayerId: this.state.activePlayerId === id ? NO_ACTIVE : id,
@@ -28,7 +28,7 @@ const withActivePlayer = (Component) => {
       }, TIMER);
     }
 
-    _handleMouseFilmLeave() {
+    handleMouseFilmLeave() {
       this.setState({
         activePlayerId: NO_ACTIVE,
       });
@@ -41,8 +41,8 @@ const withActivePlayer = (Component) => {
         <Component
           {...this.props}
           activePlayerId={this.state.activePlayerId}
-          onMouseIdEnter={this._handleMouseFilmEnter}
-          onMouseIdLeave={this._handleMouseFilmLeave}
+          onMouseIdEnter={this.handleMouseFilmEnter}
+          onMouseIdLeave={this.handleMouseFilmLeave}
         />
       );
     }

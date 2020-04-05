@@ -51,7 +51,6 @@ it(`Render VideoScreen - isPlaying = true`, () => {
             film={mockFilm}
             currentTime={Setting.currentTime}
             duration={Setting.duration}
-            isLoading={false}
             isPlaying={true}
             onFullScreenClick={() => {}}
             onPlayButtonClick={() => {}}
@@ -81,7 +80,6 @@ it(`Render VideoScreen - isPlaying = false`, () => {
             film={mockFilm}
             currentTime={Setting.currentTime}
             duration={Setting.duration}
-            isLoading={true}
             isPlaying={false}
             onFullScreenClick={() => {}}
             onPlayButtonClick={() => {}}

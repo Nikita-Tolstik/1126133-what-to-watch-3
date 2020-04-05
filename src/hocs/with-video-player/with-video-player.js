@@ -10,24 +10,17 @@ const withVideoPlayer = (Component) => {
         duration: 0,
         prevTime: 0,
         currentTime: 0,
-        isLoading: true,
-        isPlaying: false,
+        isPlaying: true,
       };
 
       this.videoRef = createRef();
       this.handleFullScreenClick = this.handleFullScreenClick.bind(this);
       this.handlePlayButtonClick = this.handlePlayButtonClick.bind(this);
+      this._handleDefaultControlsChange = this._handleDefaultControlsChange.bind(this);
     }
 
     componentDidMount() {
       const video = this.videoRef.current;
-
-      video.oncanplaythrough = () => {
-        this.setState({
-          isLoading: false,
-          isPlaying: true,
-        });
-      };
 
       video.ondurationchange = () => {
         this.setState({
@@ -58,6 +51,8 @@ const withVideoPlayer = (Component) => {
     componentDidUpdate() {
       const video = this.videoRef.current;
 
+      video.addEventListener(`fullscreenchange`, this._handleDefaultControlsChange);
+
       if (this.state.isPlaying) {
         video.play();
       } else {
@@ -75,6 +70,18 @@ const withVideoPlayer = (Component) => {
       video.onplay = null;
       video.onpause = null;
       video.ontimeupdate = null;
+
+      video.removeEventListener(`fullscreenchange`, this._handleDefaultControlsChange);
+    }
+
+    _handleDefaultControlsChange() {
+      const video = this.videoRef.current;
+
+      if (document.fullscreenElement !== null) {
+        video.controls = true;
+      } else {
+        video.controls = false;
+      }
     }
 
     handlePlayButtonClick() {
@@ -90,7 +97,7 @@ const withVideoPlayer = (Component) => {
     }
 
     render() {
-      const {currentTime, duration, isPlaying, isLoading} = this.state;
+      const {currentTime, duration, isPlaying} = this.state;
       const {film} = this.props;
 
       return (
@@ -98,7 +105,6 @@ const withVideoPlayer = (Component) => {
           {...this.props}
           duration={duration}
           currentTime={currentTime}
-          isLoading={isLoading}
           isPlaying={isPlaying}
           onFullScreenClick={this.handleFullScreenClick}
           onPlayButtonClick={this.handlePlayButtonClick}

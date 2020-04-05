@@ -13,7 +13,6 @@ const VideoScreen = (props) => {
     currentTime,
     duration,
     isPlaying,
-    isLoading,
     onFullScreenClick,
     onPlayButtonClick,
   } = props;
@@ -44,7 +43,6 @@ const VideoScreen = (props) => {
 
         <div className="player__controls-row">
           <button
-            disabled={isLoading}
             onClick={onPlayButtonClick}
             type="button" className="player__play">
             <svg viewBox="0 0 14 21" width="14" height="21">
@@ -76,7 +74,6 @@ VideoScreen.propTypes = {
   duration: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
   onFullScreenClick: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
 

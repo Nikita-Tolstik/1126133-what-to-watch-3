@@ -11,10 +11,10 @@ const withActiveValue = (Component, initialState = NO_ACTIVE_VALUE) => {
         value: initialState,
       };
 
-      this._handleElementClick = this._handleElementClick.bind(this);
+      this.handleElementClick = this.handleElementClick.bind(this);
     }
 
-    _handleElementClick(activeValue) {
+    handleElementClick(activeValue) {
       this.setState({
         value: activeValue,
       });
@@ -26,7 +26,7 @@ const withActiveValue = (Component, initialState = NO_ACTIVE_VALUE) => {
         <Component
           {...this.props}
           activeValue={this.state.value}
-          onElementClick={this._handleElementClick}
+          onElementClick={this.handleElementClick}
         />
       );
     }

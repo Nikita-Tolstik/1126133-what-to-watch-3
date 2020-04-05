@@ -28,7 +28,7 @@ class SingIn extends PureComponent {
     this.signInBlockRef = createRef();
 
     this._handleSubmit = this._handleSubmit.bind(this);
-    this._handleError = this._handleError.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
   componentDidMount() {
@@ -54,11 +54,11 @@ class SingIn extends PureComponent {
     onSubmit({
       email: this.emailRef.current.value,
       password: this.passwordRef.current.value,
-    }, this._handleError);
+    }, this.handleError);
   }
 
 
-  _handleError() {
+  handleError() {
     this.signInBlockRef.current.style.animation = StyleSettings.ANIMATION;
     this.emailRef.current.style.border = StyleSettings.BORDER;
     this.passwordRef.current.style.border = StyleSettings.BORDER;

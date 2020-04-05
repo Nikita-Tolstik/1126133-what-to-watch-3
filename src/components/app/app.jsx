@@ -25,10 +25,10 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.handleFilmSet = this.handleFilmSet.bind(this);
+    this._handleFilmSet = this._handleFilmSet.bind(this);
   }
 
-  handleFilmSet(currentId) {
+  _handleFilmSet(currentId) {
     const {onSetCurrentId, initialFilms} = this.props;
 
     if (initialFilms.length === 0) {
@@ -78,7 +78,7 @@ class App extends PureComponent {
               const currentId = Number(match.params.id);
 
               if (currentId !== id) {
-                this.handleFilmSet(currentId);
+                this._handleFilmSet(currentId);
               }
 
               return (
@@ -102,7 +102,7 @@ class App extends PureComponent {
               const currentId = Number(match.params.id);
 
               if (currentId !== id) {
-                this.handleFilmSet(currentId);
+                this._handleFilmSet(currentId);
               }
 
               return (
@@ -122,7 +122,7 @@ class App extends PureComponent {
               const currentId = Number(match.params.id);
 
               if (currentId !== id) {
-                this.handleFilmSet(currentId);
+                this._handleFilmSet(currentId);
               }
 
               return (

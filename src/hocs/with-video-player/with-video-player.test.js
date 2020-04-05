@@ -37,7 +37,6 @@ MockComponent.propTypes = {
   duration: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
   onFullScreenClick: PropTypes.func.isRequired,
   onPlayButtonClick: PropTypes.func.isRequired,
 

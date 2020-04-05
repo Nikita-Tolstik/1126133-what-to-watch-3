@@ -50,7 +50,6 @@ exports[`Render VideoScreen - isPlaying = false 1`] = `
     >
       <button
         className="player__play"
-        disabled={true}
         onClick={[Function]}
         type="button"
       >
@@ -161,7 +160,6 @@ exports[`Render VideoScreen - isPlaying = true 1`] = `
     >
       <button
         className="player__play"
-        disabled={false}
         onClick={[Function]}
         type="button"
       >
