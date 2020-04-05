@@ -118,8 +118,6 @@ class App extends PureComponent {
             exact
             path={`${AppRoute.FILMS}/:id${AppRoute.REVIEW}`}
             render={(props) => {
-
-
               const {match} = props;
               const currentId = Number(match.params.id);
 

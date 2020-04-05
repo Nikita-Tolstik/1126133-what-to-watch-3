@@ -120,3 +120,5 @@ export const getMarkupStars = (stars) => {
 
   return markup;
 };
+
+export const noop = () => {};
