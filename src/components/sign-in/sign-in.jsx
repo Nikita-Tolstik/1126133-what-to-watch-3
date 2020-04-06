@@ -27,8 +27,8 @@ class SingIn extends PureComponent {
     this.passwordRef = createRef();
     this.signInBlockRef = createRef();
 
-    this._handleSubmit = this._handleSubmit.bind(this);
-    this.handleError = this.handleError.bind(this);
+    this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this.handleFormError = this.handleFormError.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +46,7 @@ class SingIn extends PureComponent {
     }
   }
 
-  _handleSubmit(evt) {
+  _handleFormSubmit(evt) {
     const {onSubmit} = this.props;
 
     evt.preventDefault();
@@ -54,11 +54,11 @@ class SingIn extends PureComponent {
     onSubmit({
       email: this.emailRef.current.value,
       password: this.passwordRef.current.value,
-    }, this.handleError);
+    }, this.handleFormError);
   }
 
 
-  handleError() {
+  handleFormError() {
     this.signInBlockRef.current.style.animation = StyleSettings.ANIMATION;
     this.emailRef.current.style.border = StyleSettings.BORDER;
     this.passwordRef.current.style.border = StyleSettings.BORDER;
@@ -100,7 +100,7 @@ class SingIn extends PureComponent {
           <form
             action=""
             className="sign-in__form"
-            onSubmit={this._handleSubmit}
+            onSubmit={this._handleFormSubmit}
           >
 
             {markUpError}

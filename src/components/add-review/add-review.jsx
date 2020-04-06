@@ -35,11 +35,11 @@ class AddReview extends PureComponent {
     this.commentRef = createRef();
     this.textBlockRef = createRef();
 
-    this._handleSubmit = this._handleSubmit.bind(this);
+    this._handleFormSubmit = this._handleFormSubmit.bind(this);
     this.handleErrorShow = this.handleErrorShow.bind(this);
   }
 
-  _handleSubmit(evt) {
+  _handleFormSubmit(evt) {
     const {onSubmit, film} = this.props;
     const ratingToNumber = Number(this.ratingRef.current.querySelector(`input:checked`).value);
 
@@ -109,7 +109,7 @@ class AddReview extends PureComponent {
 
         <div className="add-review">
           <form
-            onSubmit={this._handleSubmit}
+            onSubmit={this._handleFormSubmit}
             action="#" className="add-review__form">
 
             <div className="rating">

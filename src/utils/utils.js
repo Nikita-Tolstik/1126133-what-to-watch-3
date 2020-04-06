@@ -3,6 +3,14 @@ import {MarkFilm} from '../const.js';
 
 const ALL_GENRES = `All genres`;
 
+const MarkValue = {
+  MIN: 0,
+  BAD: 3,
+  NORMAL: 5,
+  GOOD: 8,
+  VERY_GOOD: 10,
+};
+
 const Options = {
   year: `numeric`,
   month: `long`,
@@ -13,6 +21,19 @@ const TimeSettings = {
   HOUR: `h`,
   MINUTE: `m`,
   MINUTE_IN_HOURS: 60,
+  SECONDS_IN_HOURS: 3600,
+  MORE_ONE_HOURS: 1,
+  LESS_TEN_SECONDS: 10,
+};
+
+const GenresSettings = {
+  MIN_GENRES: 0,
+  MAX_GENRES: 10,
+};
+
+const ProgressSettings = {
+  MAX_PERCENT: 100,
+  MIN_PERCENT: 1,
 };
 
 export const TypeFilter = {
@@ -23,19 +44,19 @@ export const TypeFilter = {
 export const getRating = (number) => {
   let level;
   switch (true) {
-    case (number >= 0 && number < 3):
+    case (number >= MarkValue.MIN && number < MarkValue.BAD):
       level = MarkFilm.BAD;
       break;
-    case (number >= 3 && number < 5):
+    case (number >= MarkValue.BAD && number < MarkValue.NORMAL):
       level = MarkFilm.NORMAL;
       break;
-    case (number >= 5 && number < 8):
+    case (number >= MarkValue.NORMAL && number < MarkValue.GOOD):
       level = MarkFilm.GOOD;
       break;
-    case (number >= 8 && number < 10):
+    case (number >= MarkValue.GOOD && number < MarkValue.VERY_GOOD):
       level = MarkFilm.VERY_GOOD;
       break;
-    case (number === 10):
+    case (number === MarkValue.VERY_GOOD):
       level = MarkFilm.AWESOME;
       break;
 
@@ -51,7 +72,7 @@ export const getGenres = (initialFilms) => {
   const allGenres = initialFilms.map((it) => it.genre);
   const uniqueGenres = new Set(allGenres);
   const listGenres = Array.from(uniqueGenres).sort();
-  const genres = [ALL_GENRES, ...listGenres.slice(0, 10)];
+  const genres = [ALL_GENRES, ...listGenres.slice(GenresSettings.MIN_GENRES, GenresSettings.MAX_GENRES)];
 
   return genres;
 };
@@ -92,15 +113,15 @@ export const getSimilarFilms = (films, currentFilm) => {
 export const getTimeElapsed = (currentTime, duration) => {
   const time = duration - currentTime;
 
-  const hours = Math.floor(time / 3600);
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
+  const hours = Math.floor(time / TimeSettings.SECONDS_IN_HOURS);
+  const minutes = Math.floor(time / TimeSettings.MINUTE_IN_HOURS);
+  const seconds = Math.floor(time % TimeSettings.MINUTE_IN_HOURS);
 
-  return `${hours >= 1 ? `${hours}:` : ``}${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  return `${hours >= TimeSettings.MORE_ONE_HOURS ? `${hours}:` : ``}${minutes}:${seconds < TimeSettings.LESS_TEN_SECONDS ? `0${seconds}` : seconds}`;
 };
 
 export const getProgress = (currentTime, duration) => {
-  return Math.round(100 - (1 - currentTime / duration) * 100);
+  return Math.round(ProgressSettings.MAX_PERCENT - (ProgressSettings.MIN_PERCENT - currentTime / duration) * ProgressSettings.MAX_PERCENT);
 };
 
 export const parseDate = (date) => {
@@ -122,3 +143,4 @@ export const getMarkupStars = (stars) => {
 };
 
 export const noop = () => {};
+

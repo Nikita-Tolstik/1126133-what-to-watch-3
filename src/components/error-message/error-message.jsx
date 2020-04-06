@@ -22,13 +22,13 @@ const ErrorMessage = ({isError}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isError: getIsError(state),
-});
-
 ErrorMessage.propTypes = {
   isError: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  isError: getIsError(state),
+});
 
 export {ErrorMessage};
 export default connect(mapStateToProps)(ErrorMessage);

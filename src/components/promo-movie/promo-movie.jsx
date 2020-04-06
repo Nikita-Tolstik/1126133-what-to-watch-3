@@ -17,6 +17,19 @@ const StatusFavorite = {
   DELETE: 0,
 };
 
+const SettingsButtonInList = {
+  viewBox: `0 0 18 14`,
+  width: `18`,
+  height: `14`,
+};
+
+const SettingsButtonAdd = {
+  viewBox: `0 0 19 20`,
+  width: `19`,
+  height: `20`,
+};
+
+
 const PromoMovie = ({promoFilm, favoriteFilms, onFavoriteStatusUpdate, onCardFilmClick}) => {
   const isFavorite = favoriteFilms.find((film) => film.id === promoFilm.id);
   const status = isFavorite ? StatusFavorite.DELETE : StatusFavorite.ADD;
@@ -69,9 +82,9 @@ const PromoMovie = ({promoFilm, favoriteFilms, onFavoriteStatusUpdate, onCardFil
                   onClick={debounce(() => onFavoriteStatusUpdate(promoFilm.id, status), TIMER)}
                   className="btn btn--list movie-card__button" type="button">
                   <svg
-                    viewBox={isFavorite ? `0 0 18 14` : `0 0 19 20`}
-                    width={isFavorite ? `18` : `19`}
-                    height={isFavorite ? `14` : `20`}>
+                    viewBox={isFavorite ? SettingsButtonInList.viewBox : SettingsButtonAdd.viewBox}
+                    width={isFavorite ? SettingsButtonInList.width : SettingsButtonAdd.width}
+                    height={isFavorite ? SettingsButtonInList.height : SettingsButtonAdd.height}>
                     <use xlinkHref={isFavorite ? `#in-list` : `#add`}></use>
                   </svg>
                   <span>My list</span>

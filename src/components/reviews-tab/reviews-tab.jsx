@@ -15,7 +15,7 @@ const getMarkupReview = (comments) => {
 
           <footer className="review__details">
             <cite className="review__author">{it.userName}</cite>
-            <time className="review__date" dateTime="2016-12-24">{date}</time>
+            <time className="review__date">{date}</time>
           </footer>
         </blockquote>
 
